@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{7374D484-0528-4C11-BA72-059FF63CB44F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Wheatech.ObjectMapper</RootNamespace>
+    <AssemblyName>Wheatech.ObjectMapper</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Conventions\ConventionCollection.cs" />
+    <Compile Include="Conventions\ConventionContext.cs" />
+    <Compile Include="Conventions\IConvention.cs" />
+    <Compile Include="Conventions\IMemberBuilder.cs" />
+    <Compile Include="Conventions\LambdaConvention.cs" />
+    <Compile Include="Conventions\MappingField.cs" />
+    <Compile Include="Conventions\MappingMember.cs" />
+    <Compile Include="Conventions\MappingMemberCollection.cs" />
+    <Compile Include="Conventions\MappingProperty.cs" />
+    <Compile Include="Conventions\MatchNameConvention.cs" />
+    <Compile Include="Conventions\MemberMapping.cs" />
+    <Compile Include="Conventions\MemberMappingCollection.cs" />
+    <Compile Include="Converters\ConverterCollection.cs" />
+    <Compile Include="Converters\Converter.cs" />
+    <Compile Include="Converters\ConverterMatchContext.cs" />
+    <Compile Include="Converters\FromStringConverter.cs" />
+    <Compile Include="Converters\LambdaConverter.cs" />
+    <Compile Include="Converters\ObjectToStringConverter.cs" />
+    <Compile Include="Converters\PrimitiveConverter.cs" />
+    <Compile Include="ExecutorFactory.cs" />
+    <Compile Include="Helper.cs" />
+    <Compile Include="Mappers\Creator\DefaultCreator.cs" />
+    <Compile Include="Mappers\Creator\IInstanceCreator.cs" />
+    <Compile Include="Mappers\Creator\LambdaCreator.cs" />
+    <Compile Include="Mappers\IInstanceMapper.cs" />
+    <Compile Include="Mappers\InstanceMapper.cs" />
+    <Compile Include="Mappers\ITypeMapper.cs" />
+    <Compile Include="Mappers\MapperAsyncExtensions.cs" />
+    <Compile Include="Mappers\MappingExtensions.cs" />
+    <Compile Include="Mappers\MemberMapper\DefaultMemberMapper.cs" />
+    <Compile Include="Mappers\MemberMapper\LambdaMemberMapper.cs" />
+    <Compile Include="Mappers\MemberMapper\MemberMapOptions.cs" />
+    <Compile Include="Mappers\MemberMapper\MemberMapper.cs" />
+    <Compile Include="Mappers\MemberMapper\MemberMapperCollection.cs" />
+    <Compile Include="Mappers\TypeMapper.cs" />
+    <Compile Include="ObjectMapper.cs" />
+    <Compile Include="ObjectMapperAsyncExtensions.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Runtime\ActionInvokerBuilder.cs" />
+    <Compile Include="Runtime\CompilationContext.cs" />
+    <Compile Include="Runtime\CompilationContextExtensions.cs" />
+    <Compile Include="Runtime\FuncInvokerBuilder.cs" />
+    <Compile Include="Runtime\IInvokerBuilder.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
