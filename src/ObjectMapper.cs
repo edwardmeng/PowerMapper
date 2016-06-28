@@ -6,6 +6,8 @@ using System.Reflection;
 using System.Reflection.Emit;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Web.Hosting;
+using Wheatech.ObjectMapper.Converters;
 
 namespace Wheatech.ObjectMapper
 {
@@ -233,7 +235,7 @@ namespace Wheatech.ObjectMapper
             // string -> Uri
             Converters.AddIntrinsic((string source) => string.IsNullOrWhiteSpace(source) ? null : new Uri(source));
             // string -> Type
-            //Converters.AddIntrinsic((string source) => string.IsNullOrWhiteSpace(source) ? null : HostingEnvironment.IsHosted ? TypeUtils.GetType(source, true) : Type.GetType(source, true));
+            Converters.AddIntrinsic((string source) => string.IsNullOrWhiteSpace(source) ? null : TypeNameConverter.GetType(source, true, false));
             // Type -> string
             Converters.AddIntrinsic((Type source) => source?.AssemblyQualifiedName);
             // string -> TimeZoneInfo

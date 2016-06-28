@@ -33,6 +33,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Conventions\ConventionCollection.cs" />
@@ -54,8 +55,10 @@
     <Compile Include="Converters\LambdaConverter.cs" />
     <Compile Include="Converters\ObjectToStringConverter.cs" />
     <Compile Include="Converters\PrimitiveConverter.cs" />
+    <Compile Include="Converters\TypeNameConverter.cs" />
     <Compile Include="ExecutorFactory.cs" />
     <Compile Include="Helper.cs" />
+    <Compile Include="Mapper.cs" />
     <Compile Include="Mappers\Creator\DefaultCreator.cs" />
     <Compile Include="Mappers\Creator\IInstanceCreator.cs" />
     <Compile Include="Mappers\Creator\LambdaCreator.cs" />
