@@ -6,7 +6,6 @@ using System.Reflection;
 using System.Reflection.Emit;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Web.Hosting;
 using Wheatech.ObjectMapper.Converters;
 
 namespace Wheatech.ObjectMapper

@@ -42,14 +42,15 @@ namespace Wheatech.ObjectMapper
         /// </summary>
         /// <typeparam name="TSource">The source type.</typeparam>
         /// <typeparam name="TTarget">The target type.</typeparam>
-        /// <typeparam name="TMember">The type of the member to map to of the target.</typeparam>
+        /// <typeparam name="TSourceMember">The type of the member to map to of the source.</typeparam>
+        /// <typeparam name="TTargetMember">The type of the member to map to of the target.</typeparam>
         /// <param name="typeMapper">The type mapping strategy.</param>
         /// <param name="targetMember">The expression of the target member to map to.</param>
         /// <param name="expression">Callback to map from source type to the target member</param>
         /// <returns>The type mapping strategy.</returns>
-        public static ITypeMapper<TSource, TTarget> MapMember<TSource, TTarget, TMember>(
-            this ITypeMapper<TSource, TTarget> typeMapper, Expression<Func<TTarget, TMember>> targetMember,
-            Func<TSource, TMember> expression)
+        public static ITypeMapper<TSource, TTarget> MapMember<TSource, TTarget, TSourceMember, TTargetMember>(
+            this ITypeMapper<TSource, TTarget> typeMapper, Expression<Func<TTarget, TSourceMember>> targetMember,
+            Func<TSource, TTargetMember> expression)
         {
             return typeMapper.MapMember(ExtractMember(targetMember).Member.Name, expression);
         }
