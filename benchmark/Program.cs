@@ -12,6 +12,7 @@ namespace Benchmarks
             simpleStructTest.RunTest(100000);
             simpleStructTest.PrintResults();
 
+
             simpleStructTest.RunTest(500000);
             simpleStructTest.PrintResults();
 

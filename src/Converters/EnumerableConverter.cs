@@ -65,6 +65,7 @@ namespace Wheatech.ObjectMapper
                 {
                     context.EmitCast(constructor.GetParameters()[0].ParameterType);
                     context.Emit(OpCodes.Newobj, constructor);
+                    context.CurrentType = targetType;
                 }
                 else
                 {
@@ -121,6 +122,7 @@ namespace Wheatech.ObjectMapper
                         context.Emit(OpCodes.Blt_S, labelStart);
 
                         context.Emit(OpCodes.Ldloc, targetInstance);
+                        context.CurrentType = targetType;
                     }
                 }
             }

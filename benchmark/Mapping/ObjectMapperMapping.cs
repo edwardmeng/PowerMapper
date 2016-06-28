@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Benchmarks.Enums;
+using Benchmarks.Generators;
 using Benchmarks.Models;
 using Benchmarks.ViewModels;
 using Wheatech.ObjectMapper;
@@ -18,9 +19,9 @@ namespace Benchmarks.Mapping
                 .AfterMap((src, dest) => dest.Weight = src.Weight * 2)
                 .Ignore(dest => dest.Age)
                 .MapMember(dest => dest.Type, src => (Types)src.Type)
-                .MapMember(dest => dest.Name, src => string.Format("{0} - {1} - {2}", src.Name, src.Weight, src.Age))
+                .MapMember(dest => dest.Name, src => $"{src.Name} - {src.Weight} - {src.Age}")
                 .MapMember(dest => dest.SpareTheProduct, src => src.SpareProduct)
-                .CreateWith(src => new TestViewModel(string.Format("{0} - {1}", src.Name, src.Id)))
+                .CreateWith(src => new TestViewModel($"{src.Name} - {src.Id}"))
                 ;
 
             mapper.Configure<User, UserViewModel>()
@@ -43,12 +44,11 @@ namespace Benchmarks.Mapping
             mapper.GetMapper<Role, RoleViewModel>();
 
             // Precompiling direct collection mappings
-            mapper.Map<List<Test>, List<TestViewModel>>(new List<Test>());
-            mapper.Map<List<Item>, List<ItemViewModel>>(new List<Item>());
-            mapper.Map<List<News>, List<NewsViewModel>>(new List<News>());
-            mapper.Map<List<User>, List<UserViewModel>>(new List<User>());
-            mapper.Map<List<Author>, List<AuthorViewModel>>(new List<Author>());
-            mapper.Map<List<Test>, List<TestViewModel>>(new List<Test>());
+            mapper.Map<List<Test>, List<TestViewModel>>(DataGenerator.GetTests(1));
+            mapper.Map<List<Item>, List<ItemViewModel>>(DataGenerator.GetItems(1));
+            mapper.Map<List<News>, List<NewsViewModel>>(DataGenerator.GetNews(1));
+            mapper.Map<List<User>, List<UserViewModel>>(DataGenerator.GetUsers(1));
+            mapper.Map<List<Author>, List<AuthorViewModel>>(DataGenerator.GetAuthors(1));
             return mapper;
         }
         public static ObjectMapper InitAdvanced()
@@ -63,9 +63,9 @@ namespace Benchmarks.Mapping
                 .MapMember(dest => dest.Age, src => src.Age)
                 .MapMember(dest => dest.Weight, src => src.Weight * 2)
                 .MapMember(dest => dest.Type, src => (Types)src.Type)
-                .MapMember(dest => dest.Name, src => string.Format("{0} - {1} - {2}", src.Name, src.Weight, src.Age))
+                .MapMember(dest => dest.Name, src => $"{src.Name} - {src.Weight} - {src.Age}")
                 .MapMember(dest => dest.SpareTheProduct, src => src.SpareProduct)
-                .MapMember(dest => dest.Description, src => string.Format("{0} - {1}", src.Name, src.Id))
+                .MapMember(dest => dest.Description, src => $"{src.Name} - {src.Id}")
                 ;
             mapper.GetMapper<ProductVariant, ProductVariantViewModel>();
             mapper.GetMapper<Product, ProductViewModel>();

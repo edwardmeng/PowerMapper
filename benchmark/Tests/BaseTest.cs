@@ -31,11 +31,11 @@ namespace Benchmarks.Tests
             InitAutoMapper();
             InitExpressMapper();
             InitOoMapper();
-            InitNativeMapper();
             InitValueInjectorMapper();
             InitMapsterMapper();
             InitTinyMapper();
             InitObjectMapper();
+            InitNativeMapper();
             Console.WriteLine("Mapping initialization finished");
 
             var src = GetData();
@@ -45,17 +45,14 @@ namespace Benchmarks.Tests
             ExpressMapperMap(src);
             ExpressMapperStopwatch.Stop();
             Console.WriteLine("Expressmapper mapping has been finished");
-
-            NativeMapperStopwatch = Stopwatch.StartNew();
-            NativeMapperMap(src);
-            NativeMapperStopwatch.Stop();
-            Console.WriteLine("Native mapping has been finished");
+            GC.Collect(2);
 
             try
             {
                 OoMapperStopwatch = Stopwatch.StartNew();
                 OoMapperMap(src);
                 OoMapperStopwatch.Stop();
+                Console.WriteLine("OoMapper mapping has been finished");
             }
             catch (Exception ex)
             {
@@ -63,7 +60,7 @@ namespace Benchmarks.Tests
                 OoMapperStopwatch.Reset();
                 Console.WriteLine("OoMapper has thrown expception!");
             }
-            Console.WriteLine("OoMapper mapping has been finished");
+            GC.Collect(2);
 
             try
             {
@@ -77,12 +74,14 @@ namespace Benchmarks.Tests
                 ValueInjectorStopwatch.Reset();
                 Console.WriteLine("ValueInjector has thrown expception!");
             }
+            GC.Collect(2);
 
             try
             {
                 MapsterStopwatch = Stopwatch.StartNew();
                 MapsterMap(src);
                 MapsterStopwatch.Stop();
+                Console.WriteLine("Mapster mapping has been finished");
             }
             catch (Exception ex)
             {
@@ -90,13 +89,14 @@ namespace Benchmarks.Tests
                 MapsterStopwatch.Reset();
                 Console.WriteLine("Mapster has thrown expception!");
             }
-            Console.WriteLine("Mapster mapping has been finished");
+            GC.Collect(2);
 
             try
             {
                 TinyStopwatch = Stopwatch.StartNew();
                 TinyMapperMap(src);
                 TinyStopwatch.Stop();
+                Console.WriteLine("Tinymapper mapping has been finished");
             }
             catch (Exception ex)
             {
@@ -104,12 +104,22 @@ namespace Benchmarks.Tests
                 TinyStopwatch.Reset();
                 Console.WriteLine("Tinymapper has thrown expception!");
             }
-            Console.WriteLine("Tinymapper mapping has been finished");
+            GC.Collect(2);
 
-            AutoMapperStopwatch = Stopwatch.StartNew();
-            AutoMapperMap(src);
-            AutoMapperStopwatch.Stop();
-            Console.WriteLine("Automapper mapping has been finished");
+            try
+            {
+                AutoMapperStopwatch = Stopwatch.StartNew();
+                AutoMapperMap(src);
+                AutoMapperStopwatch.Stop();
+                Console.WriteLine("Automapper mapping has been finished");
+            }
+            catch (Exception ex)
+            {
+                AutoMapperStopwatch.Stop();
+                AutoMapperStopwatch.Reset();
+                Console.WriteLine("Automapper has thrown expception!");
+            }
+            GC.Collect(2);
 
             try
             {
@@ -118,12 +128,19 @@ namespace Benchmarks.Tests
                 ObjectMapperwatch.Stop();
                 Console.WriteLine("ObjectMapper mapping has been finished");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 ObjectMapperwatch.Stop();
                 ObjectMapperwatch.Reset();
                 Console.WriteLine("ObjectMapper has thrown expception!");
             }
+            GC.Collect(2);
+
+            NativeMapperStopwatch = Stopwatch.StartNew();
+            NativeMapperMap(src);
+            NativeMapperStopwatch.Stop();
+            Console.WriteLine("Native mapping has been finished");
+            GC.Collect(2);
         }
 
         protected abstract T GetData();

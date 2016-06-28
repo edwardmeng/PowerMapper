@@ -17,7 +17,11 @@ namespace Wheatech.ObjectMapper
             _mapper = container.GetMapAction<TSource, TTarget>();
         }
 
-        internal static InstanceMapper<TSource, TTarget> GetInstance(ObjectMapper container)
+        public Func<TSource, TTarget> Converter => _converter;
+
+        public Action<TSource, TTarget> Mapper => _mapper;
+
+        public static InstanceMapper<TSource, TTarget> GetInstance(ObjectMapper container)
         {
             return _mappers.GetOrAdd(container, key => new InstanceMapper<TSource, TTarget>(key));
         }

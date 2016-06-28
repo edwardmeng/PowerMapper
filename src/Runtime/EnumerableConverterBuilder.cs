@@ -59,14 +59,7 @@ namespace Wheatech.ObjectMapper
 
             il.Emit(OpCodes.Ldloc, sourceArray);
             il.Emit(OpCodes.Ldloc, index);
-            if (typeof(TSource).IsValueType && !typeof(TSource).IsPrimitive)
-            {
-                il.Emit(OpCodes.Ldelema, typeof(TSource));
-            }
-            else
-            {
-                il.Emit(OpCodes.Ldelem, typeof(TSource));
-            }
+            il.Emit(OpCodes.Ldelem, typeof(TSource));
             il.Emit(OpCodes.Call, invokerBuilder.MethodInfo);
             il.Emit(OpCodes.Stelem, typeof(TTarget));
 

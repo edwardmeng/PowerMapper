@@ -411,7 +411,7 @@ namespace Wheatech.ObjectMapper.UnitTests
         {
             var sourceEnumerator = sources.GetEnumerator();
             var targetEnumerator = targets.GetEnumerator();
-            while (sourceEnumerator.MoveNext()&&targetEnumerator.MoveNext())
+            while (sourceEnumerator.MoveNext() && targetEnumerator.MoveNext())
             {
                 Map(sourceEnumerator.Current, targetEnumerator.Current);
             }
@@ -419,7 +419,30 @@ namespace Wheatech.ObjectMapper.UnitTests
 
         private static void Map<TSource, TTarget>(TSource source, TTarget target)
         {
-            
+
+        }
+
+        public static void ConvertEnumerable<TSource, TTarget>(IEnumerable<TSource> sources)
+            where TSource : class
+            where TTarget : class, new()
+        {
+            var sourceArray = sources.ToArray();
+            var targetArray = new TTarget[sourceArray.Length];
+            for (int i = 0; i < sourceArray.Length; i++)
+            {
+                targetArray[i] = Convert<TSource, TTarget>(sourceArray[i]);
+            }
+        }
+
+        private static TTarget Convert<TSource, TTarget>(TSource source)
+            where TSource:class
+            where TTarget:class ,new()
+        {
+            if (source == null)
+            {
+                return null;
+            }
+            return new TTarget();
         }
     }
 }

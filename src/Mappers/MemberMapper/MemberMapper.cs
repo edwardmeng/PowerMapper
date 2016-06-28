@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 using System.Reflection.Emit;
 
 namespace Wheatech.ObjectMapper
@@ -92,10 +90,17 @@ namespace Wheatech.ObjectMapper
 
         private Type CreateMapper(ModuleBuilder builder, Type sourceType, Type targetType)
         {
+            var instanceMapperType = typeof(InstanceMapper<,>).MakeGenericType(sourceType, targetType);
+            var instanceMapper = instanceMapperType.GetMethod("GetInstance").Invoke(null, new object[] { _container });
+            var convertMethod = instanceMapperType.GetProperty("Converter").GetValue(instanceMapper);
+            var mapperMethod = instanceMapperType.GetProperty("Mapper").GetValue(instanceMapper);
+
+            var convertBuilder = (IInvokerBuilder)Activator.CreateInstance(typeof(FuncInvokerBuilder<,>).MakeGenericType(sourceType, targetType), convertMethod);
+            convertBuilder.Compile(builder);
+            var mapperBuilder = (IInvokerBuilder)Activator.CreateInstance(typeof(ActionInvokerBuilder<,>).MakeGenericType(sourceType, targetType), mapperMethod);
+            mapperBuilder.Compile(builder);
+
             var typeBuilder = builder.DefineStaticType();
-            // public static ObjectMapper Container;
-            var field = typeBuilder.DefineField("Container", typeof(ObjectMapper),
-                FieldAttributes.Public | FieldAttributes.Static);
             // Declare Convert method.
             if (_converter == null)
             {
@@ -103,18 +108,11 @@ namespace Wheatech.ObjectMapper
                 methodBuilder.SetReturnType(targetType);
                 methodBuilder.SetParameters(sourceType);
 
-                var convertMethod = typeof(ObjectMapper).GetMethods().Where(method =>
-                {
-                    if (method.Name != "Map" || !method.IsGenericMethodDefinition) return false;
-                    method = method.MakeGenericMethod(sourceType, targetType);
-                    if (method.ReturnType != targetType) return false;
-                    var parameters = method.GetParameters();
-                    return parameters.Length == 1 && parameters[0].ParameterType == sourceType;
-                }).First();
                 var il = methodBuilder.GetILGenerator();
-                il.Emit(OpCodes.Ldsfld, field);
+                var context = new CompilationContext(il);
                 il.Emit(OpCodes.Ldarg_0);
-                il.Emit(OpCodes.Callvirt, convertMethod.MakeGenericMethod(sourceType, targetType));
+                context.CurrentType = sourceType;
+                convertBuilder.Emit(context);
                 il.Emit(OpCodes.Ret);
             }
             // Declare Map method.
@@ -123,23 +121,15 @@ namespace Wheatech.ObjectMapper
                 var methodBuilder = typeBuilder.DefineStaticMethod("Map");
                 methodBuilder.SetParameters(sourceType, targetType);
 
-                var mapMethod = typeof(ObjectMapper).GetMethods().Where(method =>
-                {
-                    if (method.Name != "Map" || method.ReturnType != typeof(void) || !method.IsGenericMethodDefinition) return false;
-                    method = method.MakeGenericMethod(sourceType, targetType);
-                    var parameters = method.GetParameters();
-                    return parameters.Length == 2 && parameters[0].ParameterType == sourceType && parameters[1].ParameterType == targetType;
-                }).First();
                 var il = methodBuilder.GetILGenerator();
-                il.Emit(OpCodes.Ldsfld, field);
+                var context = new CompilationContext(il);
                 il.Emit(OpCodes.Ldarg_0);
                 il.Emit(OpCodes.Ldarg_1);
-                il.Emit(OpCodes.Callvirt, mapMethod.MakeGenericMethod(sourceType, targetType));
+                mapperBuilder.Emit(context);
                 il.Emit(OpCodes.Ret);
             }
 
             var type = typeBuilder.CreateType();
-            Helper.SetStaticField(type, "Container", _container);
             return type;
         }
 
