@@ -14,12 +14,6 @@ namespace Wheatech.ObjectMapper.UnitTests.BusinessModel
 
         public string Address { get; set; }
 
-        public IList<OrderItem> Items
-        {
-            get
-            {
-                return _items ?? (_items = new List<OrderItem>());
-            }
-        }
+        public IList<OrderItem> Items => _items ?? (_items = new List<OrderItem>());
     }
 }

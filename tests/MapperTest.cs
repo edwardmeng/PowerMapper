@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using Wheatech.ObjectMapper.UnitTests.BusinessModel;
 using Wheatech.ObjectMapper.UnitTests.DataModel;
@@ -46,7 +47,15 @@ namespace Wheatech.ObjectMapper.UnitTests
             AreSequentialEqual(roles, Mapper.Map<RoleEntity[], IList<Role>>(roleEntities));
             // List
             Assert.Equal(roles, Mapper.Map<RoleEntity, Role>(new List<RoleEntity>(roleEntities)));
-            Assert.Equal(roles, Mapper.Map<RoleEntity[], Role[]>(roleEntities));
+            Assert.Equal(roles, Mapper.Map<RoleEntity[], List<Role>>(roleEntities));
+            // Custom Collection
+            AreSequentialEqual(roles, Mapper.Map<RoleEntity[], ReadOnlyRoleCollection>(roleEntities));
+            AreSequentialEqual(roles, Mapper.Map<RoleEntity[], ReadOnlyCollection<Role>>(roleEntities));
+            AreSequentialEqual(roles, Mapper.Map<RoleEntity[], ReadOnlyRoleCollection1>(roleEntities));
+            AreSequentialEqual(roles, Mapper.Map<RoleEntity[], ReadOnlyRoleCollection2>(roleEntities));
+            AreSequentialEqual(roles, Mapper.Map<RoleEntity[], ReadOnlyRoleCollection3>(roleEntities));
+            AreSequentialEqual(roles, Mapper.Map<RoleEntity[], ReadOnlyRoleCollection4>(roleEntities));
+            AreSequentialEqual(roles, Mapper.Map<RoleEntity[], RoleCollection>(roleEntities));
         }
 
         [Fact]
@@ -396,6 +405,21 @@ namespace Wheatech.ObjectMapper.UnitTests
                 Assert.Equal(firstEnumerator.Current, secondEnumerator.Current);
             }
             Assert.False(secondEnumerator.MoveNext());
+        }
+
+        public static void MapEnumerable<TSource, TTarget>(IEnumerable<TSource> sources, IEnumerable<TTarget> targets)
+        {
+            var sourceEnumerator = sources.GetEnumerator();
+            var targetEnumerator = targets.GetEnumerator();
+            while (sourceEnumerator.MoveNext()&&targetEnumerator.MoveNext())
+            {
+                Map(sourceEnumerator.Current, targetEnumerator.Current);
+            }
+        }
+
+        private static void Map<TSource, TTarget>(TSource source, TTarget target)
+        {
+            
         }
     }
 }

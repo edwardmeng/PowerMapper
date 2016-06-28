@@ -40,7 +40,7 @@ namespace Benchmarks.Tests
 
             var src = GetData();
 
-            //ExpressMapperMap(src);
+            ExpressMapperMap(src);
             ExpressMapperStopwatch = Stopwatch.StartNew();
             ExpressMapperMap(src);
             ExpressMapperStopwatch.Stop();
@@ -111,10 +111,19 @@ namespace Benchmarks.Tests
             AutoMapperStopwatch.Stop();
             Console.WriteLine("Automapper mapping has been finished");
 
-            ObjectMapperwatch = Stopwatch.StartNew();
-            ObjectMapperMap(src);
-            ObjectMapperwatch.Stop();
-            Console.WriteLine("ObjectMapper mapping has been finished");
+            try
+            {
+                ObjectMapperwatch = Stopwatch.StartNew();
+                ObjectMapperMap(src);
+                ObjectMapperwatch.Stop();
+                Console.WriteLine("ObjectMapper mapping has been finished");
+            }
+            catch (Exception)
+            {
+                ObjectMapperwatch.Stop();
+                ObjectMapperwatch.Reset();
+                Console.WriteLine("ObjectMapper has thrown expception!");
+            }
         }
 
         protected abstract T GetData();

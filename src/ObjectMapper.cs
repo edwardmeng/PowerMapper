@@ -6,7 +6,6 @@ using System.Reflection;
 using System.Reflection.Emit;
 using System.Threading;
 using System.Threading.Tasks;
-using Wheatech.ObjectMapper.Converters;
 
 namespace Wheatech.ObjectMapper
 {
@@ -297,7 +296,7 @@ namespace Wheatech.ObjectMapper
 
         private TTarget MapSingle<TSource, TTarget>(TSource source)
         {
-            return ExecutorFactory<TSource, TTarget>.GetConverter(this)(source);
+            return InstanceMapper<TSource, TTarget>.GetInstance(this).Map(source);
         }
 
         /// <summary>
@@ -329,8 +328,6 @@ namespace Wheatech.ObjectMapper
 
         #endregion
 
-        #region Enumerable
-
         /// <summary>
         /// Execute a mapping from the source <see cref="IEnumerable{TSource}"/> to a new destination <see cref="IEnumerable{TTarget}"/>.
         /// </summary>
@@ -340,22 +337,8 @@ namespace Wheatech.ObjectMapper
         /// <returns>The mapped target <see cref="IEnumerable{TSource}"/>.</returns>
         public IEnumerable<TTarget> Map<TSource, TTarget>(IEnumerable<TSource> sources)
         {
-            return MapEnumerable<TSource, TTarget>(sources);
+            return Map<IEnumerable<TSource>, IEnumerable<TTarget>>(sources);
         }
-
-        private IEnumerable<TTarget> MapEnumerable<TSource, TTarget>(IEnumerable<TSource> sources)
-        {
-            if (sources == null) return null;
-            var mapper = GetMapper<TSource, TTarget>();
-            var sourceArray = sources.ToArray();
-            var targetArray = new TTarget[sourceArray.Length];
-            Parallel.For(0, sourceArray.Length, index => targetArray[index] = mapper.Map(sourceArray[index]));
-            return targetArray;
-        }
-
-        #endregion
-
-        #region Array
 
         /// <summary>
         /// Execute a mapping from the source array of <typeparamref name="TSource"/> to a new destination array of <typeparamref name="TTarget"/>.
@@ -366,17 +349,8 @@ namespace Wheatech.ObjectMapper
         /// <returns>The mapped target array.</returns>
         public TTarget[] Map<TSource, TTarget>(TSource[] sources)
         {
-            return MapArray<TSource, TTarget>(sources);
+            return Map<TSource[], TTarget[]>(sources);
         }
-
-        private TTarget[] MapArray<TSource, TTarget>(TSource[] sources)
-        {
-            return (TTarget[])MapCollection<TSource, TTarget>(sources);
-        }
-
-        #endregion
-
-        #region Collection
 
         /// <summary>
         /// Execute a mapping from the source collection of <typeparamref name="TSource"/> to a new destination collection of <typeparamref name="TTarget"/>.
@@ -387,19 +361,8 @@ namespace Wheatech.ObjectMapper
         /// <returns>The mapped target collection.</returns>
         public ICollection<TTarget> Map<TSource, TTarget>(ICollection<TSource> sources)
         {
-            return MapCollection<TSource, TTarget>(sources);
+            return Map<ICollection<TSource>, ICollection<TTarget>>(sources);
         }
-
-        private ICollection<TTarget> MapCollection<TSource, TTarget>(ICollection<TSource> sources)
-        {
-            if (sources == null) return null;
-            if (sources.Count == 0) return new TTarget[0];
-            return MapEnumerable<TSource, TTarget>(sources).ToArray();
-        }
-
-        #endregion
-
-        #region IList
 
         /// <summary>
         /// Execute a mapping from the source list of <typeparamref name="TSource"/> to a new destination list of <typeparamref name="TTarget"/>.
@@ -410,17 +373,8 @@ namespace Wheatech.ObjectMapper
         /// <returns>The mapped target list.</returns>
         public IList<TTarget> Map<TSource, TTarget>(IList<TSource> sources)
         {
-            return MapIList<TSource, TTarget>(sources);
+            return Map<IList<TSource>, IList<TTarget>>(sources);
         }
-
-        private IList<TTarget> MapIList<TSource, TTarget>(IList<TSource> sources)
-        {
-            return (IList<TTarget>)MapCollection<TSource, TTarget>(sources);
-        }
-
-        #endregion
-
-        #region List
 
         /// <summary>
         /// Execute a mapping from the source list of <typeparamref name="TSource"/> to a new destination list of <typeparamref name="TTarget"/>.
@@ -431,17 +385,8 @@ namespace Wheatech.ObjectMapper
         /// <returns>The mapped target list.</returns>
         public List<TTarget> Map<TSource, TTarget>(List<TSource> sources)
         {
-            return MapList<TSource, TTarget>(sources);
+            return Map<List<TSource>, List<TTarget>>(sources);
         }
-
-        private List<TTarget> MapList<TSource, TTarget>(List<TSource> sources)
-        {
-            if (sources == null) return null;
-            if (sources.Count == 0) return new List<TTarget>();
-            return new List<TTarget>(MapEnumerable<TSource, TTarget>(sources));
-        }
-
-        #endregion
 
         #region MapSingle
 
@@ -540,6 +485,14 @@ namespace Wheatech.ObjectMapper
             {
                 return (Func<TSource, TTarget>)converter.CreateDelegate(typeof(TSource), typeof(TTarget), _moduleBuilder);
             }
+            Type sourceEnumerableType, targetEnumerableType;
+            if (Helper.ImplementsGeneric(typeof(TSource), typeof(IEnumerable<>), out sourceEnumerableType) &&
+                Helper.ImplementsGeneric(typeof(TTarget), typeof(IEnumerable<>), out targetEnumerableType))
+            {
+                converter = new EnumerableConverter(this,sourceEnumerableType.GetGenericArguments()[0],targetEnumerableType.GetGenericArguments()[0]);
+                converter.Compile(_moduleBuilder);
+                return (Func<TSource, TTarget>)converter.CreateDelegate(typeof(TSource), typeof(TTarget), _moduleBuilder);
+            }
             var typeMapper = TypeMapper<TSource, TTarget>.GetInstance(this);
             typeMapper.SetReadOnly();
             typeMapper.Compile(_moduleBuilder);
@@ -549,6 +502,20 @@ namespace Wheatech.ObjectMapper
         internal Action<TSource, TTarget> GetMapAction<TSource, TTarget>()
         {
             Compile();
+            Type sourceEnumerableType, targetEnumerableType;
+            if (Helper.ImplementsGeneric(typeof(TSource), typeof(IEnumerable<>), out sourceEnumerableType) &&
+                Helper.ImplementsGeneric(typeof(TTarget), typeof(IEnumerable<>), out targetEnumerableType))
+            {
+                var sourceElementType = sourceEnumerableType.GetGenericArguments()[0];
+                var targetElementType = targetEnumerableType.GetGenericArguments()[0];
+                if (!sourceElementType.IsValueType && !sourceElementType.IsPrimitive&& !targetElementType.IsValueType && !targetElementType.IsPrimitive)
+                {
+                    var mapper = new EnumerableMapper(this, sourceElementType, targetElementType);
+                    mapper.Compile(_moduleBuilder);
+                    return (Action<TSource, TTarget>)mapper.CreateDelegate(typeof(TSource), typeof(TTarget), _moduleBuilder);
+                }
+            }
+
             var typeMapper = TypeMapper<TSource, TTarget>.GetInstance(this);
             typeMapper.SetReadOnly();
             typeMapper.Compile(_moduleBuilder);

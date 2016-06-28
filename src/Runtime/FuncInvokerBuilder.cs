@@ -37,5 +37,7 @@ namespace Wheatech.ObjectMapper
             context.EmitCall(_invokeMethod);
             context.CurrentType = typeof(TResult);
         }
+
+        public MethodInfo MethodInfo => _invokeMethod;
     }
 }

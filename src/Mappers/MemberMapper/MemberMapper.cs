@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -11,6 +12,7 @@ namespace Wheatech.ObjectMapper
         private readonly ObjectMapper _container;
         private readonly MemberMapOptions _options;
         private Converter _converter;
+        private EnumerableMapper _mapper;
 
         private static readonly ConcurrentDictionary<Tuple<ObjectMapper, Type, Type>, Type> _genericMapperTypes
             = new ConcurrentDictionary<Tuple<ObjectMapper, Type, Type>, Type>();
@@ -27,22 +29,64 @@ namespace Wheatech.ObjectMapper
 
         public abstract Type SourceType { get; }
 
+        protected virtual Converter CreateConverter(Type sourceType, Type targetType)
+        {
+            if (_options.HasFlag(MemberMapOptions.Hierarchy))
+            {
+                Type sourceEnumerableType, targetEnumerableType;
+                if (Helper.ImplementsGeneric(sourceType, typeof(IEnumerable<>), out sourceEnumerableType) && Helper.ImplementsGeneric(targetType, typeof(IEnumerable<>), out targetEnumerableType))
+                {
+                    return new EnumerableConverter(_container, sourceEnumerableType.GetGenericArguments()[0], targetEnumerableType.GetGenericArguments()[0]);
+                }
+            }
+            return null;
+        }
+
+        protected virtual EnumerableMapper CreateMapper(Type sourceType, Type targetType)
+        {
+            if (_options.HasFlag(MemberMapOptions.Hierarchy))
+            {
+                Type sourceEnumerableType, targetEnumerableType;
+                if (Helper.ImplementsGeneric(sourceType, typeof(IEnumerable<>), out sourceEnumerableType) && Helper.ImplementsGeneric(targetType, typeof(IEnumerable<>), out targetEnumerableType))
+                {
+                    var sourceElementType = sourceEnumerableType.GetGenericArguments()[0];
+                    var targetElementType = targetEnumerableType.GetGenericArguments()[0];
+                    if (sourceElementType.IsValueType || sourceElementType.IsPrimitive)
+                    {
+                        return null;
+                    }
+                    if (targetElementType.IsValueType || targetElementType.IsPrimitive)
+                    {
+                        return null;
+                    }
+                    return new EnumerableMapper(_container, sourceElementType, targetElementType);
+                }
+            }
+            return null;
+        }
+
         public virtual void Compile(ModuleBuilder builder)
         {
-            if (_converter != null)
+            var sourceType = SourceType;
+            var targetType = TargetMember.MemberType;
+            if (_converter == null)
             {
-                _converter.Compile(builder);
-            }
-            else
-            {
-                var sourceType = SourceType;
-                var targetType = TargetMember.MemberType;
                 _converter = _container.Converters.Get(sourceType, targetType);
-                if (_converter == null && (_options & MemberMapOptions.Hierarchy) == MemberMapOptions.Hierarchy &&
-                    !(TargetMember.MemberType.IsValueType && targetType == sourceType))
-                {
-                    _genericMapperTypes.GetOrAdd(Tuple.Create(_container, sourceType, targetType), key => CreateMapper(builder, key.Item2, key.Item3));
-                }
+            }
+            if (_converter == null)
+            {
+                _converter = CreateConverter(sourceType, targetType);
+            }
+            _converter?.Compile(builder);
+            if (_mapper == null)
+            {
+                _mapper = CreateMapper(sourceType, targetType);
+            }
+            _mapper?.Compile(builder);
+            if ((_converter == null || _mapper == null) && _options.HasFlag(MemberMapOptions.Hierarchy) &&
+                !(TargetMember.MemberType.IsValueType && targetType == sourceType))
+            {
+                _genericMapperTypes.GetOrAdd(Tuple.Create(_container, sourceType, targetType), key => CreateMapper(builder, key.Item2, key.Item3));
             }
         }
 
@@ -53,6 +97,7 @@ namespace Wheatech.ObjectMapper
             var field = typeBuilder.DefineField("Container", typeof(ObjectMapper),
                 FieldAttributes.Public | FieldAttributes.Static);
             // Declare Convert method.
+            if (_converter == null)
             {
                 var methodBuilder = typeBuilder.DefineStaticMethod("Convert");
                 methodBuilder.SetReturnType(targetType);
@@ -73,6 +118,7 @@ namespace Wheatech.ObjectMapper
                 il.Emit(OpCodes.Ret);
             }
             // Declare Map method.
+            if (_mapper == null)
             {
                 var methodBuilder = typeBuilder.DefineStaticMethod("Map");
                 methodBuilder.SetParameters(sourceType, targetType);
@@ -123,14 +169,22 @@ namespace Wheatech.ObjectMapper
         {
             var sourceType = SourceType;
             var targetType = TargetMember.MemberType;
-            if (_converter != null)
+            var targetCanWrite = TargetMember.CanWrite(_options.HasFlag(MemberMapOptions.NonPublic));
+            if (targetCanWrite && _converter != null)
             {
                 EmitSource(context);
                 _converter.Emit(sourceType, targetType, context);
                 EmitSetTarget(context);
                 return;
             }
-            if ((_options & MemberMapOptions.Hierarchy) != MemberMapOptions.Hierarchy)
+            if (!targetCanWrite && _mapper != null)
+            {
+                EmitSource(context);
+                EmitSetTarget(context);
+                _mapper.Emit(sourceType, targetType, context);
+                return;
+            }
+            if (!_options.HasFlag(MemberMapOptions.Hierarchy) || !targetType.IsClass || Helper.IsNullable(targetType))
             {
                 var converter = GetConvertEmitter(sourceType, targetType);
                 if (converter != null)
@@ -144,8 +198,14 @@ namespace Wheatech.ObjectMapper
             {
                 var key = Tuple.Create(_container, sourceType, targetType);
                 var mapperType = _genericMapperTypes[key];
-
-                if (targetType.IsClass && !Helper.IsNullable(targetType))
+                if (targetCanWrite)
+                {
+                    EmitSource(context);
+                    context.CurrentType = sourceType;
+                    context.EmitCall(mapperType.GetMethod("Convert"));
+                    EmitSetTarget(context);
+                }
+                else
                 {
                     var sourceValue = context.DeclareLocal(sourceType);
                     EmitSource(context);
@@ -155,32 +215,9 @@ namespace Wheatech.ObjectMapper
                     ((IMemberBuilder)TargetMember).EmitGetter(context);
                     context.Emit(OpCodes.Stloc, targetValue);
 
-                    var label = context.DefineLabel();
-                    context.Emit(OpCodes.Ldloc, targetValue);
-                    context.Emit(OpCodes.Brtrue, label);
-
-                    context.Emit(OpCodes.Ldloc, sourceValue);
-                    context.CurrentType = sourceType;
-                    context.EmitCall(mapperType.GetMethod("Convert"));
-                    EmitSetTarget(context);
-
-                    var finalLabel = context.DefineLabel();
-                    context.Emit(OpCodes.Br, finalLabel);
-
-                    context.MakeLabel(label);
-
                     context.Emit(OpCodes.Ldloc, sourceValue);
                     context.Emit(OpCodes.Ldloc, targetValue);
                     context.EmitCall(mapperType.GetMethod("Map"));
-
-                    context.MakeLabel(finalLabel);
-                }
-                else
-                {
-                    EmitSource(context);
-                    context.CurrentType = sourceType;
-                    context.EmitCall(mapperType.GetMethod("Convert"));
-                    EmitSetTarget(context);
                 }
             }
         }

@@ -7,7 +7,7 @@ using System.Web;
 using System.Web.Compilation;
 using System.Web.Hosting;
 
-namespace Wheatech.ObjectMapper.Converters
+namespace Wheatech.ObjectMapper
 {
     internal static class TypeNameConverter
     {

@@ -60,6 +60,7 @@
     <Compile Include="BusinessModel\DerivedOrder.cs" />
     <Compile Include="BusinessModel\Order.cs" />
     <Compile Include="BusinessModel\OrderItem.cs" />
+    <Compile Include="BusinessModel\ReadOnlyRoleCollection.cs" />
     <Compile Include="BusinessModel\Role.cs" />
     <Compile Include="BusinessModel\RoleCollection.cs" />
     <Compile Include="BusinessModel\RoleStruct.cs" />

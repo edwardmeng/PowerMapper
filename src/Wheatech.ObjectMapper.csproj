@@ -51,6 +51,8 @@
     <Compile Include="Converters\ConverterCollection.cs" />
     <Compile Include="Converters\Converter.cs" />
     <Compile Include="Converters\ConverterMatchContext.cs" />
+    <Compile Include="Converters\EnumerableConverter.cs" />
+    <Compile Include="Mappers\EnumerableMapper.cs" />
     <Compile Include="Converters\FromStringConverter.cs" />
     <Compile Include="Converters\LambdaConverter.cs" />
     <Compile Include="Converters\ObjectToStringConverter.cs" />
@@ -79,6 +81,8 @@
     <Compile Include="Runtime\ActionInvokerBuilder.cs" />
     <Compile Include="Runtime\CompilationContext.cs" />
     <Compile Include="Runtime\CompilationContextExtensions.cs" />
+    <Compile Include="Runtime\EnumerableConverterBuilder.cs" />
+    <Compile Include="Runtime\EnumerableMapperBuilder.cs" />
     <Compile Include="Runtime\FuncInvokerBuilder.cs" />
     <Compile Include="Runtime\IInvokerBuilder.cs" />
   </ItemGroup>

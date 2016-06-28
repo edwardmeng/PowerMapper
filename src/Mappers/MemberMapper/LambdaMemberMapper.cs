@@ -19,17 +19,7 @@ namespace Wheatech.ObjectMapper
             _expression = expression;
         }
 
-        public override Type SourceType
-        {
-            get
-            {
-                if (_sourceType == null)
-                {
-                    _sourceType = _expression.GetType().GetGenericArguments()[1];
-                }
-                return _sourceType;
-            }
-        }
+        public override Type SourceType => _sourceType ?? (_sourceType = _expression.GetType().GetGenericArguments()[1]);
 
         public override void Compile(ModuleBuilder builder)
         {

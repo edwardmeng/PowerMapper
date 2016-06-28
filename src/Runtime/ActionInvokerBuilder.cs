@@ -14,6 +14,8 @@ namespace Wheatech.ObjectMapper
             _action = action;
         }
 
+        public MethodInfo MethodInfo => _invokeMethod;
+
         public void Compile(ModuleBuilder builder)
         {
             var typeBuilder = builder.DefineStaticType();

@@ -69,6 +69,25 @@ namespace Wheatech.ObjectMapper
 
         public static int GetDistance(Type sourceType, Type targetType)
         {
+            if (targetType.IsInterface)
+            {
+                return sourceType.GetInterfaces().Count(interfaceType =>
+                {
+                    if (!targetType.IsGenericTypeDefinition)
+                    {
+                        return targetType.IsAssignableFrom(interfaceType);
+                    }
+                    if (interfaceType.IsGenericType)
+                    {
+                        return targetType.IsAssignableFrom(interfaceType.GetGenericTypeDefinition());
+                    }
+                    if (interfaceType.IsGenericTypeDefinition)
+                    {
+                        return targetType.IsAssignableFrom(interfaceType);
+                    }
+                    return false;
+                });
+            }
             var distance = 0;
             while (sourceType != null)
             {
