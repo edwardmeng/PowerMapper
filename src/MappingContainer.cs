@@ -349,11 +349,11 @@ namespace Wheatech.EmitMapper
             {
                 return (Func<TSource, TTarget>)converter.CreateDelegate(typeof(TSource), typeof(TTarget), _moduleBuilder);
             }
-            Type sourceEnumerableType, targetEnumerableType;
-            if (Helper.ImplementsGeneric(typeof(TSource), typeof(IEnumerable<>), out sourceEnumerableType) &&
-                Helper.ImplementsGeneric(typeof(TTarget), typeof(IEnumerable<>), out targetEnumerableType))
+            Type sourceElementType, targetElementType;
+            if (Helper.IsEnumerable(typeof(TSource), out sourceElementType) &&
+                Helper.IsEnumerable(typeof(TTarget), out targetElementType))
             {
-                converter = new EnumerableValueConverter(this, sourceEnumerableType.GetGenericArguments()[0], targetEnumerableType.GetGenericArguments()[0]);
+                converter = new EnumerableValueConverter(this, sourceElementType, targetElementType);
                 converter.Compile(_moduleBuilder);
                 return (Func<TSource, TTarget>)converter.CreateDelegate(typeof(TSource), typeof(TTarget), _moduleBuilder);
             }
@@ -366,18 +366,15 @@ namespace Wheatech.EmitMapper
         internal Action<TSource, TTarget> GetMapAction<TSource, TTarget>()
         {
             Compile();
-            Type sourceEnumerableType, targetEnumerableType;
-            if (Helper.ImplementsGeneric(typeof(TSource), typeof(IEnumerable<>), out sourceEnumerableType) &&
-                Helper.ImplementsGeneric(typeof(TTarget), typeof(IEnumerable<>), out targetEnumerableType))
+            Type sourceElementType, targetElementType;
+            if (Helper.IsEnumerable(typeof(TSource), out sourceElementType) &&
+                Helper.IsEnumerable(typeof(TTarget), out targetElementType) && 
+                !sourceElementType.IsValueType && !sourceElementType.IsPrimitive && 
+                !targetElementType.IsValueType && !targetElementType.IsPrimitive)
             {
-                var sourceElementType = sourceEnumerableType.GetGenericArguments()[0];
-                var targetElementType = targetEnumerableType.GetGenericArguments()[0];
-                if (!sourceElementType.IsValueType && !sourceElementType.IsPrimitive && !targetElementType.IsValueType && !targetElementType.IsPrimitive)
-                {
-                    var mapper = new EnumerableMapper(this, sourceElementType, targetElementType);
-                    mapper.Compile(_moduleBuilder);
-                    return (Action<TSource, TTarget>)mapper.CreateDelegate(typeof(TSource), typeof(TTarget), _moduleBuilder);
-                }
+                var mapper = new EnumerableMapper(this, sourceElementType, targetElementType);
+                mapper.Compile(_moduleBuilder);
+                return (Action<TSource, TTarget>) mapper.CreateDelegate(typeof(TSource), typeof(TTarget), _moduleBuilder);
             }
 
             var typeMapper = TypeMapper<TSource, TTarget>.GetInstance(this);

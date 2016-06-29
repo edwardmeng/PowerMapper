@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Reflection.Emit;
 
 namespace Wheatech.EmitMapper
@@ -31,10 +30,10 @@ namespace Wheatech.EmitMapper
         {
             if (_options.HasFlag(MemberMapOptions.Hierarchy))
             {
-                Type sourceEnumerableType, targetEnumerableType;
-                if (Helper.ImplementsGeneric(sourceType, typeof(IEnumerable<>), out sourceEnumerableType) && Helper.ImplementsGeneric(targetType, typeof(IEnumerable<>), out targetEnumerableType))
+                Type sourceElementType, targetElementType;
+                if (Helper.IsEnumerable(sourceType, out sourceElementType) && Helper.IsEnumerable(targetType, out targetElementType))
                 {
-                    return new EnumerableValueConverter(_container, sourceEnumerableType.GetGenericArguments()[0], targetEnumerableType.GetGenericArguments()[0]);
+                    return new EnumerableValueConverter(_container, sourceElementType, targetElementType);
                 }
             }
             return null;
@@ -42,25 +41,12 @@ namespace Wheatech.EmitMapper
 
         protected virtual ValueMapper CreateMapper(Type sourceType, Type targetType)
         {
-            if (_options.HasFlag(MemberMapOptions.Hierarchy))
-            {
-                Type sourceEnumerableType, targetEnumerableType;
-                if (Helper.ImplementsGeneric(sourceType, typeof(IEnumerable<>), out sourceEnumerableType) && Helper.ImplementsGeneric(targetType, typeof(IEnumerable<>), out targetEnumerableType))
-                {
-                    var sourceElementType = sourceEnumerableType.GetGenericArguments()[0];
-                    var targetElementType = targetEnumerableType.GetGenericArguments()[0];
-                    if (sourceElementType.IsValueType || sourceElementType.IsPrimitive)
-                    {
-                        return null;
-                    }
-                    if (targetElementType.IsValueType || targetElementType.IsPrimitive)
-                    {
-                        return null;
-                    }
-                    return new EnumerableMapper(_container, sourceElementType, targetElementType);
-                }
-            }
-            return null;
+            Type sourceElementType, targetElementType;
+            return _options.HasFlag(MemberMapOptions.Hierarchy) &&
+                   Helper.IsEnumerable(sourceType, out sourceElementType) && Helper.IsEnumerable(targetType, out targetElementType) &&
+                   !sourceElementType.IsValueType && !sourceElementType.IsPrimitive && !targetElementType.IsValueType && !targetElementType.IsPrimitive
+                ? new EnumerableMapper(_container, sourceElementType, targetElementType)
+                : null;
         }
 
         public virtual void Compile(ModuleBuilder builder)

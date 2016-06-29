@@ -53,11 +53,10 @@ namespace Wheatech.EmitMapper
                 context.EmitCast(targetType);
                 return;
             }
-            Type targetEnumerableType;
-            if (Helper.ImplementsGeneric(targetType, typeof(IEnumerable<>), out targetEnumerableType))
+            Type targetElementType;
+            if (Helper.IsEnumerable(targetType, out targetElementType))
             {
-                var targetElementType = targetEnumerableType.GetGenericArguments()[0];
-                var constructor = targetType.GetConstructor(new[] { targetEnumerableType }) ??
+                var constructor = targetType.GetConstructor(new[] { typeof(IEnumerable<>).MakeGenericType(targetElementType) }) ??
                                   targetType.GetConstructor(new[] { typeof(IList<>).MakeGenericType(targetElementType) }) ??
                                   targetType.GetConstructor(new[] { typeof(ICollection<>).MakeGenericType(targetElementType) }) ??
                                   targetType.GetConstructor(new[] { targetElementType.MakeArrayType() });

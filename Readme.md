@@ -14,95 +14,18 @@ Microsoft .NET Framework 4.6.1
 
 Comparisons:
 -----------
-Wheatech.EmitMapper 2.0 is now blistering fast! Please refer to the benchmark
+Wheatech.EmitMapper is now blistering fast! Please refer to the benchmark
 
-<table>
-    <thead>
-        <tr>
-            <th>Engine</th>
-            <th>Structs</th>
-            <th>Simple objects</th>
-            <th>Parent-Child</th>
-            <th>Parent-Children</th>
-            <th>Complex objects</th>
-            <th>Advance mapping</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>AutoMapper</td>
-            <td>721</td>
-            <td>1119</td>
-            <td>881</td>
-            <td>901</td>
-            <td>3943</td>
-            <td>4087</td>
-        </tr>
-        <tr>
-            <td>ExpressMapper</td>
-            <td>360</td>
-            <td>1042</td>
-            <td>536</td>
-            <td>630</td>
-            <td>3120</td>
-            <td>2866</td>
-        </tr>
-        <tr>
-            <td>OoMapper</td>
-            <td>-</td>
-            <td>760</td>
-            <td>675</td>
-            <td>787</td>
-            <td>-</td>
-            <td>1904</td>
-        </tr>
-        <tr>
-            <td>ValueInjector</td>
-            <td>4444</td>
-            <td>10814</td>
-            <td>9154</td>
-            <td>340</td>
-            <td>17681</td>
-            <td>18284</td>
-        </tr>
-        <tr>
-            <td>TinyMapper</td>
-            <td>-</td>
-            <td>573</td>
-            <td>-</td>
-            <td>-</td>
-            <td>-</td>
-            <td>-</td>
-        </tr>
-        <tr>
-            <td>Mapster</td>
-            <td>338</td>
-            <td>628</td>
-            <td>1481</td>
-            <td>705</td>
-            <td>4372</td>
-            <td>4479</td>
-        </tr>
-        <tr>
-            <td>Native</td>
-            <td>310</td>
-            <td>419</td>
-            <td>271</td>
-            <td>454</td>
-            <td>2297</td>
-            <td>2096</td>
-        </tr>
-        <tr>
-            <td>EmitMapper</td>
-            <td>314</td>
-            <td>395</td>
-            <td>267</td>
-            <td>387</td>
-            <td>795</td>
-            <td>2761</td>
-        </tr>
-    </tbody>
-</table>
+| Engine            | Structs | Simple objects | Parent-Child | Parent-Children | Complex objects | Advance mapping |
+|-------------------|--------:|---------------:|-------------:|----------------:|----------------:|----------------:|
+| AutoMapper        |     721 |           1119 |          881 |             901 |            3943 |            4087 |
+| ExpressMapper     |     360 |           1042 |          536 |             630 |            3120 |            2866 |
+| OoMapper          |       - |            760 |          675 |             787 |               - |            1904 |
+| ValueInjector     |    4444 |          10814 |         9154 |             340 |           17681 |           18284 |
+| TinyMapper        |       - |            573 |            - |               - |               - |               - |
+| Mapster           |     338 |            628 |         1481 |             705 |            4372 |            4479 |
+| Native            |     310 |            419 |          271 |             454 |            2297 |            2096 |
+| **EmitMapper**   |**314** |        **395** |     **267** |         **387** |         **795** |       **2761** |
 
 (NOTE: Benchmark was run against largest set of data,
 times are in milliseconds, lower is better. Blank values mean the library did not support the test.)

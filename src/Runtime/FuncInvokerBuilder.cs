@@ -28,7 +28,7 @@ namespace Wheatech.EmitMapper
             il.Emit(OpCodes.Callvirt, typeof(Func<T, TResult>).GetMethod("Invoke"));
             il.Emit(OpCodes.Ret);
             var type = typeBuilder.CreateType();
-            Helper.SetStaticField(type, "Target", _func);
+            type.GetField("Target").SetValue(null, _func);
             _invokeMethod = type.GetMethod("Invoke");
         }
 

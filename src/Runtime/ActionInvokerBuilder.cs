@@ -30,7 +30,7 @@ namespace Wheatech.EmitMapper
             il.Emit(OpCodes.Callvirt, typeof(Action<TSource, TTarget>).GetMethod("Invoke"));
             il.Emit(OpCodes.Ret);
             var type = typeBuilder.CreateType();
-            Helper.SetStaticField(type, "Target", _action);
+            type.GetField("Target").SetValue(null, _action);
             _invokeMethod = type.GetMethod("Invoke");
         }
 
