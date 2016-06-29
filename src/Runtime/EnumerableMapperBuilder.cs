@@ -7,10 +7,10 @@ namespace Wheatech.EmitMapper.Runtime
 {
     internal class EnumerableMapperBuilder<TSource, TTarget> : IInvokerBuilder
     {
-        private readonly ObjectMapper _container;
+        private readonly MappingContainer _container;
         private MethodInfo _invokeMethod;
 
-        public EnumerableMapperBuilder(ObjectMapper container)
+        public EnumerableMapperBuilder(MappingContainer container)
         {
             _container = container;
         }

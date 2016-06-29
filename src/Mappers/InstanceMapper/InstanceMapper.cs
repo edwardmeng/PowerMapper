@@ -8,10 +8,10 @@ namespace Wheatech.EmitMapper
         private readonly Func<TSource, TTarget> _converter;
         private readonly Action<TSource, TTarget> _mapper;
 
-        private static readonly ConcurrentDictionary<ObjectMapper, InstanceMapper<TSource, TTarget>> _mappers =
-            new ConcurrentDictionary<ObjectMapper, InstanceMapper<TSource, TTarget>>();
+        private static readonly ConcurrentDictionary<MappingContainer, InstanceMapper<TSource, TTarget>> _mappers =
+            new ConcurrentDictionary<MappingContainer, InstanceMapper<TSource, TTarget>>();
 
-        private InstanceMapper(ObjectMapper container)
+        private InstanceMapper(MappingContainer container)
         {
             _converter = container.GetMapFunc<TSource, TTarget>();
             _mapper = container.GetMapAction<TSource, TTarget>();
@@ -21,7 +21,7 @@ namespace Wheatech.EmitMapper
 
         public Action<TSource, TTarget> Mapper => _mapper;
 
-        public static InstanceMapper<TSource, TTarget> GetInstance(ObjectMapper container)
+        public static InstanceMapper<TSource, TTarget> GetInstance(MappingContainer container)
         {
             return _mappers.GetOrAdd(container, key => new InstanceMapper<TSource, TTarget>(key));
         }

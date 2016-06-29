@@ -7,15 +7,15 @@ namespace Wheatech.EmitMapper
 {
     internal abstract class MemberMapper
     {
-        private readonly ObjectMapper _container;
+        private readonly MappingContainer _container;
         private readonly MemberMapOptions _options;
         private ValueConverter _converter;
-        private EnumerableMapper _mapper;
+        private ValueMapper _mapper;
 
-        private static readonly ConcurrentDictionary<Tuple<ObjectMapper, Type, Type>, Type> _genericMapperTypes
-            = new ConcurrentDictionary<Tuple<ObjectMapper, Type, Type>, Type>();
+        private static readonly ConcurrentDictionary<Tuple<MappingContainer, Type, Type>, Type> _genericMapperTypes
+            = new ConcurrentDictionary<Tuple<MappingContainer, Type, Type>, Type>();
 
-        protected MemberMapper(ObjectMapper container, MemberMapOptions options, MappingMember targetMember, ValueConverter converter)
+        protected MemberMapper(MappingContainer container, MemberMapOptions options, MappingMember targetMember, ValueConverter converter)
         {
             _container = container;
             _options = options;
@@ -40,7 +40,7 @@ namespace Wheatech.EmitMapper
             return null;
         }
 
-        protected virtual EnumerableMapper CreateMapper(Type sourceType, Type targetType)
+        protected virtual ValueMapper CreateMapper(Type sourceType, Type targetType)
         {
             if (_options.HasFlag(MemberMapOptions.Hierarchy))
             {

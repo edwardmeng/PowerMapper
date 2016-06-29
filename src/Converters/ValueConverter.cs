@@ -7,7 +7,7 @@ namespace Wheatech.EmitMapper
     {
         internal bool Intrinsic { get; set; }
 
-        internal ObjectMapper Container { get; set; }
+        internal MappingContainer Container { get; set; }
 
         public abstract int Match(ConverterMatchContext context);
 

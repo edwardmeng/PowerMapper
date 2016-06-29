@@ -6,7 +6,7 @@ namespace Wheatech.EmitMapper
     {
         private readonly MappingMember _sourceMember;
 
-        public DefaultMemberMapper(ObjectMapper container, MemberMapOptions options, MappingMember targetMember, MappingMember sourceMember,
+        public DefaultMemberMapper(MappingContainer container, MemberMapOptions options, MappingMember targetMember, MappingMember sourceMember,
             ValueConverter converter)
             : base(container, options, targetMember, converter)
         {

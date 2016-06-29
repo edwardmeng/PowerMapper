@@ -8,7 +8,7 @@ namespace Wheatech.EmitMapper
 {
     internal class TypeMapper<TSource, TTarget> : ITypeMapper<TSource, TTarget>
     {
-        private readonly ObjectMapper _container;
+        private readonly MappingContainer _container;
         private IInstanceCreator<TTarget> _creator = new DefaultCreator<TTarget>();
         private Action<TSource, TTarget> _beforeMapAction;
         private Action<TSource, TTarget> _customMapper;
@@ -24,15 +24,15 @@ namespace Wheatech.EmitMapper
         private bool _initialized;
         private readonly object _lockObj = new object();
 
-        private static readonly ConcurrentDictionary<ObjectMapper, TypeMapper<TSource, TTarget>> _instances =
-            new ConcurrentDictionary<ObjectMapper, TypeMapper<TSource, TTarget>>();
+        private static readonly ConcurrentDictionary<MappingContainer, TypeMapper<TSource, TTarget>> _instances =
+            new ConcurrentDictionary<MappingContainer, TypeMapper<TSource, TTarget>>();
 
-        private TypeMapper(ObjectMapper container)
+        private TypeMapper(MappingContainer container)
         {
             _container = container;
         }
 
-        public static TypeMapper<TSource, TTarget> GetInstance(ObjectMapper container)
+        public static TypeMapper<TSource, TTarget> GetInstance(MappingContainer container)
         {
             return _instances.GetOrAdd(container, key => new TypeMapper<TSource, TTarget>(key));
         }

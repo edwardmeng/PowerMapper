@@ -40,7 +40,7 @@ namespace Wheatech.EmitMapper
             _mapMethods.GetOrAdd(Tuple.Create(sourceType, targetType), key =>
             {
                 var method =
-                    typeof(ObjectMapper).GetMethods(BindingFlags.Instance | BindingFlags.Public)
+                    typeof(MappingContainer).GetMethods(BindingFlags.Instance | BindingFlags.Public)
                         .Single(x => x.Name == "Map" && x.GetParameters().Length == 2)
                         .MakeGenericMethod(sourceType, targetType);
                 var containerParameter = Expression.Parameter(typeof(IMappingContainer));

@@ -7,12 +7,12 @@ namespace Wheatech.EmitMapper
 {
     internal class MemberMapperCollection : IEnumerable<MemberMapper>
     {
-        private readonly ObjectMapper _container;
+        private readonly MappingContainer _container;
         private readonly MemberMapOptions _options;
         private readonly List<MemberMapper> _mappers = new List<MemberMapper>();
         private bool _readonly;
 
-        public MemberMapperCollection(ObjectMapper container, MemberMapOptions options)
+        public MemberMapperCollection(MappingContainer container, MemberMapOptions options)
         {
             _container = container;
             _options = options;

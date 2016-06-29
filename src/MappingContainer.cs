@@ -12,7 +12,7 @@ namespace Wheatech.EmitMapper
     /// <summary>
     /// Main entry point for the object mapper component.
     /// </summary>
-    internal class ObjectMapper : IMappingContainer
+    internal class MappingContainer : IMappingContainer
     {
         #region Fields
 
@@ -25,9 +25,9 @@ namespace Wheatech.EmitMapper
         #region Constructor
 
         /// <summary>
-        /// Create new instance of <see cref="ObjectMapper"/>.
+        /// Create new instance of <see cref="MappingContainer"/>.
         /// </summary>
-        public ObjectMapper()
+        public MappingContainer()
         {
 
             var assemblyName = new AssemblyName("ILEmit_TypeMappers" + Interlocked.Increment(ref _counter));
@@ -255,7 +255,7 @@ namespace Wheatech.EmitMapper
         public ConventionCollection Conventions { get; } = new ConventionCollection();
 
         /// <summary>
-        /// Registers a custom converter to the <see cref="ObjectMapper"/> instance.
+        /// Registers a custom converter to the <see cref="MappingContainer"/> instance.
         /// </summary>
         /// <typeparam name="TSource">The source type.</typeparam>
         /// <typeparam name="TTarget">The target type.</typeparam>

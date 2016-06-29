@@ -7,12 +7,12 @@ namespace Wheatech.EmitMapper
 {
     internal class EnumerableMapper: ValueMapper
     {
-        private readonly ObjectMapper _container;
+        private readonly MappingContainer _container;
         private readonly Type _sourceElementType;
         private readonly Type _targetElementType;
         private IInvokerBuilder _invokerBuilder;
 
-        public EnumerableMapper(ObjectMapper container, Type sourceElementType, Type targetElementType)
+        public EnumerableMapper(MappingContainer container, Type sourceElementType, Type targetElementType)
         {
             _container = container;
             _sourceElementType = sourceElementType;

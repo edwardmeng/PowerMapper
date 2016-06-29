@@ -8,14 +8,14 @@ namespace Wheatech.EmitMapper
 {
     internal sealed class ValueConverterCollection
     {
-        private readonly ObjectMapper _container;
+        private readonly MappingContainer _container;
         private readonly IList<ValueConverter> _converters = new List<ValueConverter>();
 
         private readonly ConcurrentDictionary<Tuple<Type, Type>, ValueConverter> _resolvedConverters =
             new ConcurrentDictionary<Tuple<Type, Type>, ValueConverter>();
         private bool _readonly;
 
-        public ValueConverterCollection(ObjectMapper container)
+        public ValueConverterCollection(MappingContainer container)
         {
             _container = container;
         }

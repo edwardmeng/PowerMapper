@@ -9,7 +9,7 @@ namespace Wheatech.EmitMapper
         private FuncInvokerBuilder<TSource, TMember> _invokerBuilder;
         private Type _sourceType;
 
-        public LambdaMemberMapper(ObjectMapper container, MemberMapOptions options, MappingMember targetMember, Func<TSource, TMember> expression)
+        public LambdaMemberMapper(MappingContainer container, MemberMapOptions options, MappingMember targetMember, Func<TSource, TMember> expression)
             : base(container, options, targetMember, null)
         {
             if (expression == null)

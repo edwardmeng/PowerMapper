@@ -11,9 +11,9 @@ namespace Wheatech.EmitMapper
     /// </summary>
     public sealed class ConventionContext
     {
-        private readonly ObjectMapper _container;
+        private readonly MappingContainer _container;
 
-        internal ConventionContext(ObjectMapper container, Type sourceType, Type targetType, MemberMapOptions options)
+        internal ConventionContext(MappingContainer container, Type sourceType, Type targetType, MemberMapOptions options)
         {
             _container = container;
             SourceType = sourceType;

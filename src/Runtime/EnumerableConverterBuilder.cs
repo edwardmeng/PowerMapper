@@ -7,10 +7,10 @@ namespace Wheatech.EmitMapper
 {
     internal class EnumerableConverterBuilder<TSource, TTarget> : IInvokerBuilder
     {
-        private readonly ObjectMapper _container;
+        private readonly MappingContainer _container;
         private MethodInfo _invokeMethod;
 
-        public EnumerableConverterBuilder(ObjectMapper container)
+        public EnumerableConverterBuilder(MappingContainer container)
         {
             _container = container;
         }

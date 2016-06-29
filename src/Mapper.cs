@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace Wheatech.EmitMapper
 {
     /// <summary>
-    /// The convenient entry point of the <see cref="ObjectMapper"/>.
+    /// The convenient entry point of the <see cref="MappingContainer"/>.
     /// </summary>
     public static class Mapper
     {
@@ -23,7 +23,7 @@ namespace Wheatech.EmitMapper
         /// <returns>A new instance of <see cref="IMappingContainer"/>.</returns>
         public static IMappingContainer CreateContainer()
         {
-            return new ObjectMapper();
+            return new MappingContainer();
         }
 
         /// <summary>
@@ -33,7 +33,7 @@ namespace Wheatech.EmitMapper
         public static ConventionCollection Conventions => Default.Conventions;
 
         /// <summary>
-        /// Registers a custom converter to the <see cref="ObjectMapper"/> instance.
+        /// Registers a custom converter to the <see cref="MappingContainer"/> instance.
         /// </summary>
         /// <typeparam name="TSource">The source type.</typeparam>
         /// <typeparam name="TTarget">The target type.</typeparam>
