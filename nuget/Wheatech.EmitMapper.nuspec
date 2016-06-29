@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>Wheatech.EmitMapper</id>
+    <version>1.0.0-rc4</version>
+    <authors>edwardmeng</authors>
+    <owners>edwardmeng</owners>
+    <licenseUrl>http://www.opensource.org/licenses/mit-license.php</licenseUrl>
+    <projectUrl>https://github.com/edwardmeng/Wheatech.EmitMapper</projectUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>
+      A extremely fast and friendly convention-based object-object mapper. 
+      It is implemented via the Emit library and uses a fluent configuration API to define an object-object mapping strategy.
+      EmitMapper is useful for dealing with DTO objects, data access layers an so on.
+    </description>
+    <summary>
+      A extremely fast and friendly convention-based object-object mapper.
+    </summary>
+    <tags>EmitMapper</tags>
+  </metadata>
+  <files>
+    <file src="lib\**\*.dll" target="lib" />
+    <file src="lib\**\*.xml" target="lib" />
+  </files>
+</package>

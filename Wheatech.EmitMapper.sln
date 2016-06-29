@@ -9,6 +9,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wheatech.EmitMapper", "src\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wheatech.EmitMapper.UnitTests", "tests\Wheatech.EmitMapper.UnitTests.csproj", "{46A9B974-EECB-4E92-AF7F-CE710F2BAEB0}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "nuget", "nuget", "{47FDA704-E218-4603-AF16-D209DC953010}"
+	ProjectSection(SolutionItems) = preProject
+		nuget\build.cmd = nuget\build.cmd
+		nuget\nuget.config = nuget\nuget.config
+		nuget\Wheatech.EmitMapper.nuspec = nuget\Wheatech.EmitMapper.nuspec
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
