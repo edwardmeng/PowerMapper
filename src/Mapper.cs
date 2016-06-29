@@ -56,39 +56,6 @@ namespace Wheatech.EmitMapper
         }
 
         /// <summary>
-        /// Asynchronously execute a mapping from the source object to a new target object.
-        /// </summary>
-        /// <typeparam name="TSource">The type of source object.</typeparam>
-        /// <typeparam name="TTarget">The type of target object.</typeparam>
-        /// <param name="source">Source object to map from.</param>
-        /// <param name="cancellationToken">A <see cref="CancellationToken"/> to observe while waiting for the task to complete.</param>
-        /// <returns>A task that represents the asynchronous operation. The task result contains the mapped target object.</returns>
-        /// <remarks>
-        /// Multiple active operations on the same context instance are not supported. 
-        /// Use 'await' to ensure that any asynchronous operations have completed before calling another method on this context.
-        /// </remarks>
-        public static Task<TTarget> MapAsync<TSource, TTarget>(TSource source, CancellationToken cancellationToken)
-        {
-            return Default.MapAsync<TSource, TTarget>(source, cancellationToken);
-        }
-
-        /// <summary>
-        /// Asynchronously execute a mapping from the source object to a new target object.
-        /// </summary>
-        /// <typeparam name="TSource">The type of source object.</typeparam>
-        /// <typeparam name="TTarget">The type of target object.</typeparam>
-        /// <param name="source">Source object to map from.</param>
-        /// <returns>A task that represents the asynchronous operation. The task result contains the mapped target object.</returns>
-        /// <remarks>
-        /// Multiple active operations on the same context instance are not supported. 
-        /// Use 'await' to ensure that any asynchronous operations have completed before calling another method on this context.
-        /// </remarks>
-        public static Task<TTarget> MapAsync<TSource, TTarget>(TSource source)
-        {
-            return Default.MapAsync<TSource, TTarget>(source);
-        }
-
-        /// <summary>
         /// Execute a mapping from the source object to a new target object.
         /// </summary>
         /// <typeparam name="TTarget">The type of target object.</typeparam>
@@ -97,37 +64,6 @@ namespace Wheatech.EmitMapper
         public static TTarget Map<TTarget>(object source)
         {
             return Default.Map<TTarget>(source);
-        }
-
-        /// <summary>
-        /// Asynchronously execute a mapping from the source object to a new target object.
-        /// </summary>
-        /// <typeparam name="TTarget">The type of target object.</typeparam>
-        /// <param name="source">Source object to map from.</param>
-        /// <param name="cancellationToken">A <see cref="CancellationToken"/> to observe while waiting for the task to complete.</param>
-        /// <returns>A task that represents the asynchronous operation. The task result contains the mapped target object.</returns>
-        /// <remarks>
-        /// Multiple active operations on the same context instance are not supported. 
-        /// Use 'await' to ensure that any asynchronous operations have completed before calling another method on this context.
-        /// </remarks>
-        public static Task<TTarget> MapAsync<TTarget>(object source, CancellationToken cancellationToken)
-        {
-            return Default.MapAsync<TTarget>(source, cancellationToken);
-        }
-
-        /// <summary>
-        /// Asynchronously execute a mapping from the source object to a new target object.
-        /// </summary>
-        /// <typeparam name="TTarget">The type of target object.</typeparam>
-        /// <param name="source">Source object to map from.</param>
-        /// <returns>A task that represents the asynchronous operation. The task result contains the mapped target object.</returns>
-        /// <remarks>
-        /// Multiple active operations on the same context instance are not supported. 
-        /// Use 'await' to ensure that any asynchronous operations have completed before calling another method on this context.
-        /// </remarks>
-        public static Task<TTarget> MapAsync<TTarget>(object source)
-        {
-            return Default.MapAsync<TTarget>(source);
         }
 
         /// <summary>
@@ -143,41 +79,6 @@ namespace Wheatech.EmitMapper
         }
 
         /// <summary>
-        /// Asynchronously execute a mapping from the source object to the existing target object.
-        /// </summary>
-        /// <typeparam name="TSource">The type of source object.</typeparam>
-        /// <typeparam name="TTarget">The type of target object.</typeparam>
-        /// <param name="source">Source object to map from.</param>
-        /// <param name="target">Target object to map into.</param>
-        /// <param name="cancellationToken">A <see cref="CancellationToken"/> to observe while waiting for the task to complete.</param>
-        /// <returns>A task that represents the asynchronous operation.</returns>
-        /// <remarks>
-        /// Multiple active operations on the same context instance are not supported. 
-        /// Use 'await' to ensure that any asynchronous operations have completed before calling another method on this context.
-        /// </remarks>
-        public static Task MapAsync<TSource, TTarget>(TSource source, TTarget target, CancellationToken cancellationToken)
-        {
-            return Default.MapAsync(source, target, cancellationToken);
-        }
-
-        /// <summary>
-        /// Asynchronously execute a mapping from the source object to the existing target object.
-        /// </summary>
-        /// <typeparam name="TSource">The type of source object.</typeparam>
-        /// <typeparam name="TTarget">The type of target object.</typeparam>
-        /// <param name="source">Source object to map from.</param>
-        /// <param name="target">Target object to map into.</param>
-        /// <returns>A task that represents the asynchronous operation.</returns>
-        /// <remarks>
-        /// Multiple active operations on the same context instance are not supported. 
-        /// Use 'await' to ensure that any asynchronous operations have completed before calling another method on this context.
-        /// </remarks>
-        public static Task MapAsync<TSource, TTarget>(TSource source, TTarget target)
-        {
-            return Default.MapAsync(source, target);
-        }
-
-        /// <summary>
         /// Execute a mapping from the source object to the existing target object.
         /// </summary>
         /// <param name="source">Source object to map from.</param>
@@ -185,37 +86,6 @@ namespace Wheatech.EmitMapper
         public static void Map(object source, object target)
         {
             Default.Map(source, target);
-        }
-
-        /// <summary>
-        /// Asynchronously execute a mapping from the source object to the existing target object.
-        /// </summary>
-        /// <param name="source">Source object to map from.</param>
-        /// <param name="target">Target object to map into.</param>
-        /// <param name="cancellationToken">A <see cref="CancellationToken"/> to observe while waiting for the task to complete.</param>
-        /// <returns>A task that represents the asynchronous operation.</returns>
-        /// <remarks>
-        /// Multiple active operations on the same context instance are not supported. 
-        /// Use 'await' to ensure that any asynchronous operations have completed before calling another method on this context.
-        /// </remarks>
-        public static Task MapAsync(object source, object target, CancellationToken cancellationToken)
-        {
-            return Default.MapAsync(source, target, cancellationToken);
-        }
-
-        /// <summary>
-        /// Asynchronously execute a mapping from the source object to the existing target object.
-        /// </summary>
-        /// <param name="source">Source object to map from.</param>
-        /// <param name="target">Target object to map into.</param>
-        /// <returns>A task that represents the asynchronous operation.</returns>
-        /// <remarks>
-        /// Multiple active operations on the same context instance are not supported. 
-        /// Use 'await' to ensure that any asynchronous operations have completed before calling another method on this context.
-        /// </remarks>
-        public static Task MapAsync(object source, object target)
-        {
-            return Default.MapAsync(source, target);
         }
 
         /// <summary>
@@ -231,39 +101,6 @@ namespace Wheatech.EmitMapper
         }
 
         /// <summary>
-        /// Asynchronously execute a mapping from the source array of <typeparamref name="TSource"/> to a new destination array of <typeparamref name="TTarget"/>.
-        /// </summary>
-        /// <typeparam name="TSource">The element type of the source array.</typeparam>
-        /// <typeparam name="TTarget">The element type of the target array.</typeparam>
-        /// <param name="sources">The source array to map from.</param>
-        /// <param name="cancellationToken">A <see cref="CancellationToken"/> to observe while waiting for the task to complete.</param>
-        /// <returns>A task that represents the asynchronous operation. The task result contains the mapped target array.</returns>
-        /// <remarks>
-        /// Multiple active operations on the same context instance are not supported. 
-        /// Use 'await' to ensure that any asynchronous operations have completed before calling another method on this context.
-        /// </remarks>
-        public static Task<TTarget[]> MapAsync<TSource, TTarget>(TSource[] sources, CancellationToken cancellationToken)
-        {
-            return Default.MapAsync<TSource, TTarget>(sources, cancellationToken);
-        }
-
-        /// <summary>
-        /// Asynchronously execute a mapping from the source array of <typeparamref name="TSource"/> to a new destination array of <typeparamref name="TTarget"/>.
-        /// </summary>
-        /// <typeparam name="TSource">The element type of the source array.</typeparam>
-        /// <typeparam name="TTarget">The element type of the target array.</typeparam>
-        /// <param name="sources">The source array to map from.</param>
-        /// <returns>A task that represents the asynchronous operation. The task result contains the mapped target array.</returns>
-        /// <remarks>
-        /// Multiple active operations on the same context instance are not supported. 
-        /// Use 'await' to ensure that any asynchronous operations have completed before calling another method on this context.
-        /// </remarks>
-        public static Task<TTarget[]> MapAsync<TSource, TTarget>(TSource[] sources)
-        {
-            return Default.MapAsync<TSource, TTarget>(sources);
-        }
-
-        /// <summary>
         /// Execute a mapping from the source <see cref="IEnumerable{T}"/> to a new destination <see cref="IEnumerable{TTarget}"/>.
         /// </summary>
         /// <typeparam name="TSource">The element type of the source.</typeparam>
@@ -273,39 +110,6 @@ namespace Wheatech.EmitMapper
         public static IEnumerable<TTarget> Map<TSource, TTarget>(IEnumerable<TSource> sources)
         {
             return Default.Map<TSource, TTarget>(sources);
-        }
-
-        /// <summary>
-        /// Asynchronously execute a mapping from the source <see cref="IEnumerable{TSource}"/> to a new destination <see cref="IEnumerable{TTarget}"/>.
-        /// </summary>
-        /// <typeparam name="TSource">The element type of the source.</typeparam>
-        /// <typeparam name="TTarget">The element type of the target.</typeparam>
-        /// <param name="sources">The source <see cref="IEnumerable{TSource}"/> to map from.</param>
-        /// <param name="cancellationToken">A <see cref="CancellationToken"/> to observe while waiting for the task to complete.</param>
-        /// <returns>A task that represents the asynchronous operation. The task result contains the mapped target <see cref="IEnumerable{TSource}"/>.</returns>
-        /// <remarks>
-        /// Multiple active operations on the same context instance are not supported. 
-        /// Use 'await' to ensure that any asynchronous operations have completed before calling another method on this context.
-        /// </remarks>
-        public static Task<IEnumerable<TTarget>> MapAsync<TSource, TTarget>(IEnumerable<TSource> sources, CancellationToken cancellationToken)
-        {
-            return Default.MapAsync<TSource, TTarget>(sources, cancellationToken);
-        }
-
-        /// <summary>
-        /// Asynchronously execute a mapping from the source <see cref="IEnumerable{TSource}"/> to a new destination <see cref="IEnumerable{TTarget}"/>.
-        /// </summary>
-        /// <typeparam name="TSource">The element type of the source.</typeparam>
-        /// <typeparam name="TTarget">The element type of the target.</typeparam>
-        /// <param name="sources">The source <see cref="IEnumerable{TSource}"/> to map from.</param>
-        /// <returns>A task that represents the asynchronous operation. The task result contains the mapped target <see cref="IEnumerable{TSource}"/>.</returns>
-        /// <remarks>
-        /// Multiple active operations on the same context instance are not supported. 
-        /// Use 'await' to ensure that any asynchronous operations have completed before calling another method on this context.
-        /// </remarks>
-        public static Task<IEnumerable<TTarget>> MapAsync<TSource, TTarget>(IEnumerable<TSource> sources)
-        {
-            return Default.MapAsync<TSource, TTarget>(sources);
         }
 
         /// <summary>
@@ -321,39 +125,6 @@ namespace Wheatech.EmitMapper
         }
 
         /// <summary>
-        /// Asynchronously execute a mapping from the source collection of <typeparamref name="TSource"/> to a new destination collection of <typeparamref name="TTarget"/>.
-        /// </summary>
-        /// <typeparam name="TSource">The element type of the source collection.</typeparam>
-        /// <typeparam name="TTarget">The element type of the target collection.</typeparam>
-        /// <param name="sources">The source collection to map from.</param>
-        /// <param name="cancellationToken">A <see cref="CancellationToken"/> to observe while waiting for the task to complete.</param>
-        /// <returns>A task that represents the asynchronous operation. The task result contains the mapped target collection.</returns>
-        /// <remarks>
-        /// Multiple active operations on the same context instance are not supported. 
-        /// Use 'await' to ensure that any asynchronous operations have completed before calling another method on this context.
-        /// </remarks>
-        public static Task<ICollection<TTarget>> MapAsync<TSource, TTarget>(ICollection<TSource> sources, CancellationToken cancellationToken)
-        {
-            return Default.MapAsync<TSource, TTarget>(sources, cancellationToken);
-        }
-
-        /// <summary>
-        /// Asynchronously execute a mapping from the source collection of <typeparamref name="TSource"/> to a new destination collection of <typeparamref name="TTarget"/>.
-        /// </summary>
-        /// <typeparam name="TSource">The element type of the source collection.</typeparam>
-        /// <typeparam name="TTarget">The element type of the target collection.</typeparam>
-        /// <param name="sources">The source collection to map from.</param>
-        /// <returns>A task that represents the asynchronous operation. The task result contains the mapped target collection.</returns>
-        /// <remarks>
-        /// Multiple active operations on the same context instance are not supported. 
-        /// Use 'await' to ensure that any asynchronous operations have completed before calling another method on this context.
-        /// </remarks>
-        public static Task<ICollection<TTarget>> MapAsync<TSource, TTarget>(ICollection<TSource> sources)
-        {
-            return Default.MapAsync<TSource, TTarget>(sources);
-        }
-
-        /// <summary>
         /// Execute a mapping from the source list of <typeparamref name="TSource"/> to a new destination list of <typeparamref name="TTarget"/>.
         /// </summary>
         /// <typeparam name="TSource">The element type of the source list.</typeparam>
@@ -366,39 +137,6 @@ namespace Wheatech.EmitMapper
         }
 
         /// <summary>
-        /// Asynchronously execute a mapping from the source list of <typeparamref name="TSource"/> to a new destination list of <typeparamref name="TTarget"/>.
-        /// </summary>
-        /// <typeparam name="TSource">The element type of the source list.</typeparam>
-        /// <typeparam name="TTarget">The element type of the target list.</typeparam>
-        /// <param name="sources">The source collection to map from.</param>
-        /// <param name="cancellationToken">A <see cref="CancellationToken"/> to observe while waiting for the task to complete.</param>
-        /// <returns>A task that represents the asynchronous operation. The task result contains the mapped target list.</returns>
-        /// <remarks>
-        /// Multiple active operations on the same context instance are not supported. 
-        /// Use 'await' to ensure that any asynchronous operations have completed before calling another method on this context.
-        /// </remarks>
-        public static Task<IList<TTarget>> MapAsync<TSource, TTarget>(IList<TSource> sources, CancellationToken cancellationToken)
-        {
-            return Default.MapAsync<TSource, TTarget>(sources, cancellationToken);
-        }
-
-        /// <summary>
-        /// Asynchronously execute a mapping from the source list of <typeparamref name="TSource"/> to a new destination list of <typeparamref name="TTarget"/>.
-        /// </summary>
-        /// <typeparam name="TSource">The element type of the source list.</typeparam>
-        /// <typeparam name="TTarget">The element type of the target list.</typeparam>
-        /// <param name="sources">The source collection to map from.</param>
-        /// <returns>A task that represents the asynchronous operation. The task result contains the mapped target list.</returns>
-        /// <remarks>
-        /// Multiple active operations on the same context instance are not supported. 
-        /// Use 'await' to ensure that any asynchronous operations have completed before calling another method on this context.
-        /// </remarks>
-        public static Task<IList<TTarget>> MapAsync<TSource, TTarget>(IList<TSource> sources)
-        {
-            return Default.MapAsync<TSource, TTarget>(sources);
-        }
-
-        /// <summary>
         /// Execute a mapping from the source list of <typeparamref name="TSource"/> to a new destination list of <typeparamref name="TTarget"/>.
         /// </summary>
         /// <typeparam name="TSource">The element type of the source list.</typeparam>
@@ -408,39 +146,6 @@ namespace Wheatech.EmitMapper
         public static List<TTarget> Map<TSource, TTarget>(List<TSource> sources)
         {
             return Default.Map<TSource, TTarget>(sources);
-        }
-
-        /// <summary>
-        /// Asynchronously execute a mapping from the source list of <typeparamref name="TSource"/> to a new destination list of <typeparamref name="TTarget"/>.
-        /// </summary>
-        /// <typeparam name="TSource">The element type of the source list.</typeparam>
-        /// <typeparam name="TTarget">The element type of the target list.</typeparam>
-        /// <param name="sources">The source collection to map from.</param>
-        /// <param name="cancellationToken">A <see cref="CancellationToken"/> to observe while waiting for the task to complete.</param>
-        /// <returns>A task that represents the asynchronous operation. The task result contains the mapped target list.</returns>
-        /// <remarks>
-        /// Multiple active operations on the same context instance are not supported. 
-        /// Use 'await' to ensure that any asynchronous operations have completed before calling another method on this context.
-        /// </remarks>
-        public static Task<List<TTarget>> MapAsync<TSource, TTarget>(List<TSource> sources, CancellationToken cancellationToken)
-        {
-            return Default.MapAsync<TSource, TTarget>(sources, cancellationToken);
-        }
-
-        /// <summary>
-        /// Asynchronously execute a mapping from the source list of <typeparamref name="TSource"/> to a new destination list of <typeparamref name="TTarget"/>.
-        /// </summary>
-        /// <typeparam name="TSource">The element type of the source list.</typeparam>
-        /// <typeparam name="TTarget">The element type of the target list.</typeparam>
-        /// <param name="sources">The source collection to map from.</param>
-        /// <returns>A task that represents the asynchronous operation. The task result contains the mapped target list.</returns>
-        /// <remarks>
-        /// Multiple active operations on the same context instance are not supported. 
-        /// Use 'await' to ensure that any asynchronous operations have completed before calling another method on this context.
-        /// </remarks>
-        public static Task<List<TTarget>> MapAsync<TSource, TTarget>(List<TSource> sources)
-        {
-            return Default.MapAsync<TSource, TTarget>(sources);
         }
 
         /// <summary>

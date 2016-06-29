@@ -75,7 +75,7 @@
     <Compile Include="Mappers\InstanceMapper\InstanceMapper.cs" />
     <Compile Include="Mappers\TypeMapper\ITypeMapper.cs" />
     <Compile Include="Mappers\InstanceMapper\InstanceMapperExtensions.cs" />
-    <Compile Include="Mappers\TypeMapper\MappingExtensions.cs" />
+    <Compile Include="Mappers\TypeMapper\TypeMapperExtensions.cs" />
     <Compile Include="Mappers\MemberMapper\DefaultMemberMapper.cs" />
     <Compile Include="Mappers\MemberMapper\LambdaMemberMapper.cs" />
     <Compile Include="Mappers\MemberMapper\MemberMapOptions.cs" />
@@ -84,6 +84,7 @@
     <Compile Include="Mappers\TypeMapper\TypeMapper.cs" />
     <Compile Include="ContainerExtensions.cs" />
     <Compile Include="MappingContainer.cs" />
+    <Compile Include="MappingExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Runtime\ActionInvokerBuilder.cs" />
     <Compile Include="Runtime\CompilationContext.cs" />

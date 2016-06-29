@@ -6,7 +6,7 @@ namespace Wheatech.EmitMapper
     /// <summary>
     /// Extension class that adds a set of convenience overloads to the <see cref="ITypeMapper{TSource,TTarget}"/> class.
     /// </summary>
-    public static class MappingExtensions
+    public static class TypeMapperExtensions
     {
         /// <summary>
         /// Ignore the specified member during mapping.
