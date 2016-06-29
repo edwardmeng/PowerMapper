@@ -63,8 +63,33 @@ Features:
         TTarget targetInstance = new TTarget();
         sourceInstance.MapTo(targetInstance);
 
+#### Lists and Arrays
+EmitMapper only requires configuration of element types, not of any array or list type that might be used. 
+Then all the basic generic collection types are supported:
+
+        var sources = new[]
+        {
+            new Source { Value = 5 },
+            new Source { Value = 6 },
+            new Source { Value = 7 }
+        };
+        IEnumerable<Destination> dest = Mapper.Map<Source, Destination>((IEnumerable<Source>)sources);
+        ICollection<Destination> dest = Mapper.Map<Source, Destination>((ICollection<Source>)sources);
+        IList<Destination> dest = Mapper.Map<Source, Destination>((IList<Source>)sources);
+        List<Destination> dest = Mapper.Map<Source, Destination>(new List<Source>(sources));
+        Destination[] dest = Mapper.Map<Source, Destination>(sources);
+
+To be specific, the collection types supported:
+* IEnumerable\<T\>
+* ICollection\<T\>
+* IList\<T\>
+* List\<T\>
+* Array
+
+The collection type are supported for the properties and fields too.
+
 #### Converters
-The converters will be globally used in the following scenarios:
+The converters are global used for value conversions and applied for every type mapping in the following scenarios:
 1. Mapping to a new object directly which matches the source type and target type of the registered converter.
 2. Mapping to a new object, the mapping source type and target type are implemented from IEnumerable<T>. 
    And the element type of the source and target matches the registered converter.
@@ -97,3 +122,38 @@ When the intrinsic converters cannot be performed in your applications, you can 
         Mapper.RegisterConverter((TSource source)=> convert(source));
 
 #### Convensions
+The convensions are global used for matching type members(properties and fields) and applied for every type mapping.
+
+For example, if the member with name "ID" should be ignored, the code should be like following
+
+       Mapper.Conventions.Add(context => context.Mappings.Ignore("ID"));
+
+For example, if the automatically generated key members of EntityFramework entity should be ignored, the code should be like following
+
+       Mapper.Conventions.Add(context =>
+       {
+           var keyMembers = (from mapping in context.Mappings
+                where Attribute.IsDefined(mapping.TargetMember.ClrMember, typeof(KeyAttribute))
+                let attr = mapping.TargetMember.ClrMember.GetCustomAttribute<DatabaseGeneratedAttribute>()
+                where attr != null && attr.DatabaseGeneratedOption != DatabaseGeneratedOption.None
+                select mapping.TargetMember).ToArray();
+           foreach (var keyMember in keyMembers)
+           {
+               context.Mappings.Ignore(keyMember);
+           }
+       });
+
+There have been intrinsic convension to match type members by using member name, and its behavior can be controlled by options.
+
+#### Options
+The mapping options is the convenient way to control the mapping strategy. 
+
+        Mapper.Configure<TSource, TTarget>().WithOptions(MemberMapOptions.IgnoreCase);
+
+The options for the configuration can be:
+1. **MemberMapOptions.IgnoreCase**: The member name will be case insensitively matched. Otherwise, it will be case sensitively.
+2. **MemberMapOptions.NonPublic**: The non-public(private, internal, protected) and public members will be included for matching. Otherwise, only the public members will be included.
+3. **MemberMapOptions.Hierarchy**: The source type and target type will be mapped hierarchically. Otherwise only the first level will be matched.
+4. **MemberMapOptions.Default**: The mapping strategy will be performed as the default behaviors.
+
+#### Configuration

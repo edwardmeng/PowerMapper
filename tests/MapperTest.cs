@@ -13,6 +13,7 @@ namespace Wheatech.EmitMapper.UnitTests
         [Fact]
         public void TestMapCollection()
         {
+            Mapper.Configure<Role, RoleEntity>().WithOptions(MemberMapOptions.IgnoreCase);
             var roleEntities = new RoleEntity[10];
             for (int i = 0; i < roleEntities.Length; i++)
             {
