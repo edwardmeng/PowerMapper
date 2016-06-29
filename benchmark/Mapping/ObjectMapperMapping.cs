@@ -9,9 +9,9 @@ namespace Benchmarks.Mapping
 {
     public static class ObjectMapperMapping
     {
-        public static ObjectMapper Init()
+        public static IMappingContainer Init()
         {
-            var mapper = new ObjectMapper();
+            var mapper = Mapper.CreateContainer();
             mapper.Configure<Product, ProductViewModel>().MapMember(dest => dest.DefaultSharedOption, src => src.DefaultOption);
             mapper.Configure<Test, TestViewModel>()
                 .WithOptions(MemberMapOptions.Hierarchy)
@@ -51,9 +51,9 @@ namespace Benchmarks.Mapping
             mapper.Map<List<Author>, List<AuthorViewModel>>(DataGenerator.GetAuthors(1));
             return mapper;
         }
-        public static ObjectMapper InitAdvanced()
+        public static IMappingContainer InitAdvanced()
         {
-            var mapper = new ObjectMapper();
+            var mapper = Mapper.CreateContainer();
             mapper.Configure<Product, ProductViewModel>()
                 .WithOptions(MemberMapOptions.Hierarchy)
                 .MapMember(dest => dest.DefaultSharedOption, src => src.DefaultOption)

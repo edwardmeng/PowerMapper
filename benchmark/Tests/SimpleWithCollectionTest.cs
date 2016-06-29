@@ -5,12 +5,13 @@ using Benchmarks.Mapping;
 using Benchmarks.Models;
 using Benchmarks.ViewModels;
 using Mapster;
+using Wheatech.EmitMapper;
 
 namespace Benchmarks.Tests
 {
     public class SimpleWithCollectionTest : BaseTest<List<Author>, List<AuthorViewModel>>
     {
-        private Wheatech.EmitMapper.ObjectMapper _objectMapper;
+        private IMappingContainer _objectMapper;
         protected override List<Author> GetData()
         {
             return DataGenerator.GetAuthors(Count);

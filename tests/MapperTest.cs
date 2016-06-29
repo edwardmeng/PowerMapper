@@ -145,7 +145,7 @@ namespace Wheatech.EmitMapper.UnitTests
         [Fact]
         public void TestCustomMemberMapper()
         {
-            var container = new ObjectMapper();
+            var container = Mapper.CreateContainer();
             container.Configure<Role, RoleEntity>()
                 .MapMember(target => target.LoweredRoleName, source => source.RoleName.ToLower());
             var role = new Role
@@ -164,7 +164,7 @@ namespace Wheatech.EmitMapper.UnitTests
         [Fact]
         public void TestCustomCreator()
         {
-            var container = new ObjectMapper();
+            var container = Mapper.CreateContainer();
             container.Configure<Role, RoleEntity>().CreateWith(source => new RoleEntity())
                 .MapMember(target => target.LoweredRoleName, source => source.RoleName.ToLower());
             var role = new Role
@@ -183,7 +183,7 @@ namespace Wheatech.EmitMapper.UnitTests
         [Fact]
         public void TestCustomMapper()
         {
-            var container = new ObjectMapper();
+            var container = Mapper.CreateContainer();
             container.Configure<Role, RoleEntity>().MapWith((source, target) =>
             {
                 target.RoleId = source.RoleId;
@@ -207,7 +207,7 @@ namespace Wheatech.EmitMapper.UnitTests
         [Fact]
         public void TestCustomConvension()
         {
-            var container = new ObjectMapper();
+            var container = Mapper.CreateContainer();
             container.Conventions.Add(
                 context =>
                 {
@@ -282,7 +282,7 @@ namespace Wheatech.EmitMapper.UnitTests
         [Fact]
         public void TestHierarchyMap()
         {
-            var container = new ObjectMapper();
+            var container = Mapper.CreateContainer();
             container.Configure<Order, OrderEntity>().WithOptions(MemberMapOptions.Hierarchy);
             var order = new Order
             {
@@ -318,7 +318,7 @@ namespace Wheatech.EmitMapper.UnitTests
         [Fact]
         public void TestBeforeMap()
         {
-            var container = new ObjectMapper();
+            var container = Mapper.CreateContainer();
             container.Configure<Role, RoleEntity>()
                 .BeforeMap((source, target) => target.LoweredRoleName = source.RoleName.ToLower());
             var role = new Role
@@ -337,7 +337,7 @@ namespace Wheatech.EmitMapper.UnitTests
         [Fact]
         public void TestAfterMap()
         {
-            var container = new ObjectMapper();
+            var container = Mapper.CreateContainer();
             container.Configure<Role, RoleEntity>()
                 .AfterMap((source, target) => target.LoweredRoleName = source.RoleName.ToLower());
             var role = new Role
@@ -356,7 +356,7 @@ namespace Wheatech.EmitMapper.UnitTests
         [Fact]
         public void TestInheritMap()
         {
-            var container = new ObjectMapper();
+            var container = Mapper.CreateContainer();
             container.Configure<Order, OrderEntity>().WithOptions(MemberMapOptions.Hierarchy);
             var order = new DerivedOrder
             {

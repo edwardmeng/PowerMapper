@@ -12,12 +12,6 @@ namespace Wheatech.EmitMapper
         private static readonly ConcurrentDictionary<Tuple<Type, string>, Delegate> _staticFieldSetters =
             new ConcurrentDictionary<Tuple<Type, string>, Delegate>();
 
-        private static readonly ConcurrentDictionary<Tuple<Type, Type, string>, Delegate> _convertMethods =
-            new ConcurrentDictionary<Tuple<Type, Type, string>, Delegate>();
-
-        private static readonly ConcurrentDictionary<Tuple<Type, Type, string>, Delegate> _mapMethods =
-            new ConcurrentDictionary<Tuple<Type, Type, string>, Delegate>();
-
         public static TypeBuilder DefineStaticType(this ModuleBuilder builder)
         {
             return builder.DefineType(Guid.NewGuid().ToString("N"),
@@ -114,40 +108,6 @@ namespace Wheatech.EmitMapper
                 var value = Expression.Parameter(field.FieldType);
                 return Expression.Lambda(Expression.Assign(Expression.Field(null, field), value), value).Compile();
             })?.DynamicInvoke(fieldValue);
-        }
-
-        public static object ExecuteMapMethod(Type sourceType, Type targetType, string methodName, ObjectMapper container, object sourceValue)
-        {
-            return _convertMethods.GetOrAdd(Tuple.Create(sourceType, targetType, methodName), key =>
-            {
-                var method =
-                    typeof(ObjectMapper).GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
-                        .SingleOrDefault(x => x.Name == methodName && x.GetParameters().Length == 1)?
-                        .MakeGenericMethod(sourceType, targetType);
-                if (method == null) return null;
-                var instanceParameter = Expression.Parameter(typeof(ObjectMapper));
-                var sourceParameter = Expression.Parameter(method.GetParameters()[0].ParameterType);
-                return Expression.Lambda(Expression.Call(instanceParameter, method, sourceParameter), instanceParameter, sourceParameter).Compile();
-            })?.DynamicInvoke(container, sourceValue);
-        }
-
-        public static void ExecuteMapMethod(Type sourceType, Type targetType, string methodName, ObjectMapper container, object sourceValue,
-            object targetValue)
-        {
-            _mapMethods.GetOrAdd(Tuple.Create(sourceType, targetType, methodName), key =>
-            {
-                var method =
-                    typeof(ObjectMapper).GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
-                        .SingleOrDefault(x => x.Name == methodName && x.GetParameters().Length == 2)?
-                        .MakeGenericMethod(sourceType, targetType);
-                if (method == null) return null;
-                var parameters = method.GetParameters();
-                var instanceParameter = Expression.Parameter(typeof(ObjectMapper));
-                var sourceParameter = Expression.Parameter(parameters[0].ParameterType);
-                var targetParameter = Expression.Parameter(parameters[1].ParameterType);
-                var call = Expression.Call(instanceParameter, method, sourceParameter, targetParameter);
-                return Expression.Lambda(call, instanceParameter, sourceParameter, targetParameter).Compile();
-            })?.DynamicInvoke(container, sourceValue, targetValue);
         }
 
         /// <summary>

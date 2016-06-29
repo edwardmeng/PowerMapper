@@ -5,12 +5,13 @@ using Benchmarks.Mapping;
 using Benchmarks.Models;
 using Benchmarks.ViewModels;
 using Mapster;
+using Wheatech.EmitMapper;
 
 namespace Benchmarks.Tests
 {
     public class ComplexTest : BaseTest<List<Test>, List<TestViewModel>>
     {
-        private Wheatech.EmitMapper.ObjectMapper _objectMapper;
+        private IMappingContainer _objectMapper;
         protected override List<Test> GetData()
         {
             return DataGenerator.GetTests(Count);

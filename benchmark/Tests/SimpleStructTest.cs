@@ -5,12 +5,13 @@ using Benchmarks.Models;
 using Benchmarks.ViewModels;
 using Mapster;
 using Nelibur.ObjectMapper;
+using Wheatech.EmitMapper;
 
 namespace Benchmarks.Tests
 {
     public class SimpleStructTest : BaseTest<List<Item>, List<ItemViewModel>>
     {
-        private Wheatech.EmitMapper.ObjectMapper _objectMapper;
+        private IMappingContainer _objectMapper;
         protected override List<Item> GetData()
         {
             return DataGenerator.GetItems(Count);

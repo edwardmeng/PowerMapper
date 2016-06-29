@@ -12,15 +12,13 @@ namespace Wheatech.EmitMapper
     /// <summary>
     /// Main entry point for the object mapper component.
     /// </summary>
-    public class ObjectMapper
+    internal class ObjectMapper : IMappingContainer
     {
         #region Fields
 
         private static int _counter;
         private readonly ModuleBuilder _moduleBuilder;
         private bool _compiled;
-        private readonly object _lockObj = new object();
-        private static readonly Lazy<ObjectMapper> _instance = new Lazy<ObjectMapper>(() => new ObjectMapper());
 
         #endregion
 
@@ -276,13 +274,6 @@ namespace Wheatech.EmitMapper
         #region Entry Points
 
         /// <summary>
-        /// Gets the default object mapper container.
-        /// </summary>
-        public static ObjectMapper Default => _instance.Value;
-
-        #region Single
-
-        /// <summary>
         /// Execute a mapping from the source object to a new target object.
         /// </summary>
         /// <typeparam name="TSource">The type of source object.</typeparam>
@@ -291,89 +282,7 @@ namespace Wheatech.EmitMapper
         /// <returns>Mapped target object.</returns>
         public TTarget Map<TSource, TTarget>(TSource source)
         {
-            return MapSingle<TSource, TTarget>(source);
-        }
-
-        private TTarget MapSingle<TSource, TTarget>(TSource source)
-        {
             return InstanceMapper<TSource, TTarget>.GetInstance(this).Map(source);
-        }
-
-        /// <summary>
-        /// Execute a mapping from the source object to a new target object.
-        /// </summary>
-        /// <typeparam name="TTarget">The type of target object.</typeparam>
-        /// <param name="source">Source object to map from.</param>
-        /// <returns>Mapped target object.</returns>
-        public TTarget Map<TTarget>(object source)
-        {
-            if (source == null) return default(TTarget);
-            return (TTarget)Map(source, typeof(TTarget));
-        }
-
-        /// <summary>
-        /// Execute a mapping from the source object to a new target object.
-        /// </summary>
-        /// <param name="source">Source object to map from.</param>
-        /// <param name="targetType">The type of target object.</param>
-        /// <returns>Mapped target object.</returns>
-        public object Map(object source, Type targetType)
-        {
-            if (targetType == null)
-            {
-                throw new ArgumentNullException(nameof(targetType));
-            }
-            return source == null ? null : Helper.ExecuteMapMethod(source.GetType(), targetType, "MapSingle", this, source);
-        }
-
-        #endregion
-
-        /// <summary>
-        /// Execute a mapping from the source <see cref="IEnumerable{TSource}"/> to a new destination <see cref="IEnumerable{TTarget}"/>.
-        /// </summary>
-        /// <typeparam name="TSource">The element type of the source.</typeparam>
-        /// <typeparam name="TTarget">The element type of the target.</typeparam>
-        /// <param name="sources">The source <see cref="IEnumerable{TSource}"/> to map from.</param>
-        /// <returns>The mapped target <see cref="IEnumerable{TSource}"/>.</returns>
-        public IEnumerable<TTarget> Map<TSource, TTarget>(IEnumerable<TSource> sources)
-        {
-            return Map<IEnumerable<TSource>, IEnumerable<TTarget>>(sources);
-        }
-
-        /// <summary>
-        /// Execute a mapping from the source array of <typeparamref name="TSource"/> to a new destination array of <typeparamref name="TTarget"/>.
-        /// </summary>
-        /// <typeparam name="TSource">The element type of the source array.</typeparam>
-        /// <typeparam name="TTarget">The element type of the target array.</typeparam>
-        /// <param name="sources">The source array to map from.</param>
-        /// <returns>The mapped target array.</returns>
-        public TTarget[] Map<TSource, TTarget>(TSource[] sources)
-        {
-            return Map<TSource[], TTarget[]>(sources);
-        }
-
-        /// <summary>
-        /// Execute a mapping from the source collection of <typeparamref name="TSource"/> to a new destination collection of <typeparamref name="TTarget"/>.
-        /// </summary>
-        /// <typeparam name="TSource">The element type of the source collection.</typeparam>
-        /// <typeparam name="TTarget">The element type of the target collection.</typeparam>
-        /// <param name="sources">The source collection to map from.</param>
-        /// <returns>The mapped target collection.</returns>
-        public ICollection<TTarget> Map<TSource, TTarget>(ICollection<TSource> sources)
-        {
-            return Map<ICollection<TSource>, ICollection<TTarget>>(sources);
-        }
-
-        /// <summary>
-        /// Execute a mapping from the source list of <typeparamref name="TSource"/> to a new destination list of <typeparamref name="TTarget"/>.
-        /// </summary>
-        /// <typeparam name="TSource">The element type of the source list.</typeparam>
-        /// <typeparam name="TTarget">The element type of the target list.</typeparam>
-        /// <param name="sources">The source collection to map from.</param>
-        /// <returns>The mapped target list.</returns>
-        public IList<TTarget> Map<TSource, TTarget>(IList<TSource> sources)
-        {
-            return Map<IList<TSource>, IList<TTarget>>(sources);
         }
 
         /// <summary>
@@ -388,8 +297,6 @@ namespace Wheatech.EmitMapper
             return Map<List<TSource>, List<TTarget>>(sources);
         }
 
-        #region MapSingle
-
         /// <summary>
         /// Execute a mapping from the source object to the existing target object.
         /// </summary>
@@ -399,51 +306,8 @@ namespace Wheatech.EmitMapper
         /// <param name="target">Target object to map into.</param>
         public void Map<TSource, TTarget>(TSource source, TTarget target)
         {
-            MapSingle(source, target);
+            InstanceMapper<TSource, TTarget>.GetInstance(this).Map(source, target);
         }
-
-        private void MapSingle<TSource, TTarget>(TSource source, TTarget target)
-        {
-            ExecutorFactory<TSource, TTarget>.GetMapper(this)(source, target);
-        }
-
-        /// <summary>
-        /// Execute a mapping from the source object to the existing target object.
-        /// </summary>
-        /// <param name="source">Source object to map from.</param>
-        /// <param name="target">Target object to map into.</param>
-        public void Map(object source, object target)
-        {
-            if (source == null || target == null) return;
-            Helper.ExecuteMapMethod(source.GetType(), target.GetType(), "MapSingle", this, source, target);
-        }
-
-        #endregion
-
-        #region MapEnumerable
-
-        /// <summary>
-        /// Execute a mapping from the source <see cref="IEnumerable{TSource}"/> to the existing destination <see cref="IEnumerable{TTarget}"/>.
-        /// </summary>
-        /// <typeparam name="TSource">The element type of the source array.</typeparam>
-        /// <typeparam name="TTarget">The element type of the target array.</typeparam>
-        /// <param name="sources">The source <see cref="IEnumerable{TSource}"/> to map from.</param>
-        /// <param name="targets">The target <see cref="IEnumerable{TSource}"/> to map to.</param>
-        public void Map<TSource, TTarget>(IEnumerable<TSource> sources, IEnumerable<TTarget> targets)
-        {
-            MapEnumerable(sources, targets);
-        }
-
-        private void MapEnumerable<TSource, TTarget>(IEnumerable<TSource> sources, IEnumerable<TTarget> targets)
-        {
-            if (sources == null || targets == null) return;
-            var mapper = GetMapper<TSource, TTarget>();
-            var sourceArray = sources.ToArray();
-            var targetArray = targets.ToArray();
-            Parallel.For(0, Math.Min(sourceArray.Length, targetArray.Length), index => mapper.Map(sourceArray[index], targetArray[index]));
-        }
-
-        #endregion
 
         /// <summary>
         /// Returns a mapper instance for specified types.
@@ -489,7 +353,7 @@ namespace Wheatech.EmitMapper
             if (Helper.ImplementsGeneric(typeof(TSource), typeof(IEnumerable<>), out sourceEnumerableType) &&
                 Helper.ImplementsGeneric(typeof(TTarget), typeof(IEnumerable<>), out targetEnumerableType))
             {
-                converter = new EnumerableValueConverter(this,sourceEnumerableType.GetGenericArguments()[0],targetEnumerableType.GetGenericArguments()[0]);
+                converter = new EnumerableValueConverter(this, sourceEnumerableType.GetGenericArguments()[0], targetEnumerableType.GetGenericArguments()[0]);
                 converter.Compile(_moduleBuilder);
                 return (Func<TSource, TTarget>)converter.CreateDelegate(typeof(TSource), typeof(TTarget), _moduleBuilder);
             }
@@ -508,7 +372,7 @@ namespace Wheatech.EmitMapper
             {
                 var sourceElementType = sourceEnumerableType.GetGenericArguments()[0];
                 var targetElementType = targetEnumerableType.GetGenericArguments()[0];
-                if (!sourceElementType.IsValueType && !sourceElementType.IsPrimitive&& !targetElementType.IsValueType && !targetElementType.IsPrimitive)
+                if (!sourceElementType.IsValueType && !sourceElementType.IsPrimitive && !targetElementType.IsValueType && !targetElementType.IsPrimitive)
                 {
                     var mapper = new EnumerableMapper(this, sourceElementType, targetElementType);
                     mapper.Compile(_moduleBuilder);
@@ -526,7 +390,7 @@ namespace Wheatech.EmitMapper
         {
             if (!_compiled)
             {
-                lock (_lockObj)
+                lock (this)
                 {
                     if (!_compiled)
                     {

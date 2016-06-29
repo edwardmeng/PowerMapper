@@ -52,6 +52,7 @@
     <Compile Include="Converters\ValueConverter.cs" />
     <Compile Include="Converters\ConverterMatchContext.cs" />
     <Compile Include="Converters\EnumerableValueConverter.cs" />
+    <Compile Include="IMappingContainer.cs" />
     <Compile Include="Mappers\ValueMapper\ValueMapper.cs" />
     <Compile Include="Mappers\ValueMapper\EnumerableMapper.cs" />
     <Compile Include="Converters\FromStringConverter.cs" />
@@ -59,7 +60,6 @@
     <Compile Include="Converters\ObjectToStringConverter.cs" />
     <Compile Include="Converters\PrimitiveValueConverter.cs" />
     <Compile Include="Converters\TypeNameConverter.cs" />
-    <Compile Include="ExecutorFactory.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="Mapper.cs" />
     <Compile Include="Mappers\Creator\DefaultCreator.cs" />
@@ -68,7 +68,7 @@
     <Compile Include="Mappers\InstanceMapper\IInstanceMapper.cs" />
     <Compile Include="Mappers\InstanceMapper\InstanceMapper.cs" />
     <Compile Include="Mappers\TypeMapper\ITypeMapper.cs" />
-    <Compile Include="Mappers\InstanceMapper\MapperAsyncExtensions.cs" />
+    <Compile Include="Mappers\InstanceMapper\InstanceMapperExtensions.cs" />
     <Compile Include="Mappers\TypeMapper\MappingExtensions.cs" />
     <Compile Include="Mappers\MemberMapper\DefaultMemberMapper.cs" />
     <Compile Include="Mappers\MemberMapper\LambdaMemberMapper.cs" />
@@ -76,8 +76,8 @@
     <Compile Include="Mappers\MemberMapper\MemberMapper.cs" />
     <Compile Include="Mappers\MemberMapper\MemberMapperCollection.cs" />
     <Compile Include="Mappers\TypeMapper\TypeMapper.cs" />
+    <Compile Include="ContainerExtensions.cs" />
     <Compile Include="ObjectMapper.cs" />
-    <Compile Include="ObjectMapperAsyncExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Runtime\ActionInvokerBuilder.cs" />
     <Compile Include="Runtime\CompilationContext.cs" />
