@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Wheatech.ObjectMapper.UnitTests.BusinessModel
+namespace Wheatech.EmitMapper.UnitTests.BusinessModel
 {
     public class RoleCollection : ICollection<Role>
     {

@@ -109,9 +109,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\src\Wheatech.ObjectMapper.csproj">
+    <ProjectReference Include="..\src\Wheatech.EmitMapper.csproj">
       <Project>{7374d484-0528-4c11-ba72-059ff63cb44f}</Project>
-      <Name>Wheatech.ObjectMapper</Name>
+      <Name>Wheatech.EmitMapper</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

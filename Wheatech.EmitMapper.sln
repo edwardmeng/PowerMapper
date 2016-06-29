@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wheatech.ObjectMapper", "src\Wheatech.ObjectMapper.csproj", "{7374D484-0528-4C11-BA72-059FF63CB44F}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wheatech.ObjectMapper.UnitTests", "tests\Wheatech.ObjectMapper.UnitTests.csproj", "{46A9B974-EECB-4E92-AF7F-CE710F2BAEB0}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Benchmarks", "benchmark\Benchmarks.csproj", "{DA9915F0-7F27-4E73-8AC0-422363E80A5A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wheatech.EmitMapper", "src\Wheatech.EmitMapper.csproj", "{7374D484-0528-4C11-BA72-059FF63CB44F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wheatech.EmitMapper.UnitTests", "tests\Wheatech.EmitMapper.UnitTests.csproj", "{46A9B974-EECB-4E92-AF7F-CE710F2BAEB0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +15,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DA9915F0-7F27-4E73-8AC0-422363E80A5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA9915F0-7F27-4E73-8AC0-422363E80A5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA9915F0-7F27-4E73-8AC0-422363E80A5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA9915F0-7F27-4E73-8AC0-422363E80A5A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7374D484-0528-4C11-BA72-059FF63CB44F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7374D484-0528-4C11-BA72-059FF63CB44F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7374D484-0528-4C11-BA72-059FF63CB44F}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -23,10 +27,6 @@ Global
 		{46A9B974-EECB-4E92-AF7F-CE710F2BAEB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{46A9B974-EECB-4E92-AF7F-CE710F2BAEB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{46A9B974-EECB-4E92-AF7F-CE710F2BAEB0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DA9915F0-7F27-4E73-8AC0-422363E80A5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DA9915F0-7F27-4E73-8AC0-422363E80A5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DA9915F0-7F27-4E73-8AC0-422363E80A5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DA9915F0-7F27-4E73-8AC0-422363E80A5A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

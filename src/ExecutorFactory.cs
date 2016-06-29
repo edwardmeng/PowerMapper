@@ -2,7 +2,7 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 
-namespace Wheatech.ObjectMapper
+namespace Wheatech.EmitMapper
 {
     internal static class ExecutorFactory<TSource, TTarget>
     {

@@ -2,9 +2,9 @@
 using System.Linq;
 using System.Reflection.Emit;
 
-namespace Wheatech.ObjectMapper
+namespace Wheatech.EmitMapper
 {
-    internal class PrimitiveConverter : Converter
+    internal class PrimitiveValueConverter : ValueConverter
     {
         private static readonly Type[] _primitiveTypes =
         {
@@ -13,7 +13,7 @@ namespace Wheatech.ObjectMapper
         };
         public override int Match(ConverterMatchContext context)
         {
-            if (Equals(context.Properties[typeof(PrimitiveConverter)], true)) return -1;
+            if (Equals(context.Properties[typeof(PrimitiveValueConverter)], true)) return -1;
             return ExecuteMatch(context);
         }
 
@@ -179,10 +179,10 @@ namespace Wheatech.ObjectMapper
             return false;
         }
 
-        private Converter FindConverter(Type sourceType, Type targetType)
+        private ValueConverter FindConverter(Type sourceType, Type targetType)
         {
             var matchContext = new ConverterMatchContext(sourceType, targetType);
-            matchContext.Properties[typeof(PrimitiveConverter)] = true;
+            matchContext.Properties[typeof(PrimitiveValueConverter)] = true;
             var converter = Container.Converters.Find(matchContext);
             if (ReferenceEquals(converter, this)) return null;
             return converter;

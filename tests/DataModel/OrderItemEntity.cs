@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Wheatech.ObjectMapper.UnitTests.DataModel
+namespace Wheatech.EmitMapper.UnitTests.DataModel
 {
     public class OrderItemEntity
     {

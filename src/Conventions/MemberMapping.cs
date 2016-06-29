@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Wheatech.ObjectMapper
+namespace Wheatech.EmitMapper
 {
     /// <summary>
     /// Represents the mapping strategy between the source member and the target member.
@@ -23,7 +23,7 @@ namespace Wheatech.ObjectMapper
         /// </summary>
         public MappingMember TargetMember { get; internal set; }
 
-        internal Converter Converter { get; private set; }
+        internal ValueConverter Converter { get; private set; }
 
         /// <summary>
         /// Specify a callback function to convert the value of source member to the target member.
@@ -47,7 +47,7 @@ namespace Wheatech.ObjectMapper
                 throw new ArgumentException(
                     "The target type of the converter does not match the type of the target member.", "converter");
             }
-            Converter = new LambdaConverter<TSource, TTarget>(converter);
+            Converter = new LambdaValueConverter<TSource, TTarget>(converter);
         }
     }
 }

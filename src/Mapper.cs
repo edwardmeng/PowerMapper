@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Wheatech.ObjectMapper
+namespace Wheatech.EmitMapper
 {
     /// <summary>
     /// The convenient entry point of the <see cref="ObjectMapper"/>.

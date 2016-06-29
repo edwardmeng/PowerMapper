@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace Wheatech.ObjectMapper
+namespace Wheatech.EmitMapper
 {
     /// <summary>
     /// Represents the member(property or field) metadata of the mapping source or target type.

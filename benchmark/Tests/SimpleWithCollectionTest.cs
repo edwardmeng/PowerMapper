@@ -10,7 +10,7 @@ namespace Benchmarks.Tests
 {
     public class SimpleWithCollectionTest : BaseTest<List<Author>, List<AuthorViewModel>>
     {
-        private Wheatech.ObjectMapper.ObjectMapper _objectMapper;
+        private Wheatech.EmitMapper.ObjectMapper _objectMapper;
         protected override List<Author> GetData()
         {
             return DataGenerator.GetAuthors(Count);

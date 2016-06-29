@@ -10,7 +10,7 @@ namespace Benchmarks.Tests
 {
     public class SimpleWithAssociationTest : BaseTest<List<User>, List<UserViewModel>>
     {
-        private Wheatech.ObjectMapper.ObjectMapper _objectMapper;
+        private Wheatech.EmitMapper.ObjectMapper _objectMapper;
         protected override List<User> GetData()
         {
             return DataGenerator.GetUsers(Count);

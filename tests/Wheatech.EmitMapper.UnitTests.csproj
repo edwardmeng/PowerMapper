@@ -7,8 +7,8 @@
     <ProjectGuid>{46A9B974-EECB-4E92-AF7F-CE710F2BAEB0}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Wheatech.ObjectMapper.UnitTests</RootNamespace>
-    <AssemblyName>Wheatech.ObjectMapper.UnitTests</AssemblyName>
+    <RootNamespace>Wheatech.EmitMapper.UnitTests</RootNamespace>
+    <AssemblyName>Wheatech.EmitMapper.UnitTests</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -33,12 +33,6 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
     <Reference Include="xunit.abstractions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
       <HintPath>..\packages\xunit.abstractions.2.0.0\lib\net35\xunit.abstractions.dll</HintPath>
       <Private>True</Private>
@@ -77,9 +71,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\src\Wheatech.ObjectMapper.csproj">
+    <ProjectReference Include="..\src\Wheatech.EmitMapper.csproj">
       <Project>{7374d484-0528-4c11-ba72-059ff63cb44f}</Project>
-      <Name>Wheatech.ObjectMapper</Name>
+      <Name>Wheatech.EmitMapper</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -3,9 +3,9 @@ using System.Collections.Concurrent;
 using System.Reflection;
 using System.Reflection.Emit;
 
-namespace Wheatech.ObjectMapper
+namespace Wheatech.EmitMapper
 {
-    internal class FromStringConverter : Converter
+    internal class FromStringConverter : ValueConverter
     {
         private static readonly ConcurrentDictionary<Type, MethodInfo> _methods =
             new ConcurrentDictionary<Type, MethodInfo>();

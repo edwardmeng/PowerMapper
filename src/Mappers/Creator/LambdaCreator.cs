@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection.Emit;
 
-namespace Wheatech.ObjectMapper
+namespace Wheatech.EmitMapper
 {
     internal class LambdaCreator<TSource, TTarget> : IInstanceCreator<TTarget>
     {

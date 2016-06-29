@@ -3,7 +3,7 @@ using System.Net;
 using System.Web.UI.WebControls;
 using Xunit;
 
-namespace Wheatech.ObjectMapper.UnitTests
+namespace Wheatech.EmitMapper.UnitTests
 {
     public class ConverterTest
     {

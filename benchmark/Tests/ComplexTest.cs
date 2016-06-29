@@ -10,7 +10,7 @@ namespace Benchmarks.Tests
 {
     public class ComplexTest : BaseTest<List<Test>, List<TestViewModel>>
     {
-        private Wheatech.ObjectMapper.ObjectMapper _objectMapper;
+        private Wheatech.EmitMapper.ObjectMapper _objectMapper;
         protected override List<Test> GetData()
         {
             return DataGenerator.GetTests(Count);

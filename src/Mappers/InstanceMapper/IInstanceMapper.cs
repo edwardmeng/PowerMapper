@@ -1,4 +1,4 @@
-﻿namespace Wheatech.ObjectMapper
+﻿namespace Wheatech.EmitMapper
 {
     /// <summary>
     /// The instance mapping execution strategy.

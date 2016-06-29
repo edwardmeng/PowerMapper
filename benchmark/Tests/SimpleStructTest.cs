@@ -10,7 +10,7 @@ namespace Benchmarks.Tests
 {
     public class SimpleStructTest : BaseTest<List<Item>, List<ItemViewModel>>
     {
-        private Wheatech.ObjectMapper.ObjectMapper _objectMapper;
+        private Wheatech.EmitMapper.ObjectMapper _objectMapper;
         protected override List<Item> GetData()
         {
             return DataGenerator.GetItems(Count);

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace Wheatech.ObjectMapper
+namespace Wheatech.EmitMapper
 {
     /// <summary>
     /// The convention to match mapping member names with options.

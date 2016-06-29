@@ -1,6 +1,6 @@
 ﻿using System.Reflection.Emit;
 
-namespace Wheatech.ObjectMapper
+namespace Wheatech.EmitMapper
 {
     internal interface IInvokerBuilder
     {

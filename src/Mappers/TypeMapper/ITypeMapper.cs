@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Wheatech.ObjectMapper
+namespace Wheatech.EmitMapper
 {
     /// <summary>
     /// Mapping configuration options

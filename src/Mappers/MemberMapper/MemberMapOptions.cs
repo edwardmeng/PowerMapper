@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Wheatech.ObjectMapper
+namespace Wheatech.EmitMapper
 {
     /// <summary>
     /// Specify options that control the member matching algorithm.

@@ -1,13 +1,13 @@
 ﻿using System;
 
-namespace Wheatech.ObjectMapper
+namespace Wheatech.EmitMapper
 {
     internal class DefaultMemberMapper : MemberMapper
     {
         private readonly MappingMember _sourceMember;
 
         public DefaultMemberMapper(ObjectMapper container, MemberMapOptions options, MappingMember targetMember, MappingMember sourceMember,
-            Converter converter)
+            ValueConverter converter)
             : base(container, options, targetMember, converter)
         {
             if (sourceMember == null)

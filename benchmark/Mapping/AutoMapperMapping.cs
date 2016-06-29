@@ -19,9 +19,9 @@ namespace Benchmarks.Mapping
                     .AfterMap((src, dest) => dest.Weight = src.Weight * 2)
                     .ForMember(dest => dest.Age, src => src.Ignore())
                     .ForMember(dest => dest.Type, src => src.MapFrom(m => (Types)m.Type))
-                    .ForMember(dest => dest.Name, src => src.MapFrom(m => string.Format("{0} - {1} - {2}", m.Name, m.Weight, m.Age)))
+                    .ForMember(dest => dest.Name, src => src.MapFrom(m => $"{m.Name} - {m.Weight} - {m.Age}"))
                     .ForMember(dest => dest.SpareTheProduct, src => src.ResolveUsing(m => m.SpareProduct))
-                    .ConstructUsing((src => new TestViewModel(string.Format("{0} - {1}", src.Name, src.Id))));
+                    .ConstructUsing((src => new TestViewModel($"{src.Name} - {src.Id}")));
                 config.CreateMap<News, NewsViewModel>();
                 config.CreateMap<Role, RoleViewModel>();
                 config.CreateMap<User, UserViewModel>()
@@ -47,9 +47,9 @@ namespace Benchmarks.Mapping
                     .ForMember(dest => dest.Age, src => src.MapFrom(m => m.Age))
                     .ForMember(dest => dest.Weight, src => src.MapFrom(m => m.Weight * 2))
                     .ForMember(dest => dest.Name,
-                        src => src.MapFrom(m => string.Format("{0} - {1} - {2}", m.Name, m.Weight, m.Age)))
+                        src => src.MapFrom(m => $"{m.Name} - {m.Weight} - {m.Age}"))
                     .ForMember(dest => dest.SpareTheProduct, src => src.MapFrom(m => m.SpareProduct))
-                    .ForMember(dest => dest.Description, src => src.MapFrom(m => string.Format("{0} - {1}", m.Name, m.Id)));
+                    .ForMember(dest => dest.Description, src => src.MapFrom(m => $"{m.Name} - {m.Id}"));
 
                 config.CreateMap<News, NewsViewModel>();
 

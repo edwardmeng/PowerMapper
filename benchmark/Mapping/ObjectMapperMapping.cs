@@ -3,7 +3,7 @@ using Benchmarks.Enums;
 using Benchmarks.Generators;
 using Benchmarks.Models;
 using Benchmarks.ViewModels;
-using Wheatech.ObjectMapper;
+using Wheatech.EmitMapper;
 
 namespace Benchmarks.Mapping
 {

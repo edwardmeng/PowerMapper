@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using Wheatech.ObjectMapper.UnitTests.BusinessModel;
-using Wheatech.ObjectMapper.UnitTests.DataModel;
+using Wheatech.EmitMapper.UnitTests.BusinessModel;
+using Wheatech.EmitMapper.UnitTests.DataModel;
 using Xunit;
 
-namespace Wheatech.ObjectMapper.UnitTests
+namespace Wheatech.EmitMapper.UnitTests
 {
     public class MapperTest
     {

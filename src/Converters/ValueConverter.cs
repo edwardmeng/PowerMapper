@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Reflection.Emit;
 
-namespace Wheatech.ObjectMapper
+namespace Wheatech.EmitMapper
 {
-    internal abstract class Converter
+    internal abstract class ValueConverter
     {
         internal bool Intrinsic { get; set; }
 

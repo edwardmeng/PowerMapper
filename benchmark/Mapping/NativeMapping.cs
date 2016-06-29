@@ -26,17 +26,19 @@ namespace Benchmarks.Mapping
             {
                 return default(TestViewModel);
             }
-            var dst = new TestViewModel(string.Format("{0} - {1}", src.Name, src.Id));
-            dst.Id = src.Id;
-            dst.Created = src.Created;
-            dst.Age = src.Age;
-            dst.Name = string.Format("{0} - {1} - {2}", src.Name, src.Weight, src.Age);
-            dst.Type = (Types)src.Type;
-            dst.Weight = src.Weight;
+            var dst = new TestViewModel($"{src.Name} - {src.Id}")
+            {
+                Id = src.Id,
+                Created = src.Created,
+                Age = src.Age,
+                Name = $"{src.Name} - {src.Weight} - {src.Age}",
+                Type = (Types) src.Type,
+                Weight = src.Weight,
+                Product = Map(src.Product),
+                SpareTheProduct = Map(src.SpareProduct),
+                Products = src.Products.Select(Map).ToList()
+            };
 
-            dst.Product = Map(src.Product);
-            dst.SpareTheProduct = Map(src.SpareProduct);
-            dst.Products = src.Products.Select(Map).ToList();
             return dst;
         }
 
@@ -46,13 +48,15 @@ namespace Benchmarks.Mapping
             {
                 return default(ProductViewModel);
             }
-            var dst = new ProductViewModel();
-            dst.Id = src.Id;
-            dst.Description = src.Description;
-            dst.ProductName = src.ProductName;
-            dst.Weight = src.Weight;
-            dst.DefaultSharedOption = Map(src.DefaultOption);
-            dst.Options = src.Options.Select(Map).ToList();
+            var dst = new ProductViewModel
+            {
+                Id = src.Id,
+                Description = src.Description,
+                ProductName = src.ProductName,
+                Weight = src.Weight,
+                DefaultSharedOption = Map(src.DefaultOption),
+                Options = src.Options.Select(Map).ToList()
+            };
             return dst;
         }
 
@@ -74,10 +78,12 @@ namespace Benchmarks.Mapping
             {
                 return default(ProductVariantViewModel);
             }
-            var dst = new ProductVariantViewModel();
-            dst.Id = src.Id;
-            dst.Color = src.Color;
-            dst.Size = src.Size;
+            var dst = new ProductVariantViewModel
+            {
+                Id = src.Id,
+                Color = src.Color,
+                Size = src.Size
+            };
             return dst;
         }
 
@@ -87,16 +93,18 @@ namespace Benchmarks.Mapping
             {
                 return default(UserViewModel);
             }
-            var dst = new UserViewModel();
-            dst.Id = src.Id;
-            dst.Active = src.Active;
-            dst.CreatedOn = src.CreatedOn;
-            dst.Deleted = src.Deleted;
-            dst.UserName = src.UserName;
-            dst.Email = src.Email;
-            dst.Address = src.Address;
-            dst.Age = src.Age;
-            dst.BelongTo = Map(src.Role);
+            var dst = new UserViewModel
+            {
+                Id = src.Id,
+                Active = src.Active,
+                CreatedOn = src.CreatedOn,
+                Deleted = src.Deleted,
+                UserName = src.UserName,
+                Email = src.Email,
+                Address = src.Address,
+                Age = src.Age,
+                BelongTo = Map(src.Role)
+            };
 
             return dst;
         }
@@ -107,12 +115,14 @@ namespace Benchmarks.Mapping
             {
                 return default(RoleViewModel);
             }
-            var dst = new RoleViewModel();
-            dst.Id = src.Id;
-            dst.Active = src.Active;
-            dst.CreatedOn = src.CreatedOn;
-            dst.Deleted = src.Deleted;
-            dst.Name = src.Name;
+            var dst = new RoleViewModel
+            {
+                Id = src.Id,
+                Active = src.Active,
+                CreatedOn = src.CreatedOn,
+                Deleted = src.Deleted,
+                Name = src.Name
+            };
             return dst;
         }
 
@@ -122,11 +132,13 @@ namespace Benchmarks.Mapping
             {
                 return default(ArticleViewModel);
             }
-            var dst = new ArticleViewModel();
-            dst.Id = src.Id;
-            dst.CreatedOn = src.CreatedOn;
-            dst.Text = src.Text;
-            dst.Title = src.Title;
+            var dst = new ArticleViewModel
+            {
+                Id = src.Id,
+                CreatedOn = src.CreatedOn,
+                Text = src.Text,
+                Title = src.Title
+            };
 
             return dst;
         }
@@ -137,12 +149,14 @@ namespace Benchmarks.Mapping
             {
                 return default(AuthorViewModel);
             }
-            var dst = new AuthorViewModel();
-            dst.Id = src.Id;
-            dst.Age = src.Age;
-            dst.FirstName = src.FirstName;
-            dst.LastName = src.LastName;
-            dst.OwnedArticles = src.Articles.Select(Map).ToList();
+            var dst = new AuthorViewModel
+            {
+                Id = src.Id,
+                Age = src.Age,
+                FirstName = src.FirstName,
+                LastName = src.LastName,
+                OwnedArticles = src.Articles.Select(Map).ToList()
+            };
 
             return dst;
         }

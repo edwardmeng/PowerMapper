@@ -10,7 +10,7 @@ namespace Benchmarks.Tests
 {
     public class SimpleTest : BaseTest<List<News>, List<NewsViewModel>>
     {
-        private Wheatech.ObjectMapper.ObjectMapper _objectMapper;
+        private Wheatech.EmitMapper.ObjectMapper _objectMapper;
         protected override List<News> GetData()
         {
             return DataGenerator.GetNews(Count);

@@ -2,9 +2,9 @@
 using System.Reflection;
 using System.Reflection.Emit;
 
-namespace Wheatech.ObjectMapper
+namespace Wheatech.EmitMapper
 {
-    internal class ObjectToStringConverter : Converter
+    internal class ObjectToStringConverter : ValueConverter
     {
         private static readonly MethodInfo _toStringMethod = typeof(object).GetMethod("ToString",
             BindingFlags.Public | BindingFlags.Instance, null, Type.EmptyTypes, null);

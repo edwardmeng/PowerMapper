@@ -29,10 +29,10 @@ namespace Benchmarks.Mapping
 
             Mapper.AddMap<Test, TestViewModel>(src =>
             {
-                var testViewModel = new TestViewModel(string.Format("{0} - {1}", src.Name, src.Id));
+                var testViewModel = new TestViewModel($"{src.Name} - {src.Id}");
                 testViewModel.InjectFrom(src);
                 
-                testViewModel.Name = string.Format("{0} - {1} - {2}", src.Name, src.Weight, src.Age);
+                testViewModel.Name = $"{src.Name} - {src.Weight} - {src.Age}";
 
                 testViewModel.Product = Mapper.Map<Product, ProductViewModel>(src.Product);
                 testViewModel.SpareTheProduct = Mapper.Map<Product, ProductViewModel>(src.SpareProduct);

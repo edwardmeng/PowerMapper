@@ -1,4 +1,4 @@
-﻿namespace Wheatech.ObjectMapper
+﻿namespace Wheatech.EmitMapper
 {
     /// <summary>
     /// The interface the type mapping conventions.

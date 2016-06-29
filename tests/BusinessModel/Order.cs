@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Wheatech.ObjectMapper.UnitTests.BusinessModel
+namespace Wheatech.EmitMapper.UnitTests.BusinessModel
 {
     public class Order
     {

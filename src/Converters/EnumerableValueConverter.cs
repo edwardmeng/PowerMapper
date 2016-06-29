@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
 
-namespace Wheatech.ObjectMapper
+namespace Wheatech.EmitMapper
 {
-    internal class EnumerableConverter : Converter
+    internal class EnumerableValueConverter : ValueConverter
     {
         private readonly ObjectMapper _container;
         private readonly Type _sourceElementType;
         private readonly Type _targetElementType;
         private IInvokerBuilder _invokerBuilder;
 
-        public EnumerableConverter(ObjectMapper container, Type sourceElementType, Type targetElementType)
+        public EnumerableValueConverter(ObjectMapper container, Type sourceElementType, Type targetElementType)
         {
             _container = container;
             _sourceElementType = sourceElementType;

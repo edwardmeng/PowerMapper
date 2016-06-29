@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Reflection.Emit;
 
-namespace Wheatech.ObjectMapper
+namespace Wheatech.EmitMapper
 {
-    internal class LambdaConverter<TSource, TTarget> : Converter
+    internal class LambdaValueConverter<TSource, TTarget> : ValueConverter
     {
         private readonly Func<TSource, TTarget> _expression;
         private FuncInvokerBuilder<TSource, TTarget> _invokerBuilder;
 
-        public LambdaConverter(Func<TSource, TTarget> expression)
+        public LambdaValueConverter(Func<TSource, TTarget> expression)
         {
             _expression = expression;
         }

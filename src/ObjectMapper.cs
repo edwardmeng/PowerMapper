@@ -7,7 +7,7 @@ using System.Reflection.Emit;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Wheatech.ObjectMapper
+namespace Wheatech.EmitMapper
 {
     /// <summary>
     /// Main entry point for the object mapper component.
@@ -37,8 +37,8 @@ namespace Wheatech.ObjectMapper
                 AppDomain.CurrentDomain.DefineDynamicAssembly(assemblyName,
                     AssemblyBuilderAccess.RunAndSave)
                     .DefineDynamicModule(assemblyName.Name, assemblyName.Name + ".dll", false);
-            Converters = new ConverterCollection(this);
-            Converters.Add(new PrimitiveConverter { Intrinsic = true });
+            Converters = new ValueConverterCollection(this);
+            Converters.Add(new PrimitiveValueConverter { Intrinsic = true });
             Converters.Add(new ObjectToStringConverter { Intrinsic = true });
             Converters.Add(new FromStringConverter { Intrinsic = true });
 
@@ -472,10 +472,10 @@ namespace Wheatech.ObjectMapper
         #region Native Points
 
         /// <summary>
-        /// Gets a <see cref="ConverterCollection"/> object that used to register converters.
+        /// Gets a <see cref="ValueConverterCollection"/> object that used to register converters.
         /// </summary>
-        /// <value>A <see cref="ConverterCollection"/> object that used to register converters.</value>
-        internal ConverterCollection Converters { get; }
+        /// <value>A <see cref="ValueConverterCollection"/> object that used to register converters.</value>
+        internal ValueConverterCollection Converters { get; }
 
         internal Func<TSource, TTarget> GetMapFunc<TSource, TTarget>()
         {
@@ -489,7 +489,7 @@ namespace Wheatech.ObjectMapper
             if (Helper.ImplementsGeneric(typeof(TSource), typeof(IEnumerable<>), out sourceEnumerableType) &&
                 Helper.ImplementsGeneric(typeof(TTarget), typeof(IEnumerable<>), out targetEnumerableType))
             {
-                converter = new EnumerableConverter(this,sourceEnumerableType.GetGenericArguments()[0],targetEnumerableType.GetGenericArguments()[0]);
+                converter = new EnumerableValueConverter(this,sourceEnumerableType.GetGenericArguments()[0],targetEnumerableType.GetGenericArguments()[0]);
                 converter.Compile(_moduleBuilder);
                 return (Func<TSource, TTarget>)converter.CreateDelegate(typeof(TSource), typeof(TTarget), _moduleBuilder);
             }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace Wheatech.ObjectMapper
+namespace Wheatech.EmitMapper
 {
     /// <summary>
     /// Describes the source and target of the mapping strategy for conventions.
@@ -53,7 +53,7 @@ namespace Wheatech.ObjectMapper
         /// <value>The mappings between source members and target members.</value>
         public MemberMappingCollection Mappings { get; } = new MemberMappingCollection();
 
-        internal ConverterCollection Converters => _container.Converters;
+        internal ValueConverterCollection Converters => _container.Converters;
 
         /// <summary>
         /// Gets the options that control the member matching algorithm.

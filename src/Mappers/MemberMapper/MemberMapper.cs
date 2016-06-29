@@ -3,19 +3,19 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Reflection.Emit;
 
-namespace Wheatech.ObjectMapper
+namespace Wheatech.EmitMapper
 {
     internal abstract class MemberMapper
     {
         private readonly ObjectMapper _container;
         private readonly MemberMapOptions _options;
-        private Converter _converter;
+        private ValueConverter _converter;
         private EnumerableMapper _mapper;
 
         private static readonly ConcurrentDictionary<Tuple<ObjectMapper, Type, Type>, Type> _genericMapperTypes
             = new ConcurrentDictionary<Tuple<ObjectMapper, Type, Type>, Type>();
 
-        protected MemberMapper(ObjectMapper container, MemberMapOptions options, MappingMember targetMember, Converter converter)
+        protected MemberMapper(ObjectMapper container, MemberMapOptions options, MappingMember targetMember, ValueConverter converter)
         {
             _container = container;
             _options = options;
@@ -27,14 +27,14 @@ namespace Wheatech.ObjectMapper
 
         public abstract Type SourceType { get; }
 
-        protected virtual Converter CreateConverter(Type sourceType, Type targetType)
+        protected virtual ValueConverter CreateConverter(Type sourceType, Type targetType)
         {
             if (_options.HasFlag(MemberMapOptions.Hierarchy))
             {
                 Type sourceEnumerableType, targetEnumerableType;
                 if (Helper.ImplementsGeneric(sourceType, typeof(IEnumerable<>), out sourceEnumerableType) && Helper.ImplementsGeneric(targetType, typeof(IEnumerable<>), out targetEnumerableType))
                 {
-                    return new EnumerableConverter(_container, sourceEnumerableType.GetGenericArguments()[0], targetEnumerableType.GetGenericArguments()[0]);
+                    return new EnumerableValueConverter(_container, sourceEnumerableType.GetGenericArguments()[0], targetEnumerableType.GetGenericArguments()[0]);
                 }
             }
             return null;

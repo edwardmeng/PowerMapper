@@ -4,18 +4,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Emit;
 
-namespace Wheatech.ObjectMapper
+namespace Wheatech.EmitMapper
 {
-    internal sealed class ConverterCollection
+    internal sealed class ValueConverterCollection
     {
         private readonly ObjectMapper _container;
-        private readonly IList<Converter> _converters = new List<Converter>();
+        private readonly IList<ValueConverter> _converters = new List<ValueConverter>();
 
-        private readonly ConcurrentDictionary<Tuple<Type, Type>, Converter> _resolvedConverters =
-            new ConcurrentDictionary<Tuple<Type, Type>, Converter>();
+        private readonly ConcurrentDictionary<Tuple<Type, Type>, ValueConverter> _resolvedConverters =
+            new ConcurrentDictionary<Tuple<Type, Type>, ValueConverter>();
         private bool _readonly;
 
-        public ConverterCollection(ObjectMapper container)
+        public ValueConverterCollection(ObjectMapper container)
         {
             _container = container;
         }
@@ -36,7 +36,7 @@ namespace Wheatech.ObjectMapper
             }
         }
 
-        internal void Add(Converter converter)
+        internal void Add(ValueConverter converter)
         {
             CheckReadOnly();
             if (converter == null)
@@ -50,7 +50,7 @@ namespace Wheatech.ObjectMapper
 
         public void Add<TSource, TTarget>(Func<TSource, TTarget> expression)
         {
-            Add(new LambdaConverter<TSource, TTarget>(expression));
+            Add(new LambdaValueConverter<TSource, TTarget>(expression));
         }
 
         internal void Compile(ModuleBuilder builder)
@@ -63,15 +63,15 @@ namespace Wheatech.ObjectMapper
 
         internal void AddIntrinsic<TSource, TTarget>(Func<TSource, TTarget> expression)
         {
-            Add(new LambdaConverter<TSource, TTarget>(expression) { Intrinsic = true });
+            Add(new LambdaValueConverter<TSource, TTarget>(expression) { Intrinsic = true });
         }
 
-        internal Converter Get<TSource, TTarget>()
+        internal ValueConverter Get<TSource, TTarget>()
         {
             return Get(typeof(TSource), typeof(TTarget));
         }
 
-        internal Converter Find(ConverterMatchContext context)
+        internal ValueConverter Find(ConverterMatchContext context)
         {
             return (from converter in _converters
                     let score = converter.Match(context)
@@ -80,7 +80,7 @@ namespace Wheatech.ObjectMapper
                     select converter).FirstOrDefault();
         }
 
-        internal Converter Get(Type sourceType, Type targetType)
+        internal ValueConverter Get(Type sourceType, Type targetType)
         {
             if (sourceType == null)
             {

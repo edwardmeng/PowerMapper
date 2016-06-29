@@ -1,4 +1,4 @@
-﻿namespace Wheatech.ObjectMapper
+﻿namespace Wheatech.EmitMapper
 {
     internal interface IMemberBuilder
     {

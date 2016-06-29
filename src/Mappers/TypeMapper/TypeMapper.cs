@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Reflection.Emit;
 using System.Threading;
 
-namespace Wheatech.ObjectMapper
+namespace Wheatech.EmitMapper
 {
     internal class TypeMapper<TSource, TTarget> : ITypeMapper<TSource, TTarget>
     {

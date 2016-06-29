@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
 
-namespace Wheatech.ObjectMapper
+namespace Wheatech.EmitMapper
 {
     /// <summary>
     /// Extension class that adds a set of convenience overloads to the <see cref="ITypeMapper{TSource,TTarget}"/> class.

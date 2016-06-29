@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Wheatech.ObjectMapper
+namespace Wheatech.EmitMapper
 {
     internal class MemberMapperCollection : IEnumerable<MemberMapper>
     {
@@ -51,7 +51,7 @@ namespace Wheatech.ObjectMapper
             _mappers.Add(mapper);
         }
 
-        public void Set(MappingMember targetMember, MappingMember sourceMember, Converter converter = null)
+        public void Set(MappingMember targetMember, MappingMember sourceMember, ValueConverter converter = null)
         {
             CheckReadOnly();
             if (targetMember == null)
