@@ -254,3 +254,8 @@ or using lambda expression
 
         Mapper.Configure<Source, Destination>().Ignore(dest => dest.ID);
 
+#### Todo
+
+* Linq Query Support.
+* .Net Core Support.
+* TransparentProxy Support.
