@@ -182,6 +182,7 @@ or configure on the assembly startup
         }
 
 The options for the configuration can be:
+
 1. **MemberMapOptions.IgnoreCase**: The member name will be case insensitively matched. Otherwise, it will be case sensitively.
 2. **MemberMapOptions.NonPublic**: The non-public(private, internal, protected) and public members will be included for matching. Otherwise, only the public members will be included.
 3. **MemberMapOptions.Hierarchy**: The source type and target type will be mapped hierarchically. Otherwise only the first level will be matched.
@@ -221,6 +222,7 @@ We will supply a custom value resolver to EmitMapper
             .MapMember(dest => dest.Total, src => src.Value1 + src.Value2);
 
 **Custom constructor**
+
 By default, the mapping engine will use reflection to create an instance throught the parameterless constructor.
 If you want to use other approach to create new instance, we can supply a custom constructor method:
 
@@ -232,6 +234,7 @@ helpful in scenarios where the target type might have constructor arguments
 or need to be constructed by an IoC container.
 
 **Before and after map actions**
+
 Occasionally, you might need to perform custom logic before or after a map occurs. 
 These should be a rarity, as it's more obvious to do this work outside of EmitMapper.
 
@@ -242,6 +245,7 @@ These should be a rarity, as it's more obvious to do this work outside of EmitMa
 The latter configuration is helpful when you need contextual information fed into before/after map actions.
 
 **Ignore members**
+
 EmitMapper will automatically map properties with the same names. You can ignore members by using the `Ignore` method.
         
         Mapper.Configure<Source, Destination>().Ignore("ID");
