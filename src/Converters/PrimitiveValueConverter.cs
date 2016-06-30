@@ -21,7 +21,7 @@ namespace Wheatech.EmitMapper
         {
             var targetType = context.TargetType;
             var sourceType = context.SourceType;
-            if (Helper.IsNullable(targetType) && Helper.IsNullable(sourceType))
+            if (targetType.IsNullable() && sourceType.IsNullable())
             {
                 var distance = MatchConvert(sourceType.GetGenericArguments()[0], targetType.GetGenericArguments()[0]);
                 if (distance != -1)
@@ -29,7 +29,7 @@ namespace Wheatech.EmitMapper
                     return distance + 2;
                 }
             }
-            if (Helper.IsNullable(targetType))
+            if (targetType.IsNullable())
             {
                 var distance = MatchConvert(sourceType, targetType.GetGenericArguments()[0]);
                 if (distance != -1)
@@ -37,7 +37,7 @@ namespace Wheatech.EmitMapper
                     return distance + 1;
                 }
             }
-            if (Helper.IsNullable(sourceType))
+            if (sourceType.IsNullable())
             {
                 var distance = MatchConvert(sourceType.GetGenericArguments()[0], targetType);
                 if (distance != -1)
@@ -53,7 +53,7 @@ namespace Wheatech.EmitMapper
             var converter = FindConverter(sourceType, targetType);
             if (converter != null) return 1;
             if (targetType.IsAssignableFrom(sourceType)) return 0;
-            if (Helper.GetConvertMethod(sourceType, targetType) != null) return 0;
+            if (ReflectionHelper.GetConvertMethod(sourceType, targetType) != null) return 0;
             if (_primitiveTypes.Contains(sourceType) && _primitiveTypes.Contains(targetType)) return 0;
             var hasEnumeration = false;
             if (sourceType.IsEnum)
@@ -87,9 +87,9 @@ namespace Wheatech.EmitMapper
 
         private bool ExecuteEmit(Type sourceType, Type targetType, CompilationContext context)
         {
-            if (Helper.IsNullable(targetType) && Helper.IsNullable(sourceType) && EmitBothNullable(context, sourceType, targetType)) return true;
-            if (Helper.IsNullable(targetType) && EmitNullableTarget(context, sourceType, targetType)) return true;
-            if (Helper.IsNullable(sourceType) && EmitNullableSource(context, sourceType, targetType)) return true;
+            if (targetType.IsNullable() && sourceType.IsNullable() && EmitBothNullable(context, sourceType, targetType)) return true;
+            if (targetType.IsNullable() && EmitNullableTarget(context, sourceType, targetType)) return true;
+            if (sourceType.IsNullable() && EmitNullableSource(context, sourceType, targetType)) return true;
             return EmitPrimitive(context, sourceType, targetType);
         }
 
@@ -203,7 +203,7 @@ namespace Wheatech.EmitMapper
             {
                 return context => context.EmitCast(targetType);
             }
-            var convertMethod = Helper.GetConvertMethod(sourceType, targetType);
+            var convertMethod = ReflectionHelper.GetConvertMethod(sourceType, targetType);
             if (sourceType == typeof(double) && targetType == typeof(decimal))
             {
                 return context =>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq.Expressions;
+using Wheatech.EmitMapper.Properties;
 
 namespace Wheatech.EmitMapper
 {
@@ -65,7 +66,7 @@ namespace Wheatech.EmitMapper
             var memberExpression = (unaryExpression?.Operand ?? expression.Body) as MemberExpression;
             if (memberExpression == null)
             {
-                throw new ArgumentException("The expression must be property or field access expression.");
+                throw new ArgumentException(Strings.InvalidLambdaExpression);
             }
             return memberExpression;
         }

@@ -20,9 +20,9 @@ namespace Wheatech.EmitMapper
         }
         public override int Match(ConverterMatchContext context)
         {
-            var sourceDistance = Helper.GetDistance(context.SourceType, typeof(IEnumerable<>));
+            var sourceDistance = ReflectionHelper.GetDistance(context.SourceType, typeof(IEnumerable<>));
             if (sourceDistance == -1) return -1;
-            var targetDistance = Helper.GetDistance(context.TargetType, typeof(IEnumerable<>));
+            var targetDistance = ReflectionHelper.GetDistance(context.TargetType, typeof(IEnumerable<>));
             if (targetDistance == -1) return -1;
             return sourceDistance + targetDistance;
         }
@@ -54,7 +54,7 @@ namespace Wheatech.EmitMapper
                 return;
             }
             Type targetElementType;
-            if (Helper.IsEnumerable(targetType, out targetElementType))
+            if (targetType.IsEnumerable(out targetElementType))
             {
                 var constructor = targetType.GetConstructor(new[] { typeof(IEnumerable<>).MakeGenericType(targetElementType) }) ??
                                   targetType.GetConstructor(new[] { typeof(IList<>).MakeGenericType(targetElementType) }) ??

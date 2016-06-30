@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Reflection.Emit;
 using System.Threading;
+using Wheatech.EmitMapper.Properties;
 
 namespace Wheatech.EmitMapper
 {
@@ -67,7 +68,7 @@ namespace Wheatech.EmitMapper
         {
             if (_readonly)
             {
-                throw new NotSupportedException("The type mapper is read-only");
+                throw new NotSupportedException(Strings.TypeMapper_ReadOnly);
             }
         }
 
@@ -245,8 +246,7 @@ namespace Wheatech.EmitMapper
         {
             if (_initialized)
             {
-                throw new NotSupportedException(
-                    "The type mapper has been initialized. Please configure options before the other configurations.");
+                throw new NotSupportedException(Strings.TypeMapper_Initialized);
             }
             _options = options;
             return this;
@@ -281,7 +281,7 @@ namespace Wheatech.EmitMapper
             Initialize();
             if (string.IsNullOrEmpty(targetName))
             {
-                throw new ArgumentException("The name of the target member cannot be null or empty.", nameof(targetName));
+                throw new ArgumentException(Strings.TypeMapper_MemberNameCannotNullOrEmpty, nameof(targetName));
             }
             if (expression == null)
             {
@@ -307,7 +307,7 @@ namespace Wheatech.EmitMapper
             {
                 if (string.IsNullOrEmpty(member))
                 {
-                    throw new ArgumentException("The name of the target member to be ignored cannot be null or empty.");
+                    throw new ArgumentException(Strings.TypeMapper_MemberNameCannotNullOrEmpty);
                 }
                 var targetMember = _targetMembers[member];
                 if (targetMember != null)

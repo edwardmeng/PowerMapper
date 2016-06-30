@@ -16,7 +16,7 @@
     <summary>
       A extremely fast and friendly convention-based object-object mapper.
     </summary>
-    <tags>EmitMapper</tags>
+    <tags>EmitMapper AutoMapper Mapper Fast Mapping</tags>
   </metadata>
   <files>
     <file src="lib\**\*.dll" target="lib" />

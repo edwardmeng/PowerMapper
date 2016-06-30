@@ -30,7 +30,7 @@ namespace Wheatech.EmitMapper
             if (context.SourceType == typeof(string))
             {
                 var targetType = context.TargetType;
-                if (Helper.IsNullable(targetType) && GetConvertMethod(targetType.GetGenericArguments()[0]) != null) return 1;
+                if (targetType.IsNullable() && GetConvertMethod(targetType.GetGenericArguments()[0]) != null) return 1;
                 if (GetConvertMethod(context.TargetType) != null) return 0;
             }
             return -1;
@@ -46,7 +46,7 @@ namespace Wheatech.EmitMapper
             var local = context.DeclareLocal(sourceType);
             context.Emit(OpCodes.Stloc, local);
 
-            if (Helper.IsNullable(targetType))
+            if (targetType.IsNullable())
             {
                 var labelEnd = context.DefineLabel();
                 var labelFirst = context.DefineLabel();

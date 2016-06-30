@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Globalization;
 using System.Reflection;
 using System.Reflection.Emit;
+using Wheatech.EmitMapper.Properties;
 
 namespace Wheatech.EmitMapper
 {
@@ -14,7 +16,7 @@ namespace Wheatech.EmitMapper
             Action<CompilationContext> nonNullExpression, Action<CompilationContext> nullExpression)
         {
             var label = context.DefineLabel();
-            if (Helper.IsNullable(local.LocalType))
+            if (local.LocalType.IsNullable())
             {
                 context.Emit(OpCodes.Ldloca, local);
                 context.EmitCall(local.LocalType.GetProperty("HasValue").GetGetMethod());
@@ -67,8 +69,7 @@ namespace Wheatech.EmitMapper
             {
                 if (context.CurrentType.IsValueType)
                 {
-                    throw new InvalidOperationException(string.Format("Cannot cast from type '{0}' to type '{1}'.",
-                        context.CurrentType, targetType));
+                    throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, Strings.Emit_InvalidCastType, context.CurrentType, targetType));
                 }
                 if (targetType != typeof(object))
                 {
@@ -81,7 +82,7 @@ namespace Wheatech.EmitMapper
         public static void EmitDefault(this CompilationContext context, Type targetType)
         {
             var originalType = targetType;
-            if (Helper.IsNullable(targetType))
+            if (targetType.IsNullable())
             {
                 var local = context.DeclareLocal(targetType);
                 context.Emit(OpCodes.Ldloca, local);

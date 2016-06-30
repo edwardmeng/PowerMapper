@@ -26,6 +26,14 @@ echo Building solution...
 call :ExecuteCmd %msbuild% "..\Wheatech.EmitMapper.sln" /p:Configuration="%config%" /m /v:M /fl /flp:LogFile=msbuild.log;Verbosity=Normal /nr:false
 IF %ERRORLEVEL% NEQ 0 goto error
 
+REM Run tests
+echo.
+echo Run tests...
+call :ExecuteCmd ..\tools\nuget.exe install xunit.runner.console -Version 2.1.0 -OutputDirectory ..\packages
+IF %ERRORLEVEL% NEQ 0 goto error
+call :ExecuteCmd ..\packages\xunit.runner.console.2.1.0\tools\xunit.console.exe ..\tests\bin\%config%\Wheatech.EmitMapper.UnitTests.dll
+IF %ERRORLEVEL% NEQ 0 goto error
+
 echo Packaging...
 set libtmp=%cd%\lib
 set packagestmp="%cd%\packages"

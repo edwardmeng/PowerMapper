@@ -6,7 +6,7 @@ using System.Reflection.Emit;
 
 namespace Wheatech.EmitMapper
 {
-    internal static class Helper
+    internal static class ReflectionHelper
     {
         public static TypeBuilder DefineStaticType(this ModuleBuilder builder)
         {
@@ -25,7 +25,7 @@ namespace Wheatech.EmitMapper
             return builder.DefineField(fieldName, typeof(T), FieldAttributes.Public | FieldAttributes.Static);
         }
 
-        public static bool IsNullable(Type type)
+        public static bool IsNullable(this Type type)
         {
             return type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>);
         }
@@ -95,10 +95,15 @@ namespace Wheatech.EmitMapper
             return -1;
         }
 
-        public static bool IsEnumerable(Type targetType, out Type elementType)
+        public static bool IsEnumerable(this Type targetType, out Type elementType)
         {
             elementType = null;
-            var matchedType = targetType.GetInterfaces().FirstOrDefault(type => type == typeof(IEnumerable<>) || (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IEnumerable<>)));
+            IEnumerable<Type> interfaces = targetType.GetInterfaces();
+            if (targetType.IsInterface)
+            {
+                interfaces = interfaces.Concat(new[] {targetType});
+            }
+            var matchedType = interfaces.FirstOrDefault(type => type == typeof(IEnumerable<>) || (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IEnumerable<>)));
             if (matchedType != null)
             {
                 elementType = matchedType.GetGenericArguments()[0];

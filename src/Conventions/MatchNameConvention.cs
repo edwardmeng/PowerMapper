@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Wheatech.EmitMapper.Properties;
 
 namespace Wheatech.EmitMapper
 {
@@ -96,7 +97,7 @@ namespace Wheatech.EmitMapper
         {
             if (_readonly)
             {
-                throw new NotSupportedException("The conversation is read-only");
+                throw new NotSupportedException(Strings.Convention_ReadOnly);
             }
         }
 

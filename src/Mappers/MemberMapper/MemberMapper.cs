@@ -31,7 +31,7 @@ namespace Wheatech.EmitMapper
             if (_options.HasFlag(MemberMapOptions.Hierarchy))
             {
                 Type sourceElementType, targetElementType;
-                if (Helper.IsEnumerable(sourceType, out sourceElementType) && Helper.IsEnumerable(targetType, out targetElementType))
+                if (sourceType.IsEnumerable(out sourceElementType) && targetType.IsEnumerable(out targetElementType))
                 {
                     return new EnumerableValueConverter(_container, sourceElementType, targetElementType);
                 }
@@ -43,7 +43,7 @@ namespace Wheatech.EmitMapper
         {
             Type sourceElementType, targetElementType;
             return _options.HasFlag(MemberMapOptions.Hierarchy) &&
-                   Helper.IsEnumerable(sourceType, out sourceElementType) && Helper.IsEnumerable(targetType, out targetElementType) &&
+                   sourceType.IsEnumerable(out sourceElementType) && targetType.IsEnumerable(out targetElementType) &&
                    !sourceElementType.IsValueType && !sourceElementType.IsPrimitive && !targetElementType.IsValueType && !targetElementType.IsPrimitive
                 ? new EnumerableMapper(_container, sourceElementType, targetElementType)
                 : null;
@@ -129,7 +129,7 @@ namespace Wheatech.EmitMapper
             {
                 return context => context.EmitCast(targetType);
             }
-            var convertMethod = Helper.GetConvertMethod(sourceType, targetType);
+            var convertMethod = ReflectionHelper.GetConvertMethod(sourceType, targetType);
             if (convertMethod != null)
             {
                 return context =>
@@ -160,7 +160,7 @@ namespace Wheatech.EmitMapper
                 _mapper.Emit(sourceType, targetType, context);
                 return;
             }
-            if (!_options.HasFlag(MemberMapOptions.Hierarchy) || !targetType.IsClass || Helper.IsNullable(targetType))
+            if (!_options.HasFlag(MemberMapOptions.Hierarchy) || !targetType.IsClass || targetType.IsNullable())
             {
                 var converter = GetConvertEmitter(sourceType, targetType);
                 if (converter != null)

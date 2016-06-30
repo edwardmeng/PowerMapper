@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Wheatech.EmitMapper.Properties;
 
 namespace Wheatech.EmitMapper
 {
@@ -76,7 +77,7 @@ namespace Wheatech.EmitMapper
         {
             if (string.IsNullOrEmpty(name))
             {
-                throw new ArgumentException("The member name cannot be null or empty.", "name");
+                throw new ArgumentException(Strings.Argument_CannotNullOrEmpty, nameof(name));
             }
             return _members.Where(member => _comparer.Equals(member.MemberName, name)).ToArray();
         }

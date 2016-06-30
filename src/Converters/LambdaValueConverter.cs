@@ -15,8 +15,8 @@ namespace Wheatech.EmitMapper
 
         public override int Match(ConverterMatchContext context)
         {
-            var sourceDistance = Helper.GetDistance(context.SourceType, typeof(TSource));
-            var targetDistance = Helper.GetDistance(context.TargetType, typeof(TTarget));
+            var sourceDistance = ReflectionHelper.GetDistance(context.SourceType, typeof(TSource));
+            var targetDistance = ReflectionHelper.GetDistance(context.TargetType, typeof(TTarget));
             return sourceDistance == -1 || targetDistance == -1 ? -1 : sourceDistance + targetDistance;
         }
 

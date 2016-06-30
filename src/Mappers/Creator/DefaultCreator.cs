@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Globalization;
 using System.Reflection;
 using System.Reflection.Emit;
+using Wheatech.EmitMapper.Properties;
 
 namespace Wheatech.EmitMapper
 {
@@ -12,7 +14,7 @@ namespace Wheatech.EmitMapper
 
         public void Emit(CompilationContext context)
         {
-            if (typeof(TTarget).IsValueType || Helper.IsNullable(typeof(TTarget)))
+            if (typeof(TTarget).IsValueType || typeof(TTarget).IsNullable())
             {
                 var targetLocal = context.DeclareLocal(typeof(TTarget));
                 context.Emit(OpCodes.Ldloca, targetLocal);
@@ -26,7 +28,7 @@ namespace Wheatech.EmitMapper
                         Type.EmptyTypes, null);
                 if (constructor == null)
                 {
-                    throw new ArgumentException(string.Format("Type '{0}' does not have a parameterless constructor.", typeof(TTarget)));
+                    throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Strings.Creator_CannotFindConstructor, typeof(TTarget)));
                 }
                 context.Emit(OpCodes.Newobj, constructor);
             }

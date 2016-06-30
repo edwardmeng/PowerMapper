@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Globalization;
+using Wheatech.EmitMapper.Properties;
 
 namespace Wheatech.EmitMapper
 {
@@ -35,17 +37,15 @@ namespace Wheatech.EmitMapper
         {
             if (converter == null)
             {
-                throw new ArgumentNullException("converter");
+                throw new ArgumentNullException(nameof(converter));
             }
             if (!typeof(TSource).IsAssignableFrom(SourceMember.MemberType))
             {
-                throw new ArgumentException(
-                    "The source type of the converter does not match the type of the source member.", "converter");
+                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture,Strings.Converter_InvalidSourceType, typeof(TSource), SourceMember.MemberType), nameof(converter));
             }
             if (!typeof(TTarget).IsAssignableFrom(TargetMember.MemberType))
             {
-                throw new ArgumentException(
-                    "The target type of the converter does not match the type of the target member.", "converter");
+                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Strings.Converter_InvalidTargetType, typeof(TTarget), TargetMember.MemberType), nameof(converter));
             }
             Converter = new LambdaValueConverter<TSource, TTarget>(converter);
         }

@@ -11,7 +11,7 @@ namespace Wheatech.EmitMapper
 
         public override int Match(ConverterMatchContext context)
         {
-            return context.TargetType == typeof(string) ? Helper.GetDistance(context.SourceType, typeof(object)) : -1;
+            return context.TargetType == typeof(string) ? ReflectionHelper.GetDistance(context.SourceType, typeof(object)) : -1;
         }
 
         public override void Compile(ModuleBuilder builder)
@@ -24,7 +24,7 @@ namespace Wheatech.EmitMapper
             {
                 return;
             }
-            if (Helper.IsNullable(sourceType))
+            if (sourceType.IsNullable())
             {
                 var target = context.DeclareLocal(targetType);
                 var local = context.DeclareLocal(sourceType);

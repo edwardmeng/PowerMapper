@@ -348,8 +348,8 @@ namespace Wheatech.EmitMapper
                 return (Func<TSource, TTarget>)converter.CreateDelegate(typeof(TSource), typeof(TTarget), _moduleBuilder);
             }
             Type sourceElementType, targetElementType;
-            if (Helper.IsEnumerable(typeof(TSource), out sourceElementType) &&
-                Helper.IsEnumerable(typeof(TTarget), out targetElementType))
+            if (typeof(TSource).IsEnumerable(out sourceElementType) &&
+                typeof(TTarget).IsEnumerable(out targetElementType))
             {
                 converter = new EnumerableValueConverter(this, sourceElementType, targetElementType);
                 converter.Compile(_moduleBuilder);
@@ -365,8 +365,8 @@ namespace Wheatech.EmitMapper
         {
             Compile();
             Type sourceElementType, targetElementType;
-            if (Helper.IsEnumerable(typeof(TSource), out sourceElementType) &&
-                Helper.IsEnumerable(typeof(TTarget), out targetElementType) && 
+            if (typeof(TSource).IsEnumerable(out sourceElementType) &&
+                typeof(TTarget).IsEnumerable(out targetElementType) && 
                 !sourceElementType.IsValueType && !sourceElementType.IsPrimitive && 
                 !targetElementType.IsValueType && !targetElementType.IsPrimitive)
             {

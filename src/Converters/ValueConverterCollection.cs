@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Emit;
+using Wheatech.EmitMapper.Properties;
 
 namespace Wheatech.EmitMapper
 {
@@ -24,7 +25,7 @@ namespace Wheatech.EmitMapper
         {
             if (_readonly)
             {
-                throw new NotSupportedException("Collection is read-only");
+                throw new NotSupportedException(Strings.Collection_ReadOnly);
             }
         }
 

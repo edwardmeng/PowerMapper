@@ -67,7 +67,7 @@
     <Compile Include="Converters\ObjectToStringConverter.cs" />
     <Compile Include="Converters\PrimitiveValueConverter.cs" />
     <Compile Include="Converters\TypeNameConverter.cs" />
-    <Compile Include="Helper.cs" />
+    <Compile Include="ReflectionHelper.cs" />
     <Compile Include="Mapper.cs" />
     <Compile Include="Mappers\Creator\DefaultCreator.cs" />
     <Compile Include="Mappers\Creator\IInstanceCreator.cs" />
@@ -94,9 +94,20 @@
     <Compile Include="Runtime\EnumerableMapperBuilder.cs" />
     <Compile Include="Runtime\FuncInvokerBuilder.cs" />
     <Compile Include="Runtime\IInvokerBuilder.cs" />
+    <Compile Include="Properties\Strings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Strings.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Strings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Strings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

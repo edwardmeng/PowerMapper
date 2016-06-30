@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Security.Permissions;
 using System.Web;
 using System.Web.Compilation;
 using System.Web.Hosting;
+using Wheatech.EmitMapper.Properties;
 
 namespace Wheatech.EmitMapper
 {
@@ -83,10 +85,7 @@ namespace Wheatech.EmitMapper
                 // If we had already found a different one, it's an ambiguous type reference
                 if (type != null && t != type)
                 {
-                    throw new AmbiguousMatchException(
-                        string.Format(
-                            "The type '{0}' is ambiguous: it could come from assembly '{1}' or from assembly '{2}'. Please specify the assembly explicitly in the type name.",
-                            typeName, GetAssemblyPathFromType(type), GetAssemblyPathFromType(t)));
+                    throw new AmbiguousMatchException(string.Format(CultureInfo.CurrentCulture, Strings.Converter_AmbiguousTypes, typeName, GetAssemblyPathFromType(type), GetAssemblyPathFromType(t)));
                 }
 
                 // Keep track of it
@@ -183,7 +182,7 @@ namespace Wheatech.EmitMapper
                         {
                             throw currentException;
                         }
-                        throw new TypeLoadException(string.Format("Cannot find the type \"{0}\".", originTypeName));
+                        throw new TypeLoadException(string.Format(CultureInfo.CurrentCulture, Strings.Converter_CannotFindType, originTypeName));
                     }
                 }
                 return type;
