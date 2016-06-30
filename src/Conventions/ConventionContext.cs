@@ -12,6 +12,7 @@ namespace Wheatech.EmitMapper
     public sealed class ConventionContext
     {
         private readonly MappingContainer _container;
+        private Func<Type, object> _creator;
 
         internal ConventionContext(MappingContainer container, Type sourceType, Type targetType, MemberMapOptions options)
         {
@@ -60,6 +61,17 @@ namespace Wheatech.EmitMapper
         /// </summary>
         /// <value>The options that control the member matching algorithm.</value>
         public MemberMapOptions Options { get; }
+
+        internal Func<Type, object> Creator => _creator;
+
+        /// <summary>
+        /// Supply a custom instantiation function for the target type.
+        /// </summary>
+        /// <param name="expression">Callback to create the target type.</param>
+        public void CreateWith(Func<Type, object> expression)
+        {
+            _creator = expression;
+        }
 
         private IEnumerable<MappingMember> GetMembers(Type type, bool includeReadOnly, bool includeWriteOnly)
         {

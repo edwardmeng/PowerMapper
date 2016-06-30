@@ -29,6 +29,7 @@ namespace Wheatech.EmitMapper
         public void Emit(CompilationContext context)
         {
             context.LoadSource(LoadPurpose.Parameter);
+            context.CurrentType = typeof(TSource);
             _invokerBuilder.Emit(context);
             context.CurrentType = typeof(TTarget);
         }

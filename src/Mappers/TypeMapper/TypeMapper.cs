@@ -9,7 +9,7 @@ namespace Wheatech.EmitMapper
     internal class TypeMapper<TSource, TTarget> : ITypeMapper<TSource, TTarget>
     {
         private readonly MappingContainer _container;
-        private IInstanceCreator<TTarget> _creator = new DefaultCreator<TTarget>();
+        private IInstanceCreator<TTarget> _creator;
         private Action<TSource, TTarget> _beforeMapAction;
         private Action<TSource, TTarget> _customMapper;
         private Action<TSource, TTarget> _afterMapAction;
@@ -54,6 +54,9 @@ namespace Wheatech.EmitMapper
                         {
                             _memberMappers.Set(mapping.TargetMember, mapping.SourceMember, mapping.Converter);
                         }
+                        _creator = context.Creator != null
+                            ? (IInstanceCreator<TTarget>) new ConventionCreator<TTarget>(context.Creator)
+                            : new DefaultCreator<TTarget>();
                         _initialized = true;
                     }
                 }
@@ -263,6 +266,7 @@ namespace Wheatech.EmitMapper
         public ITypeMapper<TSource, TTarget> CreateWith(Func<TSource, TTarget> expression)
         {
             CheckReadOnly();
+            Initialize();
             if (expression == null)
             {
                 throw new ArgumentNullException(nameof(expression));

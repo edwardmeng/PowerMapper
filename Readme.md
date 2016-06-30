@@ -157,3 +157,51 @@ The options for the configuration can be:
 4. **MemberMapOptions.Default**: The mapping strategy will be performed as the default behaviors.
 
 #### Configuration
+**Custom value resolvers**
+
+Although the intrinsic strategy covers quite a few destination member mapping scenarios, 
+there are the 1 to 5% of destination values that need a little help in resolving.
+Many times, this custom value resolution logic is domain logic that can go straight on our domain. 
+However, if this logic pertains only to the mapping operation, 
+it would clutter our source types with unnecessary behavior. 
+In these cases, EmitMapper allows for configuring custom value resolvers for destination members. 
+For example, we might want to have a calculated value just during mapping:
+
+        public class Source
+        {
+            public int Value1 { get; set; }
+            public int Value2 { get; set; }
+        }
+
+        public class Destination
+        {
+            public int Total { get; set; }
+        }
+
+For whatever reason, we want Total to be the sum of the source Value properties. 
+For some other reason, we can't or shouldn't put this logic on our Source type.
+We will supply a custom value resolver to EmitMapper
+
+        Mapper.Configure<Source, Destination>()
+            .MapMember(dest => dest.Total, src => src.Value1 + src.Value2);
+
+**Custom constructor**
+By default, the mapping engine will use reflection to create an instance throught the parameterless constructor.
+If you want to use other approach to create new instance, we can supply a custom constructor method:
+
+        Mapper.Configure<Source, Destination>()
+           .CreateWith(src => DestFactory.Create(src));
+
+EmitMapper will execute this callback function instead of using reflection during the mapping operation, 
+helpful in scenarios where the target type might have constructor arguments 
+or need to be constructed by an IoC container.
+
+**Before and after map actions**
+Occasionally, you might need to perform custom logic before or after a map occurs. 
+These should be a rarity, as it's more obvious to do this work outside of EmitMapper.
+
+        Mapper.Configure<Source, Destination>()
+            .BeforeMap((src, dest) => src.Value = src.Value + 10)
+            .AfterMap((src, dest) => dest.Name = "John");
+
+The latter configuration is helpful when you need contextual information fed into before/after map actions.

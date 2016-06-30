@@ -13,7 +13,6 @@ namespace Wheatech.EmitMapper.UnitTests
         [Fact]
         public void TestMapCollection()
         {
-            Mapper.Configure<Role, RoleEntity>().WithOptions(MemberMapOptions.IgnoreCase);
             var roleEntities = new RoleEntity[10];
             for (int i = 0; i < roleEntities.Length; i++)
             {
@@ -212,6 +211,7 @@ namespace Wheatech.EmitMapper.UnitTests
             container.Conventions.Add(
                 context =>
                 {
+                    context.CreateWith(Activator.CreateInstance);
                     foreach (var targetMember in context.TargetMembers.Where(targetMember => targetMember.MemberName.StartsWith("Lowered")))
                     {
                         if (targetMember.MemberType != typeof(string)) continue;

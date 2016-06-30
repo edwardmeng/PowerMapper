@@ -26,7 +26,7 @@ namespace Wheatech.EmitMapper
                         Type.EmptyTypes, null);
                 if (constructor == null)
                 {
-                    throw new ArgumentException(string.Format("Type '{0}' does not have a default constructor.", typeof(TTarget)));
+                    throw new ArgumentException(string.Format("Type '{0}' does not have a parameterless constructor.", typeof(TTarget)));
                 }
                 context.Emit(OpCodes.Newobj, constructor);
             }

@@ -59,6 +59,7 @@
     <Compile Include="Converters\EnumerableValueConverter.cs" />
     <Compile Include="IMappingContainer.cs" />
     <Compile Include="MapperActivator.cs" />
+    <Compile Include="Mappers\Creator\ConventionCreator.cs" />
     <Compile Include="Mappers\ValueMapper\ValueMapper.cs" />
     <Compile Include="Mappers\ValueMapper\EnumerableMapper.cs" />
     <Compile Include="Converters\FromStringConverter.cs" />
