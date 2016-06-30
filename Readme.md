@@ -121,6 +121,16 @@ When the intrinsic converters cannot be performed in your applications, you can 
 
         Mapper.RegisterConverter((TSource source)=> convert(source));
 
+or register converter on the assembly startup
+
+        public void Configuration(IMappingContainer container)
+        {
+            container.RegisterConverter((TSource source)=> convert(source));
+        }
+
+*NOTE: All the converters will be compiled automatically when the first type mapping performed.
+So the codes should be placed in assembly startup or application startup.*
+
 #### Convensions
 The convensions are global used for matching type members(properties and fields) and applied for every type mapping.
 
@@ -143,12 +153,33 @@ For example, if the automatically generated key members of EntityFramework entit
            }
        });
 
+For example, if the target instance should be created by using IoC container, the code should be like
+
+        Mapper.Conventions.Add(context => context.CreateWith(ServiceContainer.GetInstance));
+
+or register convention on the assembly startup
+
+        public void Configuration(IMappingContainer container)
+        {
+            container.Conventions.Add(context => context.CreateWith(ServiceContainer.GetInstance));
+        }
+
 There have been intrinsic convension to match type members by using member name, and its behavior can be controlled by options.
+
+*NOTE: All the custom conventions will be compiled automatically when the first type mapping performed.
+So the codes should be placed in assembly startup or application startup.*
 
 #### Options
 The mapping options is the convenient way to control the mapping strategy. 
 
         Mapper.Configure<TSource, TTarget>().WithOptions(MemberMapOptions.IgnoreCase);
+
+or configure on the assembly startup
+
+        public void Configuration(IMappingContainer container)
+        {
+            container.Configure<TSource, TTarget>().WithOptions(MemberMapOptions.IgnoreCase);
+        }
 
 The options for the configuration can be:
 1. **MemberMapOptions.IgnoreCase**: The member name will be case insensitively matched. Otherwise, it will be case sensitively.
@@ -157,14 +188,18 @@ The options for the configuration can be:
 4. **MemberMapOptions.Default**: The mapping strategy will be performed as the default behaviors.
 
 #### Configuration
-**Custom value resolvers**
-
 Although the intrinsic strategy covers quite a few destination member mapping scenarios, 
 there are the 1 to 5% of destination values that need a little help in resolving.
-Many times, this custom value resolution logic is domain logic that can go straight on our domain. 
+
+*NOTE: All the custom configurations will be compiled automatically when the relative type mapping performed.
+So the codes should be placed in static constructor or assembly startup.*
+
+**Custom member mapping**
+
+Many times, the custom member mapping logic is domain logic that can go straight on our domain. 
 However, if this logic pertains only to the mapping operation, 
 it would clutter our source types with unnecessary behavior. 
-In these cases, EmitMapper allows for configuring custom value resolvers for destination members. 
+In these cases, EmitMapper allows for configuring custom member mapping for destination members. 
 For example, we might want to have a calculated value just during mapping:
 
         public class Source
@@ -205,3 +240,13 @@ These should be a rarity, as it's more obvious to do this work outside of EmitMa
             .AfterMap((src, dest) => dest.Name = "John");
 
 The latter configuration is helpful when you need contextual information fed into before/after map actions.
+
+**Ignore members**
+EmitMapper will automatically map properties with the same names. You can ignore members by using the `Ignore` method.
+        
+        Mapper.Configure<Source, Destination>().Ignore("ID");
+
+or using lambda expression
+
+        Mapper.Configure<Source, Destination>().Ignore(dest => dest.ID);
+
