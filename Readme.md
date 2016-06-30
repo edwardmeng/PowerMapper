@@ -1,6 +1,6 @@
 Wheatech.EmitMapper
 ===================
-A extremely fast and friendly convention-based object-object mapper.
+An extremely fast and friendly convention-based object-object mapper.
 It is implemented via the Emit library and uses a fluent configuration API to define an object-object mapping strategy.
 EmitMapper is useful for dealing with DTO objects, data access layers an so on.
 
