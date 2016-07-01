@@ -30,10 +30,10 @@ namespace Wheatech.EmitMapper
         {
             if (_options.HasFlag(MemberMapOptions.Hierarchy))
             {
-                Type sourceElementType, targetElementType;
-                if (sourceType.IsEnumerable(out sourceElementType) && targetType.IsEnumerable(out targetElementType))
+                ValueConverter converter;
+                if (EnumerableValueConverter.TryCreate(sourceType, targetType, _container, out converter))
                 {
-                    return new EnumerableValueConverter(_container, sourceElementType, targetElementType);
+                    return converter;
                 }
             }
             return null;
@@ -41,12 +41,15 @@ namespace Wheatech.EmitMapper
 
         protected virtual ValueMapper CreateMapper(Type sourceType, Type targetType)
         {
-            Type sourceElementType, targetElementType;
-            return _options.HasFlag(MemberMapOptions.Hierarchy) &&
-                   sourceType.IsEnumerable(out sourceElementType) && targetType.IsEnumerable(out targetElementType) &&
-                   !sourceElementType.IsValueType && !sourceElementType.IsPrimitive && !targetElementType.IsValueType && !targetElementType.IsPrimitive
-                ? new EnumerableMapper(_container, sourceElementType, targetElementType)
-                : null;
+            if (_options.HasFlag(MemberMapOptions.Hierarchy))
+            {
+                ValueMapper mapper;
+                if (EnumerableMapper.TryCreate(sourceType,targetType,_container,out mapper))
+                {
+                    return mapper;
+                }
+            }
+            return null;
         }
 
         public virtual void Compile(ModuleBuilder builder)
