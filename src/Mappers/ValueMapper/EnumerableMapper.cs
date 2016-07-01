@@ -5,7 +5,7 @@ using Wheatech.EmitMapper.Runtime;
 
 namespace Wheatech.EmitMapper
 {
-    internal class EnumerableMapper: ValueMapper
+    internal class EnumerableMapper : ValueMapper
     {
         private readonly MappingContainer _container;
         private readonly Type _sourceElementType;
@@ -36,6 +36,20 @@ namespace Wheatech.EmitMapper
             context.CurrentType = targetType;
             context.EmitCast(typeof(IEnumerable<>).MakeGenericType(_targetElementType));
             _invokerBuilder.Emit(context);
+        }
+
+        public static bool TryCreate(Type sourceType, Type targetType, MappingContainer container, out ValueMapper mapper)
+        {
+            mapper = null;
+            Type sourceElementType, targetElementType;
+            if (sourceType.IsEnumerable(out sourceElementType) && targetType.IsEnumerable(out targetElementType) &&
+                !sourceElementType.IsValueType && !sourceElementType.IsPrimitive &&
+                !targetElementType.IsValueType && !targetElementType.IsPrimitive)
+            {
+                mapper = new EnumerableMapper(container, sourceElementType, targetElementType);
+                return true;
+            }
+            return false;
         }
     }
 }

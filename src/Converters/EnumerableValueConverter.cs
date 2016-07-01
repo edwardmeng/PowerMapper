@@ -126,5 +126,17 @@ namespace Wheatech.EmitMapper
                 }
             }
         }
+
+        public static bool TryCreate(Type sourceType, Type targetType, MappingContainer container, out ValueConverter converter)
+        {
+            converter = null;
+            Type sourceElementType, targetElementType;
+            if (sourceType.IsEnumerable(out sourceElementType) && targetType.IsEnumerable(out targetElementType))
+            {
+                converter = new EnumerableValueConverter(container, sourceElementType, targetElementType);
+                return true;
+            }
+            return false;
+        }
     }
 }

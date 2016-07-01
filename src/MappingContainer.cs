@@ -347,11 +347,8 @@ namespace Wheatech.EmitMapper
             {
                 return (Func<TSource, TTarget>)converter.CreateDelegate(typeof(TSource), typeof(TTarget), _moduleBuilder);
             }
-            Type sourceElementType, targetElementType;
-            if (typeof(TSource).IsEnumerable(out sourceElementType) &&
-                typeof(TTarget).IsEnumerable(out targetElementType))
+            if (EnumerableValueConverter.TryCreate(typeof(TSource), typeof(TTarget), this, out converter))
             {
-                converter = new EnumerableValueConverter(this, sourceElementType, targetElementType);
                 converter.Compile(_moduleBuilder);
                 return (Func<TSource, TTarget>)converter.CreateDelegate(typeof(TSource), typeof(TTarget), _moduleBuilder);
             }
@@ -364,15 +361,11 @@ namespace Wheatech.EmitMapper
         internal Action<TSource, TTarget> GetMapAction<TSource, TTarget>()
         {
             Compile();
-            Type sourceElementType, targetElementType;
-            if (typeof(TSource).IsEnumerable(out sourceElementType) &&
-                typeof(TTarget).IsEnumerable(out targetElementType) && 
-                !sourceElementType.IsValueType && !sourceElementType.IsPrimitive && 
-                !targetElementType.IsValueType && !targetElementType.IsPrimitive)
+            ValueMapper mapper;
+            if (EnumerableMapper.TryCreate(typeof(TSource), typeof(TTarget), this, out mapper))
             {
-                var mapper = new EnumerableMapper(this, sourceElementType, targetElementType);
                 mapper.Compile(_moduleBuilder);
-                return (Action<TSource, TTarget>) mapper.CreateDelegate(typeof(TSource), typeof(TTarget), _moduleBuilder);
+                return (Action<TSource, TTarget>)mapper.CreateDelegate(typeof(TSource), typeof(TTarget), _moduleBuilder);
             }
 
             var typeMapper = TypeMapper<TSource, TTarget>.GetInstance(this);
