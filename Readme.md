@@ -1,12 +1,12 @@
-Wheatech.EmitMapper
+PowerMapper
 ===================
 An extremely fast and friendly convention-based object-object mapper.
 It is implemented via the Emit library and uses a fluent configuration API to define an object-object mapping strategy.
-EmitMapper is useful for dealing with DTO objects, data access layers an so on.
+PowerMapper is useful for dealing with DTO objects, data access layers an so on.
 
 Get it on NuGet!
 ---------------
-    Install-Package Wheatech.EmitMapper
+    Install-Package PowerMapper
 
 Supported platform:
 ------------------
@@ -14,7 +14,7 @@ Microsoft .NET Framework 4.6.1
 
 Comparisons:
 -----------
-Wheatech.EmitMapper is now blistering fast! Please refer to the benchmark
+PowerMapper is now blistering fast! Please refer to the benchmark
 
 | Engine            | Structs | Simple objects | Parent-Child | Parent-Children | Complex objects | Advance mapping |
 |-------------------|--------:|---------------:|-------------:|----------------:|----------------:|----------------:|
@@ -25,7 +25,7 @@ Wheatech.EmitMapper is now blistering fast! Please refer to the benchmark
 | TinyMapper        |       - |            573 |            - |               - |               - |               - |
 | Mapster           |     338 |            628 |         1481 |             705 |            4372 |            4479 |
 | Native            |     310 |            419 |          271 |             454 |            2297 |            2096 |
-| **EmitMapper**   |**314** |        **395** |     **267** |         **387** |         **795** |       **2761** |
+| **PowerMapper**   |**314** |        **395** |     **267** |         **387** |         **795** |       **2761** |
 
 (NOTE: Benchmark was run against largest set of data,
 times are in milliseconds, lower is better. Blank values mean the library did not support the test.)
@@ -35,7 +35,7 @@ Features:
 #### Mapping
 * **Mapping to a new object**
 
-  EmitMapper creates the destination object and maps values to it.
+  PowerMapper creates the destination object and maps values to it.
 
         var targetInstance = Mapper.Map<TSource,TTarget>(sourceInstance);
 
@@ -53,7 +53,7 @@ Features:
 
 * **Mapping to an existing object**
 
-  You make the object, EmitMapper maps to the object.
+  You make the object, PowerMapper maps to the object.
 
         TTarget targetInstance = new TTarget();
         Mapper.Map(sourceInstance, targetInstance);
@@ -64,7 +64,7 @@ Features:
         sourceInstance.MapTo(targetInstance);
 
 #### Lists and Arrays
-EmitMapper only requires configuration of element types, not of any array or list type that might be used. 
+PowerMapper only requires configuration of element types, not of any array or list type that might be used. 
 Then all the basic generic collection types are supported:
 
         var sources = new[]
@@ -200,7 +200,7 @@ So the codes should be placed in static constructor or assembly startup.*
 Many times, the custom member mapping logic is domain logic that can go straight on our domain. 
 However, if this logic pertains only to the mapping operation, 
 it would clutter our source types with unnecessary behavior. 
-In these cases, EmitMapper allows for configuring custom member mapping for destination members. 
+In these cases, PowerMapper allows for configuring custom member mapping for destination members. 
 For example, we might want to have a calculated value just during mapping:
 
         public class Source
@@ -216,7 +216,7 @@ For example, we might want to have a calculated value just during mapping:
 
 For whatever reason, we want Total to be the sum of the source Value properties. 
 For some other reason, we can't or shouldn't put this logic on our Source type.
-We will supply a custom value resolver to EmitMapper
+We will supply a custom value resolver to PowerMapper
 
         Mapper.Configure<Source, Destination>()
             .MapMember(dest => dest.Total, src => src.Value1 + src.Value2);
@@ -229,14 +229,14 @@ If you want to use other approach to create new instance, we can supply a custom
         Mapper.Configure<Source, Destination>()
            .CreateWith(src => DestFactory.Create(src));
 
-EmitMapper will execute this callback function instead of using reflection during the mapping operation, 
+PowerMapper will execute this callback function instead of using reflection during the mapping operation, 
 helpful in scenarios where the target type might have constructor arguments 
 or need to be constructed by an IoC container.
 
 **Before and after map actions**
 
 Occasionally, you might need to perform custom logic before or after a map occurs. 
-These should be a rarity, as it's more obvious to do this work outside of EmitMapper.
+These should be a rarity, as it's more obvious to do this work outside of PowerMapper.
 
         Mapper.Configure<Source, Destination>()
             .BeforeMap((src, dest) => src.Value = src.Value + 10)
@@ -246,7 +246,7 @@ The latter configuration is helpful when you need contextual information fed int
 
 **Ignore members**
 
-EmitMapper will automatically map properties with the same names. You can ignore members by using the `Ignore` method.
+PowerMapper will automatically map properties with the same names. You can ignore members by using the `Ignore` method.
         
         Mapper.Configure<Source, Destination>().Ignore("ID");
 

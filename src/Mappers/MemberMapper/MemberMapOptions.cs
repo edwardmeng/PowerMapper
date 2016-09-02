@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Wheatech.EmitMapper
+namespace PowerMapper
 {
     /// <summary>
     /// Specify options that control the member matching algorithm.

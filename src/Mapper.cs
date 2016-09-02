@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Wheatech.EmitMapper
+namespace PowerMapper
 {
     /// <summary>
     /// The convenient entry point of the <see cref="MappingContainer"/>.

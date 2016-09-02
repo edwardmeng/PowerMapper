@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Reflection.Emit;
 
-namespace Wheatech.EmitMapper
+namespace PowerMapper
 {
     internal class PrimitiveValueConverter : ValueConverter
     {

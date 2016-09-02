@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Wheatech.EmitMapper
+namespace PowerMapper
 {
     internal sealed class LambdaConvention : IConvention
     {

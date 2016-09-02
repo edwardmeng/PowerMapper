@@ -2,9 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Wheatech.EmitMapper.Properties;
+using PowerMapper.Properties;
 
-namespace Wheatech.EmitMapper
+namespace PowerMapper
 {
     internal class MemberMapperCollection : IEnumerable<MemberMapper>
     {

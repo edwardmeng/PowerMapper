@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection.Emit;
 
-namespace Wheatech.EmitMapper
+namespace PowerMapper
 {
     internal abstract class ValueConverter
     {

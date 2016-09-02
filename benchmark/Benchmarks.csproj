@@ -44,12 +44,12 @@
       <HintPath>..\packages\Expressmapper.1.8.1\lib\net451\ExpressMapper.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Mapster, Version=2.1.0.0, Culture=neutral, PublicKeyToken=2f39883af23c29a8, processorArchitecture=MSIL">
-      <HintPath>..\packages\Mapster.2.4.1\lib\net45\Mapster.dll</HintPath>
+    <Reference Include="Mapster, Version=2.5.0.0, Culture=neutral, PublicKeyToken=2f39883af23c29a8, processorArchitecture=MSIL">
+      <HintPath>..\packages\Mapster.2.5.0\lib\net45\Mapster.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Omu.ValueInjecter, Version=3.1.1.0, Culture=neutral, PublicKeyToken=c7694541b0ac80e4, processorArchitecture=MSIL">
-      <HintPath>..\packages\valueinjecter.3.1.1.2\lib\net40\Omu.ValueInjecter.dll</HintPath>
+      <HintPath>..\packages\valueinjecter.3.1.1.3\lib\net40\Omu.ValueInjecter.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="OoMapper, Version=0.2.0.33, Culture=neutral, PublicKeyToken=889bb259bb1214bf, processorArchitecture=MSIL">
@@ -70,7 +70,7 @@
     <Compile Include="Mapping\MapsterMapperMappings.cs" />
     <Compile Include="Mapping\NativeMapping.cs" />
     <Compile Include="Mapping\AutoMapperMapping.cs" />
-    <Compile Include="Mapping\ObjectMapperMapping.cs" />
+    <Compile Include="Mapping\PowerMapperMapping.cs" />
     <Compile Include="Mapping\OoMapperMappings.cs" />
     <Compile Include="Mapping\TinyMapperMappings.cs" />
     <Compile Include="Mapping\ValueInjectorMappings.cs" />
@@ -109,9 +109,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\src\Wheatech.EmitMapper.csproj">
+    <ProjectReference Include="..\src\PowerMapper.csproj">
       <Project>{7374d484-0528-4c11-ba72-059ff63cb44f}</Project>
-      <Name>Wheatech.EmitMapper</Name>
+      <Name>PowerMapper</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

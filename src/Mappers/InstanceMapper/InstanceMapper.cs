@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 
-namespace Wheatech.EmitMapper
+namespace PowerMapper
 {
     internal class InstanceMapper<TSource, TTarget> : IInstanceMapper<TSource, TTarget>
     {

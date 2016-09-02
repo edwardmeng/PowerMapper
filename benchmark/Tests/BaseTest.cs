@@ -13,7 +13,7 @@ namespace Benchmarks.Tests
         private Stopwatch MapsterStopwatch { get; set; }
         private Stopwatch TinyStopwatch { get; set; }
 
-        private Stopwatch ObjectMapperwatch { get; set; }
+        private Stopwatch PowerMapperwatch { get; set; }
 
         public void RunTest(int count)
         {
@@ -24,7 +24,7 @@ namespace Benchmarks.Tests
             ValueInjectorStopwatch = new Stopwatch();
             MapsterStopwatch = new Stopwatch();
             TinyStopwatch = new Stopwatch();
-            ObjectMapperwatch = new Stopwatch();
+            PowerMapperwatch = new Stopwatch();
 
             Count = count;
 
@@ -34,7 +34,7 @@ namespace Benchmarks.Tests
             InitValueInjectorMapper();
             InitMapsterMapper();
             InitTinyMapper();
-            InitObjectMapper();
+            InitPowerMapper();
             InitNativeMapper();
             Console.WriteLine("Mapping initialization finished");
 
@@ -123,16 +123,16 @@ namespace Benchmarks.Tests
 
             try
             {
-                ObjectMapperwatch = Stopwatch.StartNew();
-                ObjectMapperMap(src);
-                ObjectMapperwatch.Stop();
-                Console.WriteLine("ObjectMapper mapping has been finished");
+                PowerMapperwatch = Stopwatch.StartNew();
+                PowerMapperMap(src);
+                PowerMapperwatch.Stop();
+                Console.WriteLine("PowerMapper mapping has been finished");
             }
             catch (Exception ex)
             {
-                ObjectMapperwatch.Stop();
-                ObjectMapperwatch.Reset();
-                Console.WriteLine("ObjectMapper has thrown expception!");
+                PowerMapperwatch.Stop();
+                PowerMapperwatch.Reset();
+                Console.WriteLine("PowerMapper has thrown expception!");
             }
             GC.Collect(2);
 
@@ -152,7 +152,7 @@ namespace Benchmarks.Tests
         protected abstract void InitTinyMapper();
         protected abstract void InitNativeMapper();
 
-        protected abstract void InitObjectMapper();
+        protected abstract void InitPowerMapper();
 
         protected abstract TN AutoMapperMap(T src);
         protected abstract TN ExpressMapperMap(T src);
@@ -162,7 +162,7 @@ namespace Benchmarks.Tests
         protected abstract TN TinyMapperMap(T src);
         protected abstract TN NativeMapperMap(T src);
 
-        protected abstract TN ObjectMapperMap(T src);
+        protected abstract TN PowerMapperMap(T src);
         //protected abstract string TestName { get; }
         //protected abstract string Size { get; }
 
@@ -227,15 +227,15 @@ namespace Benchmarks.Tests
                 AddResults("tiny", Count, (int)TinyStopwatch.ElapsedMilliseconds);
             }
 
-            if (ObjectMapperwatch.ElapsedMilliseconds == 0)
+            if (PowerMapperwatch.ElapsedMilliseconds == 0)
             {
-                Console.WriteLine("ObjectMapper - not supported mapping");
-                AddResults("ObjectMapper", Count, -1);
+                Console.WriteLine("PowerMapper - not supported mapping");
+                AddResults("PowerMapper", Count, -1);
             }
             else
             {
-                Console.WriteLine("ObjectMapper took {0} ms.", ObjectMapperwatch.ElapsedMilliseconds);
-                AddResults("ObjectMapper", Count, (int)ObjectMapperwatch.ElapsedMilliseconds);
+                Console.WriteLine("PowerMapper took {0} ms.", PowerMapperwatch.ElapsedMilliseconds);
+                AddResults("PowerMapper", Count, (int)PowerMapperwatch.ElapsedMilliseconds);
             }
 
             Console.WriteLine("Native code mapping took {0} ms.", NativeMapperStopwatch.ElapsedMilliseconds);

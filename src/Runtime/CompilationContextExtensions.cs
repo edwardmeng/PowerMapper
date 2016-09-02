@@ -2,9 +2,9 @@
 using System.Globalization;
 using System.Reflection;
 using System.Reflection.Emit;
-using Wheatech.EmitMapper.Properties;
+using PowerMapper.Properties;
 
-namespace Wheatech.EmitMapper
+namespace PowerMapper
 {
     internal static class CompilationContextExtensions
     {

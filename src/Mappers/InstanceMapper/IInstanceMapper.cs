@@ -1,4 +1,4 @@
-﻿namespace Wheatech.EmitMapper
+﻿namespace PowerMapper
 {
     /// <summary>
     /// The instance mapping execution strategy.

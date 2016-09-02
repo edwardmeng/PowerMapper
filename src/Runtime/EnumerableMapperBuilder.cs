@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
 
-namespace Wheatech.EmitMapper.Runtime
+namespace PowerMapper.Runtime
 {
     internal class EnumerableMapperBuilder<TSource, TTarget> : IInvokerBuilder
     {

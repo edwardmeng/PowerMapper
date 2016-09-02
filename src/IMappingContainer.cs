@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Wheatech.EmitMapper
+namespace PowerMapper
 {
     /// <summary>
     /// Interface defining the behavior of the converting and mapping container.

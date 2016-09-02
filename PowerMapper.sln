@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Benchmarks", "benchmark\Benchmarks.csproj", "{DA9915F0-7F27-4E73-8AC0-422363E80A5A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wheatech.EmitMapper", "src\Wheatech.EmitMapper.csproj", "{7374D484-0528-4C11-BA72-059FF63CB44F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PowerMapper", "src\PowerMapper.csproj", "{7374D484-0528-4C11-BA72-059FF63CB44F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wheatech.EmitMapper.UnitTests", "tests\Wheatech.EmitMapper.UnitTests.csproj", "{46A9B974-EECB-4E92-AF7F-CE710F2BAEB0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PowerMapper.UnitTests", "tests\PowerMapper.UnitTests.csproj", "{46A9B974-EECB-4E92-AF7F-CE710F2BAEB0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "nuget", "nuget", "{47FDA704-E218-4603-AF16-D209DC953010}"
 	ProjectSection(SolutionItems) = preProject

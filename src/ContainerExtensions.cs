@@ -5,7 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace Wheatech.EmitMapper
+namespace PowerMapper
 {
     /// <summary>
     /// Extension methods for the <see cref="IMappingContainer"/>.

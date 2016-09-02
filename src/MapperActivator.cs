@@ -1,8 +1,8 @@
 ﻿using Wheatech.Activation;
 
-[assembly:AssemblyActivator(typeof(Wheatech.EmitMapper.MapperActivator))]
+[assembly:AssemblyActivator(typeof(PowerMapper.MapperActivator))]
 
-namespace Wheatech.EmitMapper
+namespace PowerMapper
 {
     internal class MapperActivator
     {

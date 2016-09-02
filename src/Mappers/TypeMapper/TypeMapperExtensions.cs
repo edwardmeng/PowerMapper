@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq.Expressions;
-using Wheatech.EmitMapper.Properties;
+using PowerMapper.Properties;
 
-namespace Wheatech.EmitMapper
+namespace PowerMapper
 {
     /// <summary>
     /// Extension class that adds a set of convenience overloads to the <see cref="ITypeMapper{TSource,TTarget}"/> class.

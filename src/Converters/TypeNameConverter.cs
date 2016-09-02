@@ -7,9 +7,9 @@ using System.Security.Permissions;
 using System.Web;
 using System.Web.Compilation;
 using System.Web.Hosting;
-using Wheatech.EmitMapper.Properties;
+using PowerMapper.Properties;
 
-namespace Wheatech.EmitMapper
+namespace PowerMapper
 {
     internal static class TypeNameConverter
     {

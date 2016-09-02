@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
 
-namespace Wheatech.EmitMapper
+namespace PowerMapper
 {
     internal class EnumerableValueConverter : ValueConverter
     {

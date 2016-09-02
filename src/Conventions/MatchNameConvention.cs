@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
-using Wheatech.EmitMapper.Properties;
+using PowerMapper.Properties;
 
-namespace Wheatech.EmitMapper
+namespace PowerMapper
 {
     /// <summary>
     /// The convention to match mapping member names with options.

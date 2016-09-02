@@ -1,4 +1,4 @@
-﻿namespace Wheatech.EmitMapper
+﻿namespace PowerMapper
 {
     /// <summary>
     /// The interface the type mapping conventions.

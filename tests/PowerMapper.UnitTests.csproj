@@ -71,9 +71,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\src\Wheatech.EmitMapper.csproj">
+    <ProjectReference Include="..\src\PowerMapper.csproj">
       <Project>{7374d484-0528-4c11-ba72-059ff63cb44f}</Project>
-      <Name>Wheatech.EmitMapper</Name>
+      <Name>PowerMapper</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

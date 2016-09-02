@@ -5,13 +5,13 @@ using Benchmarks.Models;
 using Benchmarks.ViewModels;
 using Mapster;
 using Nelibur.ObjectMapper;
-using Wheatech.EmitMapper;
+using PowerMapper;
 
 namespace Benchmarks.Tests
 {
     public class SimpleTest : BaseTest<List<News>, List<NewsViewModel>>
     {
-        private IMappingContainer _objectMapper;
+        private IMappingContainer _powerMapper;
         protected override List<News> GetData()
         {
             return DataGenerator.GetNews(Count);
@@ -51,9 +51,9 @@ namespace Benchmarks.Tests
         {
         }
 
-        protected override void InitObjectMapper()
+        protected override void InitPowerMapper()
         {
-            _objectMapper = ObjectMapperMapping.Init();
+            _powerMapper = PowerMapperMapping.Init();
         }
 
         protected override List<NewsViewModel> AutoMapperMap(List<News> src)
@@ -106,9 +106,9 @@ namespace Benchmarks.Tests
             return result;
         }
 
-        protected override List<NewsViewModel> ObjectMapperMap(List<News> src)
+        protected override List<NewsViewModel> PowerMapperMap(List<News> src)
         {
-            return _objectMapper.Map<News, NewsViewModel>(src);
+            return _powerMapper.Map<News, NewsViewModel>(src);
         }
 
         protected override string TestName

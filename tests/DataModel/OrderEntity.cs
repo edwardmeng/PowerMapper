@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Wheatech.EmitMapper.UnitTests.DataModel
+namespace PowerMapper.UnitTests.DataModel
 {
     public class OrderEntity
     {

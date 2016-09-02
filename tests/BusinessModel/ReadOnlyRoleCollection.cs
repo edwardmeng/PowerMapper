@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Wheatech.EmitMapper.UnitTests.BusinessModel
+namespace PowerMapper.UnitTests.BusinessModel
 {
     public class ReadOnlyRoleCollection : IEnumerable<Role>
     {

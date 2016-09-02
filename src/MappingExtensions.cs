@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Wheatech.EmitMapper
+namespace PowerMapper
 {
     /// <summary>
     /// Extension methods for convenient of the mapping and converting.

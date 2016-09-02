@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Wheatech.EmitMapper.UnitTests.BusinessModel
+namespace PowerMapper.UnitTests.BusinessModel
 {
     public struct RoleStruct
     {

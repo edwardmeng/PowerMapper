@@ -2,7 +2,7 @@
 using System.Collections.Concurrent;
 using System.Reflection.Emit;
 
-namespace Wheatech.EmitMapper
+namespace PowerMapper
 {
     internal abstract class MemberMapper
     {

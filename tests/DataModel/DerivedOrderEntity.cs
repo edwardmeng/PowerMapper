@@ -1,4 +1,4 @@
-﻿namespace Wheatech.EmitMapper.UnitTests.DataModel
+﻿namespace PowerMapper.UnitTests.DataModel
 {
     public class DerivedOrderEntity : OrderEntity
     {

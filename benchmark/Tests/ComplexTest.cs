@@ -5,13 +5,13 @@ using Benchmarks.Mapping;
 using Benchmarks.Models;
 using Benchmarks.ViewModels;
 using Mapster;
-using Wheatech.EmitMapper;
+using PowerMapper;
 
 namespace Benchmarks.Tests
 {
     public class ComplexTest : BaseTest<List<Test>, List<TestViewModel>>
     {
-        private IMappingContainer _objectMapper;
+        private IMappingContainer _powerMapper;
         protected override List<Test> GetData()
         {
             return DataGenerator.GetTests(Count);
@@ -51,9 +51,9 @@ namespace Benchmarks.Tests
         {
         }
 
-        protected override void InitObjectMapper()
+        protected override void InitPowerMapper()
         {
-            _objectMapper = ObjectMapperMapping.Init();
+            _powerMapper = PowerMapperMapping.Init();
         }
 
         protected override List<TestViewModel> AutoMapperMap(List<Test> src)
@@ -104,9 +104,9 @@ namespace Benchmarks.Tests
             return list;
         }
 
-        protected override List<TestViewModel> ObjectMapperMap(List<Test> src)
+        protected override List<TestViewModel> PowerMapperMap(List<Test> src)
         {
-            return _objectMapper.Map<Test, TestViewModel>(src);
+            return _powerMapper.Map<Test, TestViewModel>(src);
         }
 
         protected override string TestName

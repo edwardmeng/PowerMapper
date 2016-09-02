@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection.Emit;
-using Wheatech.EmitMapper.Runtime;
+using PowerMapper.Runtime;
 
-namespace Wheatech.EmitMapper
+namespace PowerMapper
 {
     internal class EnumerableMapper : ValueMapper
     {

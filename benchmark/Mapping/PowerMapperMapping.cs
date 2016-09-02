@@ -3,11 +3,11 @@ using Benchmarks.Enums;
 using Benchmarks.Generators;
 using Benchmarks.Models;
 using Benchmarks.ViewModels;
-using Wheatech.EmitMapper;
+using PowerMapper;
 
 namespace Benchmarks.Mapping
 {
-    public static class ObjectMapperMapping
+    public static class PowerMapperMapping
     {
         public static IMappingContainer Init()
         {

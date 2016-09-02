@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Globalization;
-using Wheatech.EmitMapper.Properties;
+using PowerMapper.Properties;
 
-namespace Wheatech.EmitMapper
+namespace PowerMapper
 {
     /// <summary>
     /// Represents the mapping strategy between the source member and the target member.

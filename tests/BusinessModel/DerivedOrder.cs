@@ -1,4 +1,4 @@
-﻿namespace Wheatech.EmitMapper.UnitTests.BusinessModel
+﻿namespace PowerMapper.UnitTests.BusinessModel
 {
     public class DerivedOrder : Order
     {

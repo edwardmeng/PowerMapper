@@ -5,13 +5,13 @@ using Benchmarks.Mapping;
 using Benchmarks.Models;
 using Benchmarks.ViewModels;
 using Mapster;
-using Wheatech.EmitMapper;
+using PowerMapper;
 
 namespace Benchmarks.Tests
 {
     public class SimpleWithAssociationTest : BaseTest<List<User>, List<UserViewModel>>
     {
-        private IMappingContainer _objectMapper;
+        private IMappingContainer _powerMapper;
         protected override List<User> GetData()
         {
             return DataGenerator.GetUsers(Count);
@@ -51,9 +51,9 @@ namespace Benchmarks.Tests
         {
         }
 
-        protected override void InitObjectMapper()
+        protected override void InitPowerMapper()
         {
-            _objectMapper=ObjectMapperMapping.Init();
+            _powerMapper=PowerMapperMapping.Init();
         }
 
         protected override List<UserViewModel> AutoMapperMap(List<User> src)
@@ -104,9 +104,9 @@ namespace Benchmarks.Tests
             return result;
         }
 
-        protected override List<UserViewModel> ObjectMapperMap(List<User> src)
+        protected override List<UserViewModel> PowerMapperMap(List<User> src)
         {
-            return _objectMapper.Map<User, UserViewModel>(src);
+            return _powerMapper.Map<User, UserViewModel>(src);
         }
 
         protected override string TestName

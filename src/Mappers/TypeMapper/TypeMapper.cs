@@ -3,9 +3,9 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Reflection.Emit;
 using System.Threading;
-using Wheatech.EmitMapper.Properties;
+using PowerMapper.Properties;
 
-namespace Wheatech.EmitMapper
+namespace PowerMapper
 {
     internal class TypeMapper<TSource, TTarget> : ITypeMapper<TSource, TTarget>
     {

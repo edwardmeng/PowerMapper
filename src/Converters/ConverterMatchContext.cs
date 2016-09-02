@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
 
-namespace Wheatech.EmitMapper
+namespace PowerMapper
 {
     internal sealed class ConverterMatchContext
     {

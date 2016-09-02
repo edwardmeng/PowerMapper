@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Wheatech.EmitMapper.Properties {
+namespace PowerMapper.Properties {
     using System;
     
     
