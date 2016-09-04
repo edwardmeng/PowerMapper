@@ -3,12 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Benchmarks", "benchmark\Benchmarks.csproj", "{DA9915F0-7F27-4E73-8AC0-422363E80A5A}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PowerMapper", "src\PowerMapper.csproj", "{7374D484-0528-4C11-BA72-059FF63CB44F}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PowerMapper.UnitTests", "tests\PowerMapper.UnitTests.csproj", "{46A9B974-EECB-4E92-AF7F-CE710F2BAEB0}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "nuget", "nuget", "{47FDA704-E218-4603-AF16-D209DC953010}"
 	ProjectSection(SolutionItems) = preProject
 		nuget\build.cmd = nuget\build.cmd
@@ -21,26 +15,32 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Readme.md = Readme.md
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{1337D061-B431-4F15-B61A-7FBF381B475C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PowerMapper.net40", "build\net40\PowerMapper.net40.csproj", "{7374D484-0528-4C11-BA72-059FF63CB44F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PowerMapper.net35", "build\net35\PowerMapper.net35.csproj", "{2B10E441-7225-4040-98AD-965613B6EE02}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{DA9915F0-7F27-4E73-8AC0-422363E80A5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DA9915F0-7F27-4E73-8AC0-422363E80A5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DA9915F0-7F27-4E73-8AC0-422363E80A5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DA9915F0-7F27-4E73-8AC0-422363E80A5A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7374D484-0528-4C11-BA72-059FF63CB44F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7374D484-0528-4C11-BA72-059FF63CB44F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7374D484-0528-4C11-BA72-059FF63CB44F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7374D484-0528-4C11-BA72-059FF63CB44F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{46A9B974-EECB-4E92-AF7F-CE710F2BAEB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{46A9B974-EECB-4E92-AF7F-CE710F2BAEB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{46A9B974-EECB-4E92-AF7F-CE710F2BAEB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{46A9B974-EECB-4E92-AF7F-CE710F2BAEB0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B10E441-7225-4040-98AD-965613B6EE02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B10E441-7225-4040-98AD-965613B6EE02}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B10E441-7225-4040-98AD-965613B6EE02}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B10E441-7225-4040-98AD-965613B6EE02}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{7374D484-0528-4C11-BA72-059FF63CB44F} = {1337D061-B431-4F15-B61A-7FBF381B475C}
+		{2B10E441-7225-4040-98AD-965613B6EE02} = {1337D061-B431-4F15-B61A-7FBF381B475C}
 	EndGlobalSection
 EndGlobal

@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace PowerMapper
 {
@@ -10,12 +8,35 @@ namespace PowerMapper
     /// </summary>
     public static class Mapper
     {
+#if Net35
+        private static readonly object _locker = new object();
+        private static IMappingContainer _instance;
+
+        public static IMappingContainer Default
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    lock (_locker)
+                    {
+                        if (_instance == null)
+                        {
+                            _instance = CreateContainer();
+                        }
+                    }
+                }
+                return _instance;
+            }
+        }
+#else
         private static readonly Lazy<IMappingContainer> _instance = new Lazy<IMappingContainer>(CreateContainer);
 
         /// <summary>
         /// Gets the default object mapper container.
         /// </summary>
         public static IMappingContainer Default => _instance.Value;
+#endif
 
         /// <summary>
         /// Create a new instance of <see cref="IMappingContainer"/>.

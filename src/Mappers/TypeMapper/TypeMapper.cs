@@ -1,9 +1,11 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Reflection.Emit;
 using System.Threading;
 using PowerMapper.Properties;
+#if !Net35
+using System.Collections.Concurrent;
+#endif
 
 namespace PowerMapper
 {
@@ -24,18 +26,38 @@ namespace PowerMapper
         private bool _compiled;
         private bool _initialized;
         private readonly object _lockObj = new object();
-
+#if Net35
+        private static readonly Dictionary<MappingContainer, TypeMapper<TSource, TTarget>> _instances =
+            new Dictionary<MappingContainer, TypeMapper<TSource, TTarget>>();
+        public static TypeMapper<TSource, TTarget> GetInstance(MappingContainer container)
+        {
+            TypeMapper<TSource, TTarget> instance;
+            if (!_instances.TryGetValue(container, out instance))
+            {
+                lock (_instances)
+                {
+                    if (!_instances.TryGetValue(container, out instance))
+                    {
+                        instance = new TypeMapper<TSource, TTarget>(container);
+                        _instances.Add(container, instance);
+                    }
+                }
+            }
+            return instance;
+        }
+#else
         private static readonly ConcurrentDictionary<MappingContainer, TypeMapper<TSource, TTarget>> _instances =
             new ConcurrentDictionary<MappingContainer, TypeMapper<TSource, TTarget>>();
-
-        private TypeMapper(MappingContainer container)
-        {
-            _container = container;
-        }
 
         public static TypeMapper<TSource, TTarget> GetInstance(MappingContainer container)
         {
             return _instances.GetOrAdd(container, key => new TypeMapper<TSource, TTarget>(key));
+        }
+#endif
+
+        private TypeMapper(MappingContainer container)
+        {
+            _container = container;
         }
 
         private void Initialize()

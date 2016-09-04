@@ -1,5 +1,7 @@
 ﻿using System;
+#if !Net35
 using System.Collections.Concurrent;
+#endif
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -12,41 +14,85 @@ namespace PowerMapper
     /// </summary>
     public static class ContainerExtensions
     {
-        #region Helper
-        
-        private static readonly ConcurrentDictionary<Tuple<Type, Type>, Delegate> _convertMethods =
-            new ConcurrentDictionary<Tuple<Type, Type>, Delegate>();
-        private static readonly ConcurrentDictionary<Tuple<Type, Type>, Delegate> _mapMethods =
-            new ConcurrentDictionary<Tuple<Type, Type>, Delegate>();
+#region Helper
+
+#if Net35
+        private static readonly object _syncLock = new object();
+        private static readonly Dictionary<Pair<Type, Type>, Delegate> _convertMethods = new Dictionary<Pair<Type, Type>, Delegate>();
+        private static readonly Dictionary<Pair<Type, Type>, Delegate> _mapMethods = new Dictionary<Pair<Type, Type>, Delegate>();
 
         private static object ExecuteConvertMethod(Type sourceType, Type targetType, IMappingContainer container, object sourceValue)
         {
-            return _convertMethods.GetOrAdd(Tuple.Create(sourceType, targetType), key =>
+            var key = Pair.Create(sourceType, targetType);
+            Delegate method;
+            if (!_convertMethods.TryGetValue(key,out method))
             {
-                var method =
-                    typeof(IMappingContainer).GetMethods(BindingFlags.Instance | BindingFlags.Public)
-                        .Single(x => x.Name == "Map" && x.GetParameters().Length == 1)
-                        .MakeGenericMethod(sourceType, targetType);
-                var containerParameter = Expression.Parameter(typeof(IMappingContainer));
-                var sourceParameter = Expression.Parameter(sourceType);
-                return Expression.Lambda(Expression.Call(containerParameter, method, sourceParameter), containerParameter, sourceParameter).Compile();
-            }).DynamicInvoke(container, sourceValue);
+                lock (_syncLock)
+                {
+                    if (!_convertMethods.TryGetValue(key, out method))
+                    {
+                        method = CreateConvertMethod(sourceType, targetType);
+                        _convertMethods.Add(key, method);
+                    }
+                }
+            }
+            return method.DynamicInvoke(container, sourceValue);
         }
 
         private static void ExecuteMapMethod(Type sourceType, Type targetType, IMappingContainer container, object sourceValue, object targetValue)
         {
-            _mapMethods.GetOrAdd(Tuple.Create(sourceType, targetType), key =>
+            var key = Pair.Create(sourceType, targetType);
+            Delegate method;
+            if (!_mapMethods.TryGetValue(key, out method))
             {
-                var method =
-                    typeof(MappingContainer).GetMethods(BindingFlags.Instance | BindingFlags.Public)
-                        .Single(x => x.Name == "Map" && x.GetParameters().Length == 2)
-                        .MakeGenericMethod(sourceType, targetType);
-                var containerParameter = Expression.Parameter(typeof(IMappingContainer));
-                var sourceParameter = Expression.Parameter(sourceType);
-                var targetParameter = Expression.Parameter(targetType);
-                var call = Expression.Call(containerParameter, method, sourceParameter, targetParameter);
-                return Expression.Lambda(call, containerParameter, sourceParameter, targetParameter).Compile();
-            })?.DynamicInvoke(container, sourceValue, targetValue);
+                lock (_syncLock)
+                {
+                    if (!_mapMethods.TryGetValue(key, out method))
+                    {
+                        method = CreateMapMethod(sourceType, targetType);
+                        _mapMethods.Add(key, method);
+                    }
+                }
+            }
+            method.DynamicInvoke(container, sourceValue);
+        }
+#else
+        private static readonly ConcurrentDictionary<Pair<Type, Type>, Delegate> _convertMethods = new ConcurrentDictionary<Pair<Type, Type>, Delegate>();
+        private static readonly ConcurrentDictionary<Pair<Type, Type>, Delegate> _mapMethods = new ConcurrentDictionary<Pair<Type, Type>, Delegate>();
+
+        private static object ExecuteConvertMethod(Type sourceType, Type targetType, IMappingContainer container, object sourceValue)
+        {
+            return _convertMethods.GetOrAdd(Pair.Create(sourceType, targetType), key => CreateConvertMethod(key.First, key.Second)).DynamicInvoke(container, sourceValue);
+        }
+
+        private static void ExecuteMapMethod(Type sourceType, Type targetType, IMappingContainer container, object sourceValue, object targetValue)
+        {
+            _mapMethods.GetOrAdd(Pair.Create(sourceType, targetType), key => CreateMapMethod(key.First,key.Second))?.DynamicInvoke(container, sourceValue, targetValue);
+        }
+#endif
+
+        private static Delegate CreateConvertMethod(Type sourceType, Type targetType)
+        {
+            var method =
+                typeof(IMappingContainer).GetMethods(BindingFlags.Instance | BindingFlags.Public)
+                    .Single(x => x.Name == "Map" && x.GetParameters().Length == 1)
+                    .MakeGenericMethod(sourceType, targetType);
+            var containerParameter = Expression.Parameter(typeof(IMappingContainer), "container");
+            var sourceParameter = Expression.Parameter(sourceType, "source");
+            return Expression.Lambda(Expression.Call(containerParameter, method, sourceParameter), containerParameter, sourceParameter).Compile();
+        }
+
+        private static Delegate CreateMapMethod(Type sourceType, Type targetType)
+        {
+            var method =
+                typeof(MappingContainer).GetMethods(BindingFlags.Instance | BindingFlags.Public)
+                    .Single(x => x.Name == "Map" && x.GetParameters().Length == 2)
+                    .MakeGenericMethod(sourceType, targetType);
+            var containerParameter = Expression.Parameter(typeof(IMappingContainer), "container");
+            var sourceParameter = Expression.Parameter(sourceType, "source");
+            var targetParameter = Expression.Parameter(targetType, "target");
+            var call = Expression.Call(containerParameter, method, sourceParameter, targetParameter);
+            return Expression.Lambda(call, containerParameter, sourceParameter, targetParameter).Compile();
         }
 
         private static void CheckContainer(IMappingContainer container)
@@ -57,7 +103,7 @@ namespace PowerMapper
             }
         }
 
-        #endregion
+#endregion
 
         /// <summary>
         /// Execute a mapping from the source object to the existing target object.
@@ -101,7 +147,7 @@ namespace PowerMapper
         /// <exception cref="ArgumentNullException"><paramref name="container"/> is <see langword="null"/>.</exception>
         public static TTarget Map<TTarget>(this IMappingContainer container, object source)
         {
-            return (TTarget) (ClassicMap(container, source, typeof(TTarget)) ?? default(TTarget));
+            return (TTarget)(ClassicMap(container, source, typeof(TTarget)) ?? default(TTarget));
         }
 
         /// <summary>

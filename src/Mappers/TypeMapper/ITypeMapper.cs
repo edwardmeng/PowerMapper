@@ -8,7 +8,11 @@ namespace PowerMapper
     /// </summary>
     /// <typeparam name="TSource">The source type.</typeparam>
     /// <typeparam name="TTarget">The target type.</typeparam>
-    public interface ITypeMapper<out TSource, TTarget>
+    public interface ITypeMapper<
+#if !Net35
+        out 
+#endif
+        TSource, TTarget>
     {
         /// <summary>
         /// Specify options for the member mapping algorithm.

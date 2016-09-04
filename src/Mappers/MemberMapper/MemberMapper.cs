@@ -1,5 +1,9 @@
 ﻿using System;
+#if Net35
+using System.Collections.Generic;
+#else
 using System.Collections.Concurrent;
+#endif
 using System.Reflection.Emit;
 
 namespace PowerMapper
@@ -11,8 +15,43 @@ namespace PowerMapper
         private ValueConverter _converter;
         private ValueMapper _mapper;
 
-        private static readonly ConcurrentDictionary<Tuple<MappingContainer, Type, Type>, Type> _genericMapperTypes
-            = new ConcurrentDictionary<Tuple<MappingContainer, Type, Type>, Type>();
+#if Net35
+        private static readonly Dictionary<Triplet<MappingContainer, Type, Type>, Type> _genericMapperTypes
+            = new Dictionary<Triplet<MappingContainer, Type, Type>, Type>();
+
+        private void EnsureMapperType(Type sourceType, Type targetType, ModuleBuilder builder)
+        {
+            var key = Triplet.Create(_container, sourceType, targetType);
+            if (!_genericMapperTypes.ContainsKey(key))
+            {
+                lock (_genericMapperTypes)
+                {
+                    if (!_genericMapperTypes.ContainsKey(key))
+                    {
+                        _genericMapperTypes.Add(key, CreateMapper(builder, sourceType, targetType));
+                    }
+                }
+            }
+        }
+
+        private bool HasOption(MemberMapOptions option)
+        {
+            return (_options & option) == option;
+        }
+#else
+        private static readonly ConcurrentDictionary<Triplet<MappingContainer, Type, Type>, Type> _genericMapperTypes
+            = new ConcurrentDictionary<Triplet<MappingContainer, Type, Type>, Type>();
+
+        private void EnsureMapperType(Type sourceType, Type targetType, ModuleBuilder builder)
+        {
+            _genericMapperTypes.GetOrAdd(Triplet.Create(_container, sourceType, targetType), key => CreateMapper(builder, key.Second, key.Third));
+        }
+
+        private bool HasOption(MemberMapOptions option)
+        {
+            return _options.HasFlag(option);
+        }
+#endif
 
         protected MemberMapper(MappingContainer container, MemberMapOptions options, MappingMember targetMember, ValueConverter converter)
         {
@@ -26,9 +65,10 @@ namespace PowerMapper
 
         public abstract Type SourceType { get; }
 
+
         protected virtual ValueConverter CreateConverter(Type sourceType, Type targetType)
         {
-            if (_options.HasFlag(MemberMapOptions.Hierarchy))
+            if (HasOption(MemberMapOptions.Hierarchy))
             {
                 ValueConverter converter;
                 if (EnumerableValueConverter.TryCreate(sourceType, targetType, _container, out converter))
@@ -41,7 +81,7 @@ namespace PowerMapper
 
         protected virtual ValueMapper CreateMapper(Type sourceType, Type targetType)
         {
-            if (_options.HasFlag(MemberMapOptions.Hierarchy))
+            if (HasOption(MemberMapOptions.Hierarchy))
             {
                 ValueMapper mapper;
                 if (EnumerableMapper.TryCreate(sourceType,targetType,_container,out mapper))
@@ -70,10 +110,10 @@ namespace PowerMapper
                 _mapper = CreateMapper(sourceType, targetType);
             }
             _mapper?.Compile(builder);
-            if ((_converter == null || _mapper == null) && _options.HasFlag(MemberMapOptions.Hierarchy) &&
+            if ((_converter == null || _mapper == null) && HasOption(MemberMapOptions.Hierarchy) &&
                 !(TargetMember.MemberType.IsValueType && targetType == sourceType))
             {
-                _genericMapperTypes.GetOrAdd(Tuple.Create(_container, sourceType, targetType), key => CreateMapper(builder, key.Item2, key.Item3));
+                EnsureMapperType(sourceType, targetType, builder);
             }
         }
 
@@ -81,8 +121,8 @@ namespace PowerMapper
         {
             var instanceMapperType = typeof(InstanceMapper<,>).MakeGenericType(sourceType, targetType);
             var instanceMapper = instanceMapperType.GetMethod("GetInstance").Invoke(null, new object[] { _container });
-            var convertMethod = instanceMapperType.GetProperty("Converter").GetValue(instanceMapper);
-            var mapperMethod = instanceMapperType.GetProperty("Mapper").GetValue(instanceMapper);
+            var convertMethod = instanceMapperType.GetProperty("Converter").GetValue(instanceMapper, null);
+            var mapperMethod = instanceMapperType.GetProperty("Mapper").GetValue(instanceMapper, null);
 
             var convertBuilder = (IInvokerBuilder)Activator.CreateInstance(typeof(FuncInvokerBuilder<,>).MakeGenericType(sourceType, targetType), convertMethod);
             convertBuilder.Compile(builder);
@@ -148,7 +188,7 @@ namespace PowerMapper
         {
             var sourceType = SourceType;
             var targetType = TargetMember.MemberType;
-            var targetCanWrite = TargetMember.CanWrite(_options.HasFlag(MemberMapOptions.NonPublic));
+            var targetCanWrite = TargetMember.CanWrite(HasOption(MemberMapOptions.NonPublic));
             if (targetCanWrite && _converter != null)
             {
                 EmitSource(context);
@@ -163,7 +203,7 @@ namespace PowerMapper
                 _mapper.Emit(sourceType, targetType, context);
                 return;
             }
-            if (!_options.HasFlag(MemberMapOptions.Hierarchy) || !targetType.IsClass || targetType.IsNullable())
+            if (!HasOption(MemberMapOptions.Hierarchy) || !targetType.IsClass || targetType.IsNullable())
             {
                 var converter = GetConvertEmitter(sourceType, targetType);
                 if (converter != null)
@@ -175,8 +215,7 @@ namespace PowerMapper
             }
             else
             {
-                var key = Tuple.Create(_container, sourceType, targetType);
-                var mapperType = _genericMapperTypes[key];
+                var mapperType = _genericMapperTypes[Triplet.Create(_container, sourceType, targetType)];
                 if (targetCanWrite)
                 {
                     EmitSource(context);

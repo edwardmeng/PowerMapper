@@ -124,7 +124,7 @@ namespace PowerMapper
         /// <returns>A <see cref="Type"/> object that represents the requested <paramref name="typeName"/> parameter.</returns>
         public static Type GetType(string typeName, bool throwOnError, bool ignoreCase)
         {
-            if (string.IsNullOrWhiteSpace(typeName)) return null;
+            if (string.IsNullOrEmpty(typeName) || typeName.Trim().Length == 0) return null;
             typeName = typeName.Trim();
             var originTypeName = typeName;
             Type type;
@@ -159,9 +159,10 @@ namespace PowerMapper
                             var publicKey = name.GetPublicKeyToken();
                             if (publicKey == null || !publicKeyToken.SequenceEqual(publicKey)) return false;
                         }
-                        if (!string.IsNullOrEmpty(assemblyName.CultureName) && string.Equals(assemblyName.CultureName, "neutral", StringComparison.OrdinalIgnoreCase))
+                        var cultureName = assemblyName.CultureInfo?.Name;
+                        if (!string.IsNullOrEmpty(cultureName) && string.Equals(cultureName, "neutral", StringComparison.OrdinalIgnoreCase))
                         {
-                            return string.Equals(assemblyName.CultureName, name.CultureName);
+                            return string.Equals(cultureName, name.CultureInfo?.Name);
                         }
                         if (assemblyName.Version != null)
                         {

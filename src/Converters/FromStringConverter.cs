@@ -1,5 +1,9 @@
 ﻿using System;
+#if Net35
+using System.Collections.Generic;
+#else
 using System.Collections.Concurrent;
+#endif
 using System.Reflection;
 using System.Reflection.Emit;
 
@@ -7,9 +11,6 @@ namespace PowerMapper
 {
     internal class FromStringConverter : ValueConverter
     {
-        private static readonly ConcurrentDictionary<Type, MethodInfo> _methods =
-            new ConcurrentDictionary<Type, MethodInfo>();
-
         private static readonly MethodInfo _enumParseMethod = typeof(Enum).GetMethod("Parse",
             BindingFlags.Public | BindingFlags.Static, null, new[] { typeof(Type), typeof(string) }, null);
         private static readonly MethodInfo _checkEmptyMethod = typeof(string).GetMethod("IsNullOrWhiteSpace",
@@ -17,12 +18,39 @@ namespace PowerMapper
         private static readonly MethodInfo _stringTrimMethod = typeof(string).GetMethod("Trim",
             BindingFlags.Public | BindingFlags.Instance, null, Type.EmptyTypes, null);
 
+#if Net35
+        private static readonly Dictionary<Type, MethodInfo> _methods = new Dictionary<Type, MethodInfo>();
+
         private static MethodInfo GetConvertMethod(Type targetType)
         {
-            return _methods.GetOrAdd(targetType,
-                type => type.IsEnum
-                    ? _enumParseMethod
-                    : type.GetMethod("Parse", BindingFlags.Public | BindingFlags.Static, null, new[] { typeof(string) }, null));
+            MethodInfo method;
+            if (!_methods.TryGetValue(targetType, out method))
+            {
+                lock (_methods)
+                {
+                    if (!_methods.TryGetValue(targetType, out method))
+                    {
+                        method = FindConvertMethod(targetType);
+                        _methods.Add(targetType, method);
+                    }
+                }
+            }
+            return method;
+        }
+#else
+        private static readonly ConcurrentDictionary<Type, MethodInfo> _methods = new ConcurrentDictionary<Type, MethodInfo>();
+
+        private static MethodInfo GetConvertMethod(Type targetType)
+        {
+            return _methods.GetOrAdd(targetType, FindConvertMethod);
+        }
+#endif
+
+        private static MethodInfo FindConvertMethod(Type type)
+        {
+            return type.IsEnum
+                ? _enumParseMethod
+                : type.GetMethod("Parse", BindingFlags.Public | BindingFlags.Static, null, new[] {typeof(string)}, null);
         }
 
         public override int Match(ConverterMatchContext context)

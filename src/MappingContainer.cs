@@ -227,13 +227,13 @@ namespace PowerMapper
             // IPAddress -> byte[]
             Converters.AddIntrinsic((IPAddress source) => source?.GetAddressBytes());
             // string -> Uri
-            Converters.AddIntrinsic((string source) => string.IsNullOrWhiteSpace(source) ? null : new Uri(source));
+            Converters.AddIntrinsic((string source) => string.IsNullOrEmpty(source) || source.Trim().Length == 0 ? null : new Uri(source));
             // string -> Type
-            Converters.AddIntrinsic((string source) => string.IsNullOrWhiteSpace(source) ? null : TypeNameConverter.GetType(source, true, false));
+            Converters.AddIntrinsic((string source) => string.IsNullOrEmpty(source) || source.Trim().Length == 0 ? null : TypeNameConverter.GetType(source, true, false));
             // Type -> string
             Converters.AddIntrinsic((Type source) => source?.AssemblyQualifiedName);
             // string -> TimeZoneInfo
-            Converters.AddIntrinsic((string source) => string.IsNullOrWhiteSpace(source) ? null : TimeZoneInfo.FromSerializedString(source));
+            Converters.AddIntrinsic((string source) => string.IsNullOrEmpty(source) || source.Trim().Length == 0 ? null : TimeZoneInfo.FromSerializedString(source));
             // TimeZoneInfo -> string
             Converters.AddIntrinsic((TimeZoneInfo source) => source?.ToSerializedString());
 

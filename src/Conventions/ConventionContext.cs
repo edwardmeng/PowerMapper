@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 
 namespace PowerMapper
@@ -76,9 +75,23 @@ namespace PowerMapper
         private IEnumerable<MappingMember> GetMembers(Type type, bool includeReadOnly, bool includeWriteOnly)
         {
             const BindingFlags bindingFlags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
-            return type.GetFields(bindingFlags).Select(field => (MappingMember)new MappingField(field))
-                .Concat(type.GetProperties(bindingFlags).Select(property => new MappingProperty(property)))
-                .Where(member => (member.CanRead(true) && includeReadOnly) || (member.CanWrite(true) && includeWriteOnly));
+            Predicate<MappingMember> condition = member => (member.CanRead(true) && includeReadOnly) || (member.CanWrite(true) && includeWriteOnly);
+            foreach (var field in type.GetFields(bindingFlags))
+            {
+                var mappingField = new MappingField(field);
+                if (condition(mappingField))
+                {
+                    yield return mappingField;
+                }
+            }
+            foreach (var property in type.GetProperties(bindingFlags))
+            {
+                var mappingProperty = new MappingProperty(property);
+                if (condition(mappingProperty))
+                {
+                    yield return mappingProperty;
+                }
+            }
         }
     }
 }

@@ -7,10 +7,11 @@
     <ProjectGuid>{7374D484-0528-4C11-BA72-059FF63CB44F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Wheatech.EmitMapper</RootNamespace>
-    <AssemblyName>Wheatech.EmitMapper</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <RootNamespace>PowerMapper</RootNamespace>
+    <AssemblyName>PowerMapper</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -28,17 +29,13 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\Wheatech.EmitMapper.XML</DocumentationFile>
+    <DocumentationFile>bin\Release\PowerMapper.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Web" />
-    <Reference Include="Wheatech.Activation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=dfa3bda2996d7b44, processorArchitecture=MSIL">
-      <HintPath>..\packages\Wheatech.Activation.1.0.0\lib\net461\Wheatech.Activation.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Conventions\ConventionCollection.cs" />
@@ -58,7 +55,6 @@
     <Compile Include="Converters\ConverterMatchContext.cs" />
     <Compile Include="Converters\EnumerableValueConverter.cs" />
     <Compile Include="IMappingContainer.cs" />
-    <Compile Include="MapperActivator.cs" />
     <Compile Include="Mappers\Creator\ConventionCreator.cs" />
     <Compile Include="Mappers\ValueMapper\ValueMapper.cs" />
     <Compile Include="Mappers\ValueMapper\EnumerableMapper.cs" />
@@ -99,9 +95,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Strings.resx</DependentUpon>
     </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Strings.resx">
