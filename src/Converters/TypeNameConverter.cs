@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
-using System.Security.Permissions;
 using System.Web;
 using System.Web.Compilation;
 using System.Web.Hosting;
@@ -67,7 +66,6 @@ namespace PowerMapper
         * throw an error.
         */
         // Assert reflection in order to call assembly.GetType()
-        [ReflectionPermission(SecurityAction.Assert, Flags = ReflectionPermissionFlag.MemberAccess)]
         private static Type GetTypeFromAssemblies(IEnumerable<Assembly> assemblies, string typeName, bool ignoreCase)
         {
             if (assemblies == null)

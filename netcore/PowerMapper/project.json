@@ -1,0 +1,27 @@
+﻿{
+  "version": "1.0.0-*",
+
+  "dependencies": {
+    "NETStandard.Library": "1.6.0",
+    "System.Reflection.Emit": "4.0.1" 
+  },
+
+  "frameworks": {
+    "netstandard1.6": {
+      "imports": "dnxcore50",
+      "buildOptions": {
+        "compile": {
+          "include": [ "../../GlobalAssemblyInfo.cs", "../../src/**/*.cs" ],
+          "excludeFiles": "../../src/MapperActivator.cs"
+        },
+        "embed": {
+          "include": [ "../../src/**/*.resx" ]
+        },
+        "define": [ "NetCore" ],
+        "keyFile": "../../PowerMapper.snk",
+        "xmlDoc": true,
+        "outputName": "PowerMapper"
+      }
+    }
+  }
+}
