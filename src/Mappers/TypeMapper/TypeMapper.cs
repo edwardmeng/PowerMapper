@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection.Emit;
-using System.Threading;
 using PowerMapper.Properties;
 #if !Net35
 using System.Collections.Concurrent;
@@ -64,7 +63,6 @@ namespace PowerMapper
         {
             if (!_initialized)
             {
-                Thread.MemoryBarrier();
                 lock (_lockObj)
                 {
                     if (!_initialized)
@@ -172,9 +170,17 @@ namespace PowerMapper
             methodBuilder.SetReturnType(typeof(void));
             methodBuilder.SetParameters(typeof(TSource), typeof(TTarget));
 
+#if NetCore
+            var reflectingTargetType = typeof(TTarget).GetTypeInfo();
+            var reflectingSourceType = typeof(TSource).GetTypeInfo();
+#else
+            var reflectingTargetType = typeof(TTarget);
+            var reflectingSourceType = typeof(TSource);
+#endif
+
             var il = methodBuilder.GetILGenerator();
             var context = new CompilationContext(il);
-            if (typeof(TSource).IsValueType)
+            if (reflectingSourceType.IsValueType)
             {
                 context.SetSource(purpose =>
                 {
@@ -192,7 +198,7 @@ namespace PowerMapper
             {
                 context.SetSource(purpose => il.Emit(OpCodes.Ldarg_0));
             }
-            if (typeof(TTarget).IsValueType)
+            if (reflectingTargetType.IsValueType)
             {
                 context.SetTarget(purpose =>
                 {

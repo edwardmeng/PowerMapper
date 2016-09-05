@@ -4,7 +4,6 @@
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">14.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
   </PropertyGroup>
-
   <Import Project="$(VSToolsPath)\DotNet\Microsoft.DotNet.Props" Condition="'$(VSToolsPath)' != ''" />
   <PropertyGroup Label="Globals">
     <ProjectGuid>b2376a01-448b-48e5-8070-a6986ff8ae7c</ProjectGuid>
@@ -70,9 +69,6 @@
     </Compile>
     <Compile Include="..\..\src\Converters\PrimitiveValueConverter.cs">
       <Link>Converters\PrimitiveValueConverter.cs</Link>
-    </Compile>
-    <Compile Include="..\..\src\Converters\TypeNameConverter.cs">
-      <Link>Converters\TypeNameConverter.cs</Link>
     </Compile>
     <Compile Include="..\..\src\Converters\ValueConverter.cs">
       <Link>Converters\ValueConverter.cs</Link>

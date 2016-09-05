@@ -6,8 +6,16 @@ namespace PowerMapper
 {
     internal class ObjectToStringConverter : ValueConverter
     {
-        private static readonly MethodInfo _toStringMethod = typeof(object).GetMethod("ToString",
-            BindingFlags.Public | BindingFlags.Instance, null, Type.EmptyTypes, null);
+        private static readonly MethodInfo _toStringMethod;
+
+        static ObjectToStringConverter()
+        {
+#if NetCore
+            _toStringMethod = typeof(object).GetTypeInfo().GetMethod("ToString", BindingFlags.Public | BindingFlags.Instance);
+#else
+            _toStringMethod = typeof(object).GetMethod("ToString", BindingFlags.Public | BindingFlags.Instance, null, Type.EmptyTypes, null);
+#endif
+        }
 
         public override int Match(ConverterMatchContext context)
         {
@@ -41,7 +49,11 @@ namespace PowerMapper
                 });
                 context.Emit(OpCodes.Ldloc, target);
             }
+#if NetCore
+            else if (sourceType.GetTypeInfo().IsValueType)
+#else
             else if (sourceType.IsValueType)
+#endif
             {
                 context.EmitCast(typeof(object));
                 context.EmitCall(_toStringMethod);

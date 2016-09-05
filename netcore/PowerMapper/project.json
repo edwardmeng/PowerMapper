@@ -12,7 +12,7 @@
       "buildOptions": {
         "compile": {
           "include": [ "../../GlobalAssemblyInfo.cs", "../../src/**/*.cs" ],
-          "excludeFiles": "../../src/MapperActivator.cs"
+          "excludeFiles": [ "../../src/MapperActivator.cs", "../../src/Converters/TypeNameConverter.cs" ]
         },
         "embed": {
           "include": [ "../../src/**/*.resx" ]

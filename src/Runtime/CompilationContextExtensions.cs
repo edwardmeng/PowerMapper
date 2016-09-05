@@ -8,23 +8,38 @@ namespace PowerMapper
 {
     internal static class CompilationContextExtensions
     {
-        private static readonly MethodInfo _referenceEqualsMethod = typeof(object).GetMethod("ReferenceEquals",
-            BindingFlags.Public | BindingFlags.Static, null, new[] { typeof(object), typeof(object) }, null);
+        private static readonly MethodInfo _referenceEqualsMethod;
 
-        private static readonly MethodInfo _getTypeFromHandleMethod = typeof(Type).GetMethod("GetTypeFromHandle");
+        private static readonly MethodInfo _getTypeFromHandleMethod;
+
+        static CompilationContextExtensions()
+        {
+#if NetCore
+            _referenceEqualsMethod = typeof(object).GetTypeInfo().GetMethod("ReferenceEquals", BindingFlags.Public | BindingFlags.Static);
+            _getTypeFromHandleMethod = typeof(Type).GetTypeInfo().GetMethod("GetTypeFromHandle");
+#else
+            _referenceEqualsMethod = typeof(object).GetMethod("ReferenceEquals", BindingFlags.Public | BindingFlags.Static, null, new[] { typeof(object), typeof(object) }, null);
+            _getTypeFromHandleMethod = typeof(Type).GetMethod("GetTypeFromHandle");
+#endif
+        }
         public static void EmitNullableExpression(this CompilationContext context, LocalBuilder local,
             Action<CompilationContext> nonNullExpression, Action<CompilationContext> nullExpression)
         {
             var label = context.DefineLabel();
             if (local.LocalType.IsNullable())
             {
+#if NetCore
+                var variableType = local.LocalType.GetTypeInfo();
+#else
+                var variableType = local.LocalType;
+#endif
                 context.Emit(OpCodes.Ldloca, local);
-                context.EmitCall(local.LocalType.GetProperty("HasValue").GetGetMethod());
+                context.EmitCall(variableType.GetProperty("HasValue").GetGetMethod());
                 context.Emit(OpCodes.Brfalse, label);
 
                 context.Emit(OpCodes.Ldloca, local);
-                context.EmitCall(local.LocalType.GetProperty("Value").GetGetMethod());
-                context.CurrentType = local.LocalType.GetGenericArguments()[0];
+                context.EmitCall(variableType.GetProperty("Value").GetGetMethod());
+                context.CurrentType = variableType.GetGenericArguments()[0];
             }
             else
             {
@@ -49,15 +64,19 @@ namespace PowerMapper
 
         public static void EmitCast(this CompilationContext context, Type targetType)
         {
-            if (context.CurrentType == targetType)
-            {
-                return;
-            }
-            if (!context.CurrentType.IsValueType && targetType.IsValueType)
+            if (context.CurrentType == targetType) return;
+#if NetCore
+            var currentTypeIsValue = context.CurrentType.GetTypeInfo().IsValueType;
+            var targetTypeIsValue = targetType.GetTypeInfo().IsValueType;
+#else
+            var currentTypeIsValue = context.CurrentType.IsValueType;
+            var targetTypeIsValue = targetType.IsValueType;
+#endif
+            if (!currentTypeIsValue && targetTypeIsValue)
             {
                 context.Emit(OpCodes.Unbox_Any, targetType);
             }
-            else if (context.CurrentType.IsValueType && !targetType.IsValueType)
+            else if (currentTypeIsValue && !targetTypeIsValue)
             {
                 context.Emit(OpCodes.Box, context.CurrentType);
                 if (targetType != typeof(object) && targetType != typeof(Enum) && targetType != typeof(void))
@@ -67,7 +86,7 @@ namespace PowerMapper
             }
             else
             {
-                if (context.CurrentType.IsValueType)
+                if (currentTypeIsValue)
                 {
                     throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, Strings.Emit_InvalidCastType, context.CurrentType, targetType));
                 }
@@ -91,13 +110,21 @@ namespace PowerMapper
                 context.CurrentType = originalType;
                 return;
             }
+#if NetCore
+            if (!targetType.GetTypeInfo().IsValueType)
+#else
             if (!targetType.IsValueType)
+#endif
             {
                 context.Emit(OpCodes.Ldnull);
                 context.CurrentType = originalType;
                 return;
             }
-            if (targetType.IsEnum)
+#if NetCore
+            if (!targetType.GetTypeInfo().IsEnum)
+#else
+            if (!targetType.IsEnum)
+#endif
             {
                 targetType = Enum.GetUnderlyingType(targetType);
             }
@@ -131,16 +158,28 @@ namespace PowerMapper
                 context.CurrentType = originalType;
                 return;
             }
+#if NetCore
+            var reflectingType = targetType.GetTypeInfo();
             if (targetType == typeof(decimal))
             {
                 context.Emit(OpCodes.Ldc_I4_0);
-                context.EmitCall(targetType.GetMethod("op_Implicit", BindingFlags.Static | BindingFlags.Public, null, new[] { typeof(int) }, null));
+                context.EmitCall(reflectingType.GetMethod("op_Implicit", BindingFlags.Static | BindingFlags.Public));
                 context.CurrentType = originalType;
                 return;
             }
-            var field = targetType.GetField("Empty", BindingFlags.Public | BindingFlags.Static) ??
-                        targetType.GetField("Zero", BindingFlags.Public | BindingFlags.Static) ??
-                        targetType.GetField("MinValue", BindingFlags.Public | BindingFlags.Static);
+#else
+            var reflectingType = targetType;
+            if (targetType == typeof(decimal))
+            {
+                context.Emit(OpCodes.Ldc_I4_0);
+                context.EmitCall(reflectingType.GetMethod("op_Implicit", BindingFlags.Static | BindingFlags.Public, null, new[] { typeof(int) }, null));
+                context.CurrentType = originalType;
+                return;
+            }
+#endif
+            var field = reflectingType.GetField("Empty", BindingFlags.Public | BindingFlags.Static) ??
+                        reflectingType.GetField("Zero", BindingFlags.Public | BindingFlags.Static) ??
+                        reflectingType.GetField("MinValue", BindingFlags.Public | BindingFlags.Static);
             if (field != null)
             {
                 context.Emit(OpCodes.Ldsfld, field);
@@ -148,9 +187,9 @@ namespace PowerMapper
                 context.EmitCast(originalType);
                 return;
             }
-            var property = targetType.GetProperty("Empty", BindingFlags.Public | BindingFlags.Static) ??
-                           targetType.GetProperty("Zero", BindingFlags.Public | BindingFlags.Static) ??
-                           targetType.GetProperty("MinValue", BindingFlags.Public | BindingFlags.Static);
+            var property = reflectingType.GetProperty("Empty", BindingFlags.Public | BindingFlags.Static) ??
+                           reflectingType.GetProperty("Zero", BindingFlags.Public | BindingFlags.Static) ??
+                           reflectingType.GetProperty("MinValue", BindingFlags.Public | BindingFlags.Static);
             var method = property?.GetGetMethod();
             if (method != null)
             {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using PowerMapper.Properties;
 
 namespace PowerMapper
@@ -92,7 +93,11 @@ namespace PowerMapper
             {
                 throw new ArgumentNullException(nameof(conventionType));
             }
+#if NetCore
+            return _conventions.RemoveAll(convention => conventionType.GetTypeInfo().IsInstanceOfType(convention));
+#else
             return _conventions.RemoveAll(conventionType.IsInstanceOfType);
+#endif
         }
 
         /// <summary>
@@ -134,7 +139,11 @@ namespace PowerMapper
             {
                 throw new ArgumentNullException(nameof(conventionType));
             }
+#if NetCore
+            return _conventions.FirstOrDefault(convention => conventionType.GetTypeInfo().IsInstanceOfType(convention));
+#else
             return _conventions.FirstOrDefault(conventionType.IsInstanceOfType);
+#endif
         }
 
         /// <summary>
@@ -159,7 +168,11 @@ namespace PowerMapper
             {
                 throw new ArgumentNullException(nameof(conventionType));
             }
+#if NetCore
+            return _conventions.Any(convention => conventionType.GetTypeInfo().IsInstanceOfType(convention));
+#else
             return _conventions.Any(conventionType.IsInstanceOfType);
+#endif
         }
 
         /// <summary>

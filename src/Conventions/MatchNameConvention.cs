@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Reflection;
 using PowerMapper.Properties;
 
 namespace PowerMapper
@@ -88,8 +89,12 @@ namespace PowerMapper
                     targetIndex >= 0 && sourceIndex >= 0; targetIndex--)
                 {
                     MappingMember targetMember = targetMembers[targetIndex], sourceMember = sourceMembers[sourceIndex];
-                    if (targetMember.MemberType.IsAssignableFrom(sourceMember.MemberType) ||
-                        context.Converters.Get(sourceMember.MemberType, targetMember.MemberType) != null)
+#if NetCore
+                    var assignable = targetMember.MemberType.GetTypeInfo().IsAssignableFrom(sourceMember.MemberType);
+#else
+                    var assignable = targetMember.MemberType.IsAssignableFrom(sourceMember.MemberType);
+#endif
+                    if (assignable || context.Converters.Get(sourceMember.MemberType, targetMember.MemberType) != null)
                     {
                         context.Mappings.Set(sourceMember, targetMember);
                         sourceIndex--;

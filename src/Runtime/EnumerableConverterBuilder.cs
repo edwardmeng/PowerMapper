@@ -9,6 +9,16 @@ namespace PowerMapper
     {
         private readonly MappingContainer _container;
         private MethodInfo _invokeMethod;
+        private static readonly MethodInfo _toArrayMethod;
+
+        static EnumerableConverterBuilder()
+        {
+#if NetCore
+            _toArrayMethod = typeof(Enumerable).GetTypeInfo().GetMethod("ToArray").MakeGenericMethod(typeof(TSource));
+#else
+            _toArrayMethod = typeof(Enumerable).GetMethod("ToArray").MakeGenericMethod(typeof(TSource));
+#endif
+        }
 
         public EnumerableConverterBuilder(MappingContainer container)
         {
@@ -32,7 +42,7 @@ namespace PowerMapper
 
             // Convert parameter to array.
             il.Emit(OpCodes.Ldarg_0);
-            il.Emit(OpCodes.Call, typeof(Enumerable).GetMethod("ToArray").MakeGenericMethod(typeof(TSource)));
+            il.Emit(OpCodes.Call, _toArrayMethod);
             il.Emit(OpCodes.Stloc, sourceArray);
 
             // Declare new array of target.
@@ -81,7 +91,11 @@ namespace PowerMapper
             il.Emit(OpCodes.Castclass, typeof(IEnumerable<TTarget>));
             il.Emit(OpCodes.Ret);
 
+#if NetCore
+            var type = typeBuilder.CreateTypeInfo();
+#else
             var type = typeBuilder.CreateType();
+#endif
             _invokeMethod = type.GetMethod("Invoke");
         }
 

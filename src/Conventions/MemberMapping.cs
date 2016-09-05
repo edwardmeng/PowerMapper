@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Reflection;
 using PowerMapper.Properties;
 
 namespace PowerMapper
@@ -39,6 +40,16 @@ namespace PowerMapper
             {
                 throw new ArgumentNullException(nameof(converter));
             }
+#if NetCore
+            if (!typeof(TSource).GetTypeInfo().IsAssignableFrom(SourceMember.MemberType))
+            {
+                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Strings.Converter_InvalidSourceType, typeof(TSource), SourceMember.MemberType), nameof(converter));
+            }
+            if (!typeof(TTarget).GetTypeInfo().IsAssignableFrom(TargetMember.MemberType))
+            {
+                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Strings.Converter_InvalidTargetType, typeof(TTarget), TargetMember.MemberType), nameof(converter));
+            }
+#else
             if (!typeof(TSource).IsAssignableFrom(SourceMember.MemberType))
             {
                 throw new ArgumentException(string.Format(CultureInfo.CurrentCulture,Strings.Converter_InvalidSourceType, typeof(TSource), SourceMember.MemberType), nameof(converter));
@@ -47,6 +58,7 @@ namespace PowerMapper
             {
                 throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Strings.Converter_InvalidTargetType, typeof(TTarget), TargetMember.MemberType), nameof(converter));
             }
+#endif
             Converter = new LambdaValueConverter<TSource, TTarget>(converter);
         }
     }

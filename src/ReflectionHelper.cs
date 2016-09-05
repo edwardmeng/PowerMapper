@@ -27,86 +27,121 @@ namespace PowerMapper
 
         public static bool IsNullable(this Type type)
         {
+#if NetCore
+            var typeInfo = type.GetTypeInfo();
+            return typeInfo.IsGenericType && typeInfo.GetGenericTypeDefinition() == typeof(Nullable<>);
+#else
             return type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>);
+#endif
         }
 
         public static MethodInfo GetConvertMethod(Type sourceType, Type targetType)
         {
-            return targetType.GetMethod("op_Implicit", BindingFlags.Public | BindingFlags.Static, null,
-                new[] { sourceType }, null) ??
-                sourceType.GetMethods(BindingFlags.Public | BindingFlags.Static)
-                .Where(method =>
+            if (sourceType == null || targetType == null) return null;
+#if NetCore
+            var reflectingSourceType = sourceType.GetTypeInfo();
+            var reflectingTargetType = targetType.GetTypeInfo();
+#else
+            var reflectingSourceType = sourceType;
+            var reflectingTargetType = targetType;
+#endif
+            Func<MethodInfo, string, bool> methodPredicate = (method, name) =>
+            {
+                if (method.IsSpecialName && method.Name == name && method.ReturnType == targetType)
                 {
-                    if (method.IsSpecialName && method.Name == "op_Implicit" && method.ReturnType == targetType)
-                    {
-                        var parameters = method.GetParameters();
-                        return parameters.Length == 1 && parameters[0].ParameterType == sourceType;
-                    }
-                    return false;
-                }).FirstOrDefault() ??
-                targetType.GetMethod("op_Explicit", BindingFlags.Public | BindingFlags.Static, null, new[] { sourceType }, null) ??
-                sourceType.GetMethods(BindingFlags.Public | BindingFlags.Static)
-                .Where(method =>
-                {
-                    if (method.IsSpecialName && method.Name == "op_Explicit" && method.ReturnType == targetType)
-                    {
-                        var parameters = method.GetParameters();
-                        return parameters.Length == 1 && parameters[0].ParameterType == sourceType;
-                    }
-                    return false;
-                }).FirstOrDefault();
+                    var parameters = method.GetParameters();
+                    return parameters.Length == 1 && parameters[0].ParameterType == sourceType;
+                }
+                return false;
+            };
+            return
+                reflectingTargetType.GetMethods(BindingFlags.Public | BindingFlags.Static).FirstOrDefault(method => methodPredicate(method, "op_Implicit")) ??
+                reflectingSourceType.GetMethods(BindingFlags.Public | BindingFlags.Static).FirstOrDefault(method => methodPredicate(method, "op_Implicit")) ??
+                reflectingTargetType.GetMethods(BindingFlags.Public | BindingFlags.Static).FirstOrDefault(method => methodPredicate(method, "op_Explicit")) ??
+                reflectingSourceType.GetMethods(BindingFlags.Public | BindingFlags.Static).FirstOrDefault(method => methodPredicate(method, "op_Explicit"));
         }
 
         public static int GetDistance(Type sourceType, Type targetType)
         {
-            if (targetType.IsInterface)
+            if (targetType == null) return -1;
+#if NetCore
+            var reflectingSourceType = sourceType?.GetTypeInfo();
+            var reflectingTargetType = targetType.GetTypeInfo();
+#else
+            var reflectingSourceType = sourceType;
+            var reflectingTargetType = targetType;
+#endif
+            if (reflectingSourceType != null && reflectingTargetType.IsInterface)
             {
-                return sourceType.GetInterfaces().Count(interfaceType =>
+                return reflectingSourceType.GetInterfaces().Count(interfaceType =>
                 {
-                    if (!targetType.IsGenericTypeDefinition)
+#if NetCore
+                    var reflectingInterfaceType = interfaceType.GetTypeInfo();
+#else
+                    var reflectingInterfaceType = interfaceType;
+#endif
+                    if (!reflectingTargetType.IsGenericTypeDefinition)
                     {
-                        return targetType.IsAssignableFrom(interfaceType);
+                        return reflectingTargetType.IsAssignableFrom(reflectingInterfaceType);
                     }
-                    if (interfaceType.IsGenericType)
+                    if (reflectingInterfaceType.IsGenericType)
                     {
-                        return targetType.IsAssignableFrom(interfaceType.GetGenericTypeDefinition());
+                        return reflectingTargetType.IsAssignableFrom(reflectingInterfaceType.GetGenericTypeDefinition());
                     }
-                    if (interfaceType.IsGenericTypeDefinition)
+                    if (reflectingInterfaceType.IsGenericTypeDefinition)
                     {
-                        return targetType.IsAssignableFrom(interfaceType);
+                        return reflectingTargetType.IsAssignableFrom(reflectingInterfaceType);
                     }
                     return false;
                 });
             }
             var distance = 0;
-            while (sourceType != null)
+            while (reflectingSourceType != null)
             {
-                if (sourceType == targetType)
-                {
-                    return distance;
-                }
-                if (sourceType == typeof(object))
-                {
-                    break;
-                }
-                distance++;
+#if NetCore
+                if (reflectingSourceType.GetType() == reflectingTargetType.GetType()) return distance;
+                if (reflectingSourceType.GetType() == typeof(object)) break;
+                reflectingSourceType = reflectingSourceType.BaseType?.GetTypeInfo();
+#else
+                if (reflectingSourceType == reflectingTargetType) return distance;
+                if (reflectingSourceType == typeof(object)) break;
                 sourceType = sourceType.BaseType;
+#endif
+                distance++;
             }
             return -1;
         }
 
         public static bool IsEnumerable(this Type targetType, out Type elementType)
         {
+#if NetCore
+            var reflectingTargetType = targetType.GetTypeInfo();
+#else
+            var reflectingTargetType = targetType;
+#endif
             elementType = null;
-            IEnumerable<Type> interfaces = targetType.GetInterfaces();
-            if (targetType.IsInterface)
+            IEnumerable<Type> interfaces = reflectingTargetType.GetInterfaces();
+            if (reflectingTargetType.IsInterface)
             {
-                interfaces = interfaces.Concat(new[] {targetType});
+                interfaces = interfaces.Concat(new[] { targetType });
             }
-            var matchedType = interfaces.FirstOrDefault(type => type == typeof(IEnumerable<>) || (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IEnumerable<>)));
+            var matchedType = interfaces.FirstOrDefault(type =>
+            {
+                if (type == typeof(IEnumerable<>)) return true;
+#if NetCore
+                var reflectingType = type.GetTypeInfo();
+#else
+                var  reflectingType = type;
+#endif
+                return reflectingType.IsGenericType && reflectingType.GetGenericTypeDefinition() == typeof(IEnumerable<>);
+            });
             if (matchedType != null)
             {
+#if NetCore
+                elementType = matchedType.GetTypeInfo().GetGenericArguments()[0];
+#else
                 elementType = matchedType.GetGenericArguments()[0];
+#endif
                 return true;
             }
             return false;

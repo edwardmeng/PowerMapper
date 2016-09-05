@@ -76,7 +76,12 @@ namespace PowerMapper
         {
             const BindingFlags bindingFlags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
             Predicate<MappingMember> condition = member => (member.CanRead(true) && includeReadOnly) || (member.CanWrite(true) && includeWriteOnly);
-            foreach (var field in type.GetFields(bindingFlags))
+#if NetCore
+            var reflectingType = type.GetTypeInfo();
+#else
+            var reflectingType = type;
+#endif
+            foreach (var field in reflectingType.GetFields(bindingFlags))
             {
                 var mappingField = new MappingField(field);
                 if (condition(mappingField))
@@ -84,7 +89,7 @@ namespace PowerMapper
                     yield return mappingField;
                 }
             }
-            foreach (var property in type.GetProperties(bindingFlags))
+            foreach (var property in reflectingType.GetProperties(bindingFlags))
             {
                 var mappingProperty = new MappingProperty(property);
                 if (condition(mappingProperty))

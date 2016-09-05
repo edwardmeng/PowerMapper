@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Reflection.Emit;
 using PowerMapper.Runtime;
 
@@ -42,12 +43,21 @@ namespace PowerMapper
         {
             mapper = null;
             Type sourceElementType, targetElementType;
-            if (sourceType.IsEnumerable(out sourceElementType) && targetType.IsEnumerable(out targetElementType) &&
-                !sourceElementType.IsValueType && !sourceElementType.IsPrimitive &&
-                !targetElementType.IsValueType && !targetElementType.IsPrimitive)
+            if (sourceType.IsEnumerable(out sourceElementType) && targetType.IsEnumerable(out targetElementType))
             {
-                mapper = new EnumerableMapper(container, sourceElementType, targetElementType);
-                return true;
+#if NetCore
+                var sourceElementTypeInfo = sourceElementType.GetTypeInfo();
+                var targetElementTypeInfo = targetElementType.GetTypeInfo();
+#else
+                var sourceElementTypeInfo = sourceElementType;
+                var targetElementTypeInfo = targetElementType;
+#endif
+                if (!sourceElementTypeInfo.IsValueType && !sourceElementTypeInfo.IsPrimitive &&
+                    !targetElementTypeInfo.IsValueType && !targetElementTypeInfo.IsPrimitive)
+                {
+                    mapper = new EnumerableMapper(container, sourceElementType, targetElementType);
+                    return true;
+                }
             }
             return false;
         }

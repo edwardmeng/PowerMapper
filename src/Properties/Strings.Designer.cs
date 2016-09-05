@@ -8,6 +8,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.Reflection;
+
 namespace PowerMapper.Properties {
     using System;
     
@@ -39,7 +41,12 @@ namespace PowerMapper.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("PowerMapper.Properties.Strings", typeof(Strings).Assembly);
+#if NetCore
+                    var assembly = typeof(Strings).GetTypeInfo().Assembly;
+#else
+                    var assembly = typeof(Strings).Assembly;
+#endif
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("PowerMapper.Properties.Strings", assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

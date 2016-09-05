@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using PowerMapper.Properties;
 
 namespace PowerMapper
@@ -59,7 +60,11 @@ namespace PowerMapper
                 var member = members[0];
                 for (int i = 1; i < members.Length; i++)
                 {
+#if NetCore
+                    if (members[i].DeclaringType.GetTypeInfo().IsSubclassOf(member.DeclaringType))
+#else
                     if (members[i].DeclaringType.IsSubclassOf(member.DeclaringType))
+#endif
                     {
                         member = members[i];
                     }

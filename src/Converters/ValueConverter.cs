@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using System.Reflection.Emit;
 
 namespace PowerMapper
@@ -27,8 +28,13 @@ namespace PowerMapper
             context.CurrentType = sourceType;
             Emit(sourceType, targetType, context);
             context.Emit(OpCodes.Ret);
-            var type = typeBuilder.CreateType();
-            return Delegate.CreateDelegate(typeof(Func<,>).MakeGenericType(sourceType, targetType), type, "Convert");
+#if NetCore
+            return typeBuilder.CreateTypeInfo()
+                .GetMethod("Convert", BindingFlags.Static | BindingFlags.Public)
+                .CreateDelegate(typeof(Func<,>).MakeGenericType(sourceType, targetType));
+#else
+            return Delegate.CreateDelegate(typeof(Func<,>).MakeGenericType(sourceType, targetType), typeBuilder.CreateType(), "Convert");
+#endif
         }
     }
 }

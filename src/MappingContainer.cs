@@ -29,10 +29,13 @@ namespace PowerMapper
         {
 
             var assemblyName = new AssemblyName("ILEmit_TypeMappers" + Interlocked.Increment(ref _counter));
+#if NetCore
+            _moduleBuilder = AssemblyBuilder.DefineDynamicAssembly(assemblyName, AssemblyBuilderAccess.Run).DefineDynamicModule(assemblyName.Name);
+#else
             _moduleBuilder =
-                AppDomain.CurrentDomain.DefineDynamicAssembly(assemblyName,
-                    AssemblyBuilderAccess.RunAndSave)
+                AppDomain.CurrentDomain.DefineDynamicAssembly(assemblyName, AssemblyBuilderAccess.Run)
                     .DefineDynamicModule(assemblyName.Name, assemblyName.Name + ".dll", false);
+#endif
             Converters = new ValueConverterCollection(this);
             Converters.Add(new PrimitiveValueConverter { Intrinsic = true });
             Converters.Add(new ObjectToStringConverter { Intrinsic = true });
@@ -228,14 +231,16 @@ namespace PowerMapper
             Converters.AddIntrinsic((IPAddress source) => source?.GetAddressBytes());
             // string -> Uri
             Converters.AddIntrinsic((string source) => string.IsNullOrEmpty(source) || source.Trim().Length == 0 ? null : new Uri(source));
+#if !NetCore
             // string -> Type
             Converters.AddIntrinsic((string source) => string.IsNullOrEmpty(source) || source.Trim().Length == 0 ? null : TypeNameConverter.GetType(source, true, false));
-            // Type -> string
-            Converters.AddIntrinsic((Type source) => source?.AssemblyQualifiedName);
             // string -> TimeZoneInfo
             Converters.AddIntrinsic((string source) => string.IsNullOrEmpty(source) || source.Trim().Length == 0 ? null : TimeZoneInfo.FromSerializedString(source));
             // TimeZoneInfo -> string
             Converters.AddIntrinsic((TimeZoneInfo source) => source?.ToSerializedString());
+#endif
+            // Type -> string
+            Converters.AddIntrinsic((Type source) => source?.AssemblyQualifiedName);
 
             #endregion
 

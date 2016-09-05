@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Reflection;
 using System.Reflection.Emit;
 
 namespace PowerMapper
@@ -13,7 +14,7 @@ namespace PowerMapper
         };
         public override int Match(ConverterMatchContext context)
         {
-            if (Equals(context.Properties[typeof(PrimitiveValueConverter)], true)) return -1;
+            if (Equals(context.GetProperty(typeof(PrimitiveValueConverter)), true)) return -1;
             return ExecuteMatch(context);
         }
 
@@ -21,9 +22,16 @@ namespace PowerMapper
         {
             var targetType = context.TargetType;
             var sourceType = context.SourceType;
+#if NetCore
+            var reflectingTargetType = targetType.GetTypeInfo();
+            var reflectingSourceType = sourceType.GetTypeInfo();
+#else
+            var reflectingTargetType = targetType;
+            var reflectingSourceType = sourceType;
+#endif
             if (targetType.IsNullable() && sourceType.IsNullable())
             {
-                var distance = MatchConvert(sourceType.GetGenericArguments()[0], targetType.GetGenericArguments()[0]);
+                var distance = MatchConvert(reflectingSourceType.GetGenericArguments()[0], reflectingTargetType.GetGenericArguments()[0]);
                 if (distance != -1)
                 {
                     return distance + 2;
@@ -31,7 +39,7 @@ namespace PowerMapper
             }
             if (targetType.IsNullable())
             {
-                var distance = MatchConvert(sourceType, targetType.GetGenericArguments()[0]);
+                var distance = MatchConvert(sourceType, reflectingTargetType.GetGenericArguments()[0]);
                 if (distance != -1)
                 {
                     return distance + 1;
@@ -39,7 +47,7 @@ namespace PowerMapper
             }
             if (sourceType.IsNullable())
             {
-                var distance = MatchConvert(sourceType.GetGenericArguments()[0], targetType);
+                var distance = MatchConvert(reflectingSourceType.GetGenericArguments()[0], targetType);
                 if (distance != -1)
                 {
                     return distance + 1;
@@ -52,16 +60,23 @@ namespace PowerMapper
         {
             var converter = FindConverter(sourceType, targetType);
             if (converter != null) return 1;
-            if (targetType.IsAssignableFrom(sourceType)) return 0;
+#if NetCore
+            var reflectingTargetType = targetType.GetTypeInfo();
+            var reflectingSourceType = sourceType.GetTypeInfo();
+#else
+            var reflectingTargetType = targetType;
+            var reflectingSourceType = sourceType;
+#endif
+            if (reflectingTargetType.IsAssignableFrom(sourceType)) return 0;
             if (ReflectionHelper.GetConvertMethod(sourceType, targetType) != null) return 0;
             if (_primitiveTypes.Contains(sourceType) && _primitiveTypes.Contains(targetType)) return 0;
             var hasEnumeration = false;
-            if (sourceType.IsEnum)
+            if (reflectingSourceType.IsEnum)
             {
                 sourceType = Enum.GetUnderlyingType(sourceType);
                 hasEnumeration = true;
             }
-            if (targetType.IsEnum)
+            if (reflectingTargetType.IsEnum)
             {
                 targetType = Enum.GetUnderlyingType(targetType);
                 hasEnumeration = true;
@@ -108,7 +123,12 @@ namespace PowerMapper
 
         private bool EmitNullableSource(CompilationContext context, Type sourceType, Type targetType)
         {
-            var sourceUnderlingType = sourceType.GetGenericArguments()[0];
+#if NetCore
+            var reflectingSourceType = sourceType.GetTypeInfo();
+#else
+            var reflectingSourceType = sourceType;
+#endif
+            var sourceUnderlingType = reflectingSourceType.GetGenericArguments()[0];
             var converter = GetConvertEmitter(sourceUnderlingType, targetType);
             if (converter != null)
             {
@@ -135,11 +155,16 @@ namespace PowerMapper
         // or can be explictly or implicitly converted to the underling type of the target type.
         private bool EmitNullableTarget(CompilationContext context, Type sourceType, Type targetType)
         {
-            var converter = GetConvertEmitter(sourceType, targetType.GetGenericArguments()[0]);
+#if NetCore
+            var reflectingTargetType = targetType.GetTypeInfo();
+#else
+            var reflectingTargetType = targetType;
+#endif
+            var converter = GetConvertEmitter(sourceType, reflectingTargetType.GetGenericArguments()[0]);
             if (converter != null)
             {
                 converter(context);
-                context.Emit(OpCodes.Newobj, targetType.GetConstructors()[0]);
+                context.Emit(OpCodes.Newobj, reflectingTargetType.GetConstructors()[0]);
                 return true;
             }
             return false;
@@ -147,8 +172,15 @@ namespace PowerMapper
 
         private bool EmitBothNullable(CompilationContext context, Type sourceType, Type targetType)
         {
-            var sourceUnderlingType = sourceType.GetGenericArguments()[0];
-            var targetUnderlingyType = targetType.GetGenericArguments()[0];
+#if NetCore
+            var reflectingTargetType = targetType.GetTypeInfo();
+            var reflectingSourceType = sourceType.GetTypeInfo();
+#else
+            var reflectingTargetType = targetType;
+            var reflectingSourceType = sourceType;
+#endif
+            var sourceUnderlingType = reflectingSourceType.GetGenericArguments()[0];
+            var targetUnderlingyType = reflectingTargetType.GetGenericArguments()[0];
             // When the source and target member are the same nullbale type
             if (targetUnderlingyType == sourceUnderlingType)
             {
@@ -166,7 +198,7 @@ namespace PowerMapper
                 context.EmitNullableExpression(local, ctx =>
                 {
                     converter(ctx);
-                    ctx.Emit(OpCodes.Newobj, targetType.GetConstructors()[0]);
+                    ctx.Emit(OpCodes.Newobj, reflectingTargetType.GetConstructors()[0]);
                     ctx.Emit(OpCodes.Stloc, target);
                 }, ctx =>
                 {
@@ -182,7 +214,7 @@ namespace PowerMapper
         private ValueConverter FindConverter(Type sourceType, Type targetType)
         {
             var matchContext = new ConverterMatchContext(sourceType, targetType);
-            matchContext.Properties[typeof(PrimitiveValueConverter)] = true;
+            matchContext.SetProperty(typeof(PrimitiveValueConverter), true);
             var converter = Container.Converters.Find(matchContext);
             if (ReferenceEquals(converter, this)) return null;
             return converter;
@@ -199,7 +231,14 @@ namespace PowerMapper
             {
                 return context => { };
             }
-            if (targetType.IsAssignableFrom(sourceType))
+#if NetCore
+            var reflectingTargetType = targetType.GetTypeInfo();
+            var reflectingSourceType = sourceType.GetTypeInfo();
+#else
+            var reflectingTargetType = targetType;
+            var reflectingSourceType = sourceType;
+#endif
+            if (reflectingTargetType.IsAssignableFrom(sourceType))
             {
                 return context => context.EmitCast(targetType);
             }
@@ -455,12 +494,12 @@ namespace PowerMapper
                 }
             }
             var hasEnumeration = false;
-            if (sourceType.IsEnum)
+            if (reflectingSourceType.IsEnum)
             {
                 sourceType = Enum.GetUnderlyingType(sourceType);
                 hasEnumeration = true;
             }
-            if (targetType.IsEnum)
+            if (reflectingTargetType.IsEnum)
             {
                 targetType = Enum.GetUnderlyingType(targetType);
                 hasEnumeration = true;

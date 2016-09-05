@@ -73,10 +73,12 @@ namespace PowerMapper
 
         private static Delegate CreateConvertMethod(Type sourceType, Type targetType)
         {
-            var method =
-                typeof(IMappingContainer).GetMethods(BindingFlags.Instance | BindingFlags.Public)
-                    .Single(x => x.Name == "Map" && x.GetParameters().Length == 1)
-                    .MakeGenericMethod(sourceType, targetType);
+#if NetCore
+            var containerMethods = typeof(IMappingContainer).GetTypeInfo().GetMethods(BindingFlags.Instance | BindingFlags.Public);
+#else
+            var containerMethods = typeof(IMappingContainer).GetMethods(BindingFlags.Instance | BindingFlags.Public);
+#endif
+            var method = containerMethods.Single(x => x.Name == "Map" && x.GetParameters().Length == 1).MakeGenericMethod(sourceType, targetType);
             var containerParameter = Expression.Parameter(typeof(IMappingContainer), "container");
             var sourceParameter = Expression.Parameter(sourceType, "source");
             return Expression.Lambda(Expression.Call(containerParameter, method, sourceParameter), containerParameter, sourceParameter).Compile();
@@ -84,10 +86,12 @@ namespace PowerMapper
 
         private static Delegate CreateMapMethod(Type sourceType, Type targetType)
         {
-            var method =
-                typeof(MappingContainer).GetMethods(BindingFlags.Instance | BindingFlags.Public)
-                    .Single(x => x.Name == "Map" && x.GetParameters().Length == 2)
-                    .MakeGenericMethod(sourceType, targetType);
+#if NetCore
+            var containerMethods = typeof(MappingContainer).GetTypeInfo().GetMethods(BindingFlags.Instance | BindingFlags.Public);
+#else
+            var containerMethods = typeof(MappingContainer).GetMethods(BindingFlags.Instance | BindingFlags.Public);
+#endif
+            var method = containerMethods.Single(x => x.Name == "Map" && x.GetParameters().Length == 2).MakeGenericMethod(sourceType, targetType);
             var containerParameter = Expression.Parameter(typeof(IMappingContainer), "container");
             var sourceParameter = Expression.Parameter(sourceType, "source");
             var targetParameter = Expression.Parameter(targetType, "target");

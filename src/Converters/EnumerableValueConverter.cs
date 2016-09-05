@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 
@@ -37,9 +38,14 @@ namespace PowerMapper
 
         public override void Emit(Type sourceType, Type targetType, CompilationContext context)
         {
+#if NetCore
+            var reflectingTargetType = targetType.GetTypeInfo();
+#else
+            var reflectingTargetType = targetType;
+#endif
             context.EmitCast(typeof(IEnumerable<>).MakeGenericType(_sourceElementType));
             _invokerBuilder.Emit(context);
-            if (targetType.IsGenericType)
+            if (reflectingTargetType.IsGenericType)
             {
                 var genericTypeDefinition = targetType.GetGenericTypeDefinition();
                 if (genericTypeDefinition == typeof(IList<>) || genericTypeDefinition == typeof(ICollection<>) || genericTypeDefinition == typeof(IEnumerable<>))
@@ -56,10 +62,10 @@ namespace PowerMapper
             Type targetElementType;
             if (targetType.IsEnumerable(out targetElementType))
             {
-                var constructor = targetType.GetConstructor(new[] { typeof(IEnumerable<>).MakeGenericType(targetElementType) }) ??
-                                  targetType.GetConstructor(new[] { typeof(IList<>).MakeGenericType(targetElementType) }) ??
-                                  targetType.GetConstructor(new[] { typeof(ICollection<>).MakeGenericType(targetElementType) }) ??
-                                  targetType.GetConstructor(new[] { targetElementType.MakeArrayType() });
+                var constructor = reflectingTargetType.GetConstructor(new[] { typeof(IEnumerable<>).MakeGenericType(targetElementType) }) ??
+                                  reflectingTargetType.GetConstructor(new[] { typeof(IList<>).MakeGenericType(targetElementType) }) ??
+                                  reflectingTargetType.GetConstructor(new[] { typeof(ICollection<>).MakeGenericType(targetElementType) }) ??
+                                  reflectingTargetType.GetConstructor(new[] { targetElementType.MakeArrayType() });
                 if (constructor != null)
                 {
                     context.EmitCast(constructor.GetParameters()[0].ParameterType);
@@ -68,8 +74,13 @@ namespace PowerMapper
                 }
                 else
                 {
-                    var defaultConstructor = targetType.GetConstructor(Type.EmptyTypes);
-                    var addMethod = targetType.GetMethod("Add", BindingFlags.Instance | BindingFlags.Public, null, new[] { targetElementType }, null);
+                    var defaultConstructor = reflectingTargetType.GetConstructor(Type.EmptyTypes);
+                    var addMethod = reflectingTargetType.GetMethods(BindingFlags.Instance | BindingFlags.Public).Where(method =>
+                    {
+                        if (method.Name != "Add") return false;
+                        var parameters = method.GetParameters();
+                        return parameters.Length == 1 && parameters[0].ParameterType == targetElementType;
+                    }).FirstOrDefault();
                     if (defaultConstructor != null && addMethod != null)
                     {
                         var targetArrayType = targetElementType.MakeArrayType();
@@ -96,7 +107,12 @@ namespace PowerMapper
                         context.Emit(OpCodes.Ldloc, targetInstance);
                         context.Emit(OpCodes.Ldloc, targetArray);
                         context.Emit(OpCodes.Ldloc, index);
+#if NetCore
+                        var targetElementTypeInfo = targetElementType.GetTypeInfo();
+                        if (targetElementTypeInfo.IsValueType && !targetElementTypeInfo.IsPrimitive)
+#else
                         if (targetElementType.IsValueType && !targetElementType.IsPrimitive)
+#endif
                         {
                             context.Emit(OpCodes.Ldelema, targetElementType);
                         }

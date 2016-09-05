@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using System.Reflection.Emit;
 
 namespace PowerMapper
@@ -19,7 +20,22 @@ namespace PowerMapper
             _expression = expression;
         }
 
-        public override Type SourceType => _sourceType ?? (_sourceType = _expression.GetType().GetGenericArguments()[1]);
+
+        public override Type SourceType
+        {
+            get
+            {
+                if (_sourceType == null)
+                {
+#if NetCore
+                    _sourceType = _expression.GetType().GetTypeInfo().GetGenericArguments()[1];
+#else
+                    _sourceType = _expression.GetType().GetGenericArguments()[1];
+#endif
+                }
+                return _sourceType;
+            }
+        }
 
         public override void Compile(ModuleBuilder builder)
         {

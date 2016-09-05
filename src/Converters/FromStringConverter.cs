@@ -11,12 +11,22 @@ namespace PowerMapper
 {
     internal class FromStringConverter : ValueConverter
     {
-        private static readonly MethodInfo _enumParseMethod = typeof(Enum).GetMethod("Parse",
-            BindingFlags.Public | BindingFlags.Static, null, new[] { typeof(Type), typeof(string) }, null);
-        private static readonly MethodInfo _checkEmptyMethod = typeof(string).GetMethod("IsNullOrWhiteSpace",
-            BindingFlags.Public | BindingFlags.Static, null, new[] { typeof(string) }, null);
-        private static readonly MethodInfo _stringTrimMethod = typeof(string).GetMethod("Trim",
-            BindingFlags.Public | BindingFlags.Instance, null, Type.EmptyTypes, null);
+        private static readonly MethodInfo _enumParseMethod;
+        private static readonly MethodInfo _checkEmptyMethod;
+        private static readonly MethodInfo _stringTrimMethod;
+
+        static FromStringConverter()
+        {
+#if NetCore
+            _enumParseMethod = typeof(Enum).GetTypeInfo().GetMethod("Parse", BindingFlags.Public | BindingFlags.Static);
+            _checkEmptyMethod = typeof(string).GetTypeInfo().GetMethod("IsNullOrWhiteSpace", BindingFlags.Public | BindingFlags.Static);
+            _stringTrimMethod = typeof(string).GetTypeInfo().GetMethod("Trim", BindingFlags.Public | BindingFlags.Instance);
+#else
+            _enumParseMethod = typeof(Enum).GetMethod("Parse", BindingFlags.Public | BindingFlags.Static, null, new[] { typeof(Type), typeof(string) }, null);
+            _checkEmptyMethod = typeof(string).GetMethod("IsNullOrWhiteSpace", BindingFlags.Public | BindingFlags.Static, null, new[] { typeof(string) }, null);
+            _stringTrimMethod = typeof(string).GetMethod("Trim", BindingFlags.Public | BindingFlags.Instance, null, Type.EmptyTypes, null);
+#endif
+        }
 
 #if Net35
         private static readonly Dictionary<Type, MethodInfo> _methods = new Dictionary<Type, MethodInfo>();
@@ -48,9 +58,12 @@ namespace PowerMapper
 
         private static MethodInfo FindConvertMethod(Type type)
         {
-            return type.IsEnum
-                ? _enumParseMethod
-                : type.GetMethod("Parse", BindingFlags.Public | BindingFlags.Static, null, new[] {typeof(string)}, null);
+#if NetCore
+            var typeInfo = type.GetTypeInfo();
+            return typeInfo.IsEnum ? _enumParseMethod : typeInfo.GetMethod("Parse", BindingFlags.Public | BindingFlags.Static);
+#else
+            return type.IsEnum ? _enumParseMethod : type.GetMethod("Parse", BindingFlags.Public | BindingFlags.Static, null, new[] {typeof(string)}, null);
+#endif
         }
 
         public override int Match(ConverterMatchContext context)
@@ -58,7 +71,11 @@ namespace PowerMapper
             if (context.SourceType == typeof(string))
             {
                 var targetType = context.TargetType;
+#if NetCore
+                if (targetType.IsNullable() && GetConvertMethod(targetType.GetTypeInfo().GetGenericArguments()[0]) != null) return 1;
+#else          
                 if (targetType.IsNullable() && GetConvertMethod(targetType.GetGenericArguments()[0]) != null) return 1;
+#endif
                 if (GetConvertMethod(context.TargetType) != null) return 0;
             }
             return -1;
@@ -70,6 +87,11 @@ namespace PowerMapper
 
         public override void Emit(Type sourceType, Type targetType, CompilationContext context)
         {
+#if NetCore
+            var reflectingTargetType = targetType.GetTypeInfo();
+#else
+            var reflectingTargetType = targetType;
+#endif
             var target = context.DeclareLocal(targetType);
             var local = context.DeclareLocal(sourceType);
             context.Emit(OpCodes.Stloc, local);
@@ -97,8 +119,8 @@ namespace PowerMapper
                 context.Emit(OpCodes.Brfalse, labelSecond);
 
                 // target = new Nullable<T>(default(T));
-                context.EmitDefault(targetType.GetGenericArguments()[0]);
-                context.Emit(OpCodes.Newobj, targetType.GetConstructors()[0]);
+                context.EmitDefault(reflectingTargetType.GetGenericArguments()[0]);
+                context.Emit(OpCodes.Newobj, reflectingTargetType.GetConstructors()[0]);
                 context.Emit(OpCodes.Stloc, target);
 
                 // goto end;
@@ -108,8 +130,12 @@ namespace PowerMapper
                 // target = new Nullable<$EnumType$>(($EnumType$)Enum.Parse(typeof($EnumType$),source));
                 // or
                 // target = new Nullable<$TargetType$>($TargetType$.Parse(source));
-                var underlingType = targetType.GetGenericArguments()[0];
+                var underlingType = reflectingTargetType.GetGenericArguments()[0];
+#if NetCore
+                if (underlingType.GetTypeInfo().IsEnum)
+#else
                 if (underlingType.IsEnum)
+#endif
                 {
                     context.EmitTypeOf(underlingType);
                 }
@@ -117,7 +143,7 @@ namespace PowerMapper
                 context.EmitCall(_stringTrimMethod);
                 context.EmitCall(GetConvertMethod(underlingType));
                 context.EmitCast(underlingType);
-                context.Emit(OpCodes.Newobj, targetType.GetConstructors()[0]);
+                context.Emit(OpCodes.Newobj, reflectingTargetType.GetConstructors()[0]);
                 context.Emit(OpCodes.Stloc, target);
 
                 context.MakeLabel(labelEnd);
@@ -134,7 +160,7 @@ namespace PowerMapper
                 // target = ($EnumType$)Enum.Parse(typeof($EnumType$),source);
                 // or
                 // target = $TargetType$.Parse(source);
-                if (targetType.IsEnum)
+                if (reflectingTargetType.IsEnum)
                 {
                     context.EmitTypeOf(targetType);
                 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using PowerMapper.Properties;
@@ -14,7 +15,12 @@ namespace PowerMapper
 
         public void Emit(CompilationContext context)
         {
-            if (typeof(TTarget).IsValueType || typeof(TTarget).IsNullable())
+#if NetCore
+            var reflectingTargetType = typeof(TTarget).GetTypeInfo();
+#else
+            var reflectingTargetType = typeof(TTarget);
+#endif
+            if (reflectingTargetType.IsValueType || typeof(TTarget).IsNullable())
             {
                 var targetLocal = context.DeclareLocal(typeof(TTarget));
                 context.Emit(OpCodes.Ldloca, targetLocal);
@@ -24,8 +30,8 @@ namespace PowerMapper
             else
             {
                 var constructor =
-                    typeof(TTarget).GetConstructor(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance, null,
-                        Type.EmptyTypes, null);
+                    reflectingTargetType.GetConstructors(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance)
+                        .FirstOrDefault(ctor => ctor.GetParameters().Length == 0);
                 if (constructor == null)
                 {
                     throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Strings.Creator_CannotFindConstructor, typeof(TTarget)));

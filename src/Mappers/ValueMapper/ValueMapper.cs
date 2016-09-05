@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using System.Reflection.Emit;
 
 namespace PowerMapper
@@ -20,8 +21,13 @@ namespace PowerMapper
             context.SetTarget(purpose => il.Emit(OpCodes.Ldarg_1));
             Emit(sourceType, targetType, context);
             context.Emit(OpCodes.Ret);
-            var type = typeBuilder.CreateType();
-            return Delegate.CreateDelegate(typeof(Action<,>).MakeGenericType(sourceType, targetType), type, "Map");
+#if NetCore
+            return typeBuilder.CreateTypeInfo()
+                .GetMethod("Map", BindingFlags.Static | BindingFlags.Public)
+                .CreateDelegate(typeof(Action<,>).MakeGenericType(sourceType, targetType));
+#else
+            return Delegate.CreateDelegate(typeof(Action<,>).MakeGenericType(sourceType, targetType), typeBuilder.CreateType(), "Map");
+#endif
         }
     }
 }

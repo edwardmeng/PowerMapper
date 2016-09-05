@@ -25,9 +25,18 @@ namespace PowerMapper
             var il = methodBuilder.GetILGenerator();
             il.Emit(OpCodes.Ldsfld, field);
             il.Emit(OpCodes.Ldarg_0);
-            il.Emit(OpCodes.Callvirt, typeof(Func<T, TResult>).GetMethod("Invoke"));
+#if NetCore
+            var invokeMethod = typeof(Func<T, TResult>).GetTypeInfo().GetMethod("Invoke");
+#else
+            var invokeMethod = typeof(Func<T, TResult>).GetMethod("Invoke");
+#endif
+            il.Emit(OpCodes.Callvirt, invokeMethod);
             il.Emit(OpCodes.Ret);
+#if NetCore
+            var type = typeBuilder.CreateTypeInfo();
+#else
             var type = typeBuilder.CreateType();
+#endif
             type.GetField("Target").SetValue(null, _func);
             _invokeMethod = type.GetMethod("Invoke");
         }
