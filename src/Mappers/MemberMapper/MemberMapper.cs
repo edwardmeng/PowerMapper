@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 #if Net35
 using System.Collections.Generic;
 #else
@@ -39,8 +40,13 @@ namespace PowerMapper
             return (_options & option) == option;
         }
 #else
+#if NetCore
+        private static readonly ConcurrentDictionary<Triplet<MappingContainer, Type, Type>, TypeInfo> _genericMapperTypes
+            = new ConcurrentDictionary<Triplet<MappingContainer, Type, Type>, TypeInfo>();
+#else
         private static readonly ConcurrentDictionary<Triplet<MappingContainer, Type, Type>, Type> _genericMapperTypes
             = new ConcurrentDictionary<Triplet<MappingContainer, Type, Type>, Type>();
+#endif
 
         private void EnsureMapperType(Type sourceType, Type targetType, ModuleBuilder builder)
         {
@@ -110,16 +116,27 @@ namespace PowerMapper
                 _mapper = CreateMapper(sourceType, targetType);
             }
             _mapper?.Compile(builder);
-            if ((_converter == null || _mapper == null) && HasOption(MemberMapOptions.Hierarchy) &&
-                !(TargetMember.MemberType.IsValueType && targetType == sourceType))
+            if ((_converter == null || _mapper == null) && HasOption(MemberMapOptions.Hierarchy) && !(
+#if NetCore
+                TargetMember.MemberType.GetTypeInfo().IsValueType
+#else
+                TargetMember.MemberType.IsValueType 
+#endif
+                && targetType == sourceType))
             {
                 EnsureMapperType(sourceType, targetType, builder);
             }
         }
 
+#if NetCore
+        private TypeInfo CreateMapper(ModuleBuilder builder, Type sourceType, Type targetType)
+        {
+            var instanceMapperType = typeof(InstanceMapper<,>).MakeGenericType(sourceType, targetType).GetTypeInfo();
+#else
         private Type CreateMapper(ModuleBuilder builder, Type sourceType, Type targetType)
         {
             var instanceMapperType = typeof(InstanceMapper<,>).MakeGenericType(sourceType, targetType);
+#endif
             var instanceMapper = instanceMapperType.GetMethod("GetInstance").Invoke(null, new object[] { _container });
             var convertMethod = instanceMapperType.GetProperty("Converter").GetValue(instanceMapper, null);
             var mapperMethod = instanceMapperType.GetProperty("Mapper").GetValue(instanceMapper, null);
@@ -158,8 +175,11 @@ namespace PowerMapper
                 il.Emit(OpCodes.Ret);
             }
 
-            var type = typeBuilder.CreateType();
-            return type;
+#if NetCore
+            return typeBuilder.CreateTypeInfo();
+#else
+            return typeBuilder.CreateType();
+#endif
         }
 
         private Action<CompilationContext> GetConvertEmitter(Type sourceType, Type targetType)
@@ -168,7 +188,11 @@ namespace PowerMapper
             {
                 return context => { };
             }
+#if NetCore
+            if (targetType.GetTypeInfo().IsAssignableFrom(sourceType))
+#else
             if (targetType.IsAssignableFrom(sourceType))
+#endif
             {
                 return context => context.EmitCast(targetType);
             }
@@ -203,7 +227,13 @@ namespace PowerMapper
                 _mapper.Emit(sourceType, targetType, context);
                 return;
             }
-            if (!HasOption(MemberMapOptions.Hierarchy) || !targetType.IsClass || targetType.IsNullable())
+            if (!HasOption(MemberMapOptions.Hierarchy) ||
+#if NetCore
+                !targetType.GetTypeInfo().IsClass
+#else
+                !targetType.IsClass 
+#endif
+                || targetType.IsNullable())
             {
                 var converter = GetConvertEmitter(sourceType, targetType);
                 if (converter != null)

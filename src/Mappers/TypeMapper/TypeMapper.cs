@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Reflection.Emit;
 using PowerMapper.Properties;
 #if !Net35
@@ -218,7 +219,11 @@ namespace PowerMapper
             }
             EmitMap(context);
             context.Emit(OpCodes.Ret);
+#if NetCore
+            return (Action<TSource, TTarget>)typeBuilder.CreateTypeInfo().GetMethod("Map", BindingFlags.Static | BindingFlags.Public).CreateDelegate(typeof(Action<TSource, TTarget>));
+#else
             return (Action<TSource, TTarget>)Delegate.CreateDelegate(typeof(Action<TSource, TTarget>), typeBuilder.CreateType(), "Map");
+#endif
         }
 
         public Func<TSource, TTarget> CreateConverter(ModuleBuilder builder)
@@ -228,10 +233,17 @@ namespace PowerMapper
             var methodBuilder = typeBuilder.DefineStaticMethod("Map");
             methodBuilder.SetReturnType(typeof(TTarget));
             methodBuilder.SetParameters(typeof(TSource));
+#if NetCore
+            var reflectingTargetType = typeof(TTarget).GetTypeInfo();
+            var reflectingSourceType = typeof(TSource).GetTypeInfo();
+#else
+            var reflectingTargetType = typeof(TTarget);
+            var reflectingSourceType = typeof(TSource);
+#endif
 
             var il = methodBuilder.GetILGenerator();
             var context = new CompilationContext(il);
-            if (typeof(TSource).IsValueType)
+            if (reflectingSourceType.IsValueType)
             {
                 context.SetSource(purpose =>
                 {
@@ -252,7 +264,7 @@ namespace PowerMapper
             var targetLocal = il.DeclareLocal(typeof(TTarget));
             _creator.Emit(context);
             il.Emit(OpCodes.Stloc, targetLocal);
-            if (typeof(TTarget).IsValueType)
+            if (reflectingTargetType.IsValueType)
             {
                 context.SetTarget(
                     purpose =>
@@ -265,7 +277,11 @@ namespace PowerMapper
             EmitMap(context);
             context.LoadTarget(LoadPurpose.ReturnValue);
             context.Emit(OpCodes.Ret);
+#if NetCore
+            return (Func<TSource, TTarget>) typeBuilder.CreateTypeInfo().GetMethod("Map", BindingFlags.Static | BindingFlags.Public).CreateDelegate(typeof(Func<TSource, TTarget>));
+#else
             return (Func<TSource, TTarget>)Delegate.CreateDelegate(typeof(Func<TSource, TTarget>), typeBuilder.CreateType(), "Map");
+#endif
         }
 
         #region Configuration
