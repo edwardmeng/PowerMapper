@@ -23,8 +23,12 @@ namespace PowerMapper
             _stringTrimMethod = typeof(string).GetTypeInfo().GetMethod("Trim", BindingFlags.Public | BindingFlags.Instance);
 #else
             _enumParseMethod = typeof(Enum).GetMethod("Parse", BindingFlags.Public | BindingFlags.Static, null, new[] { typeof(Type), typeof(string) }, null);
-            _checkEmptyMethod = typeof(string).GetMethod("IsNullOrWhiteSpace", BindingFlags.Public | BindingFlags.Static, null, new[] { typeof(string) }, null);
             _stringTrimMethod = typeof(string).GetMethod("Trim", BindingFlags.Public | BindingFlags.Instance, null, Type.EmptyTypes, null);
+#if !Net35
+            _checkEmptyMethod = typeof(string).GetMethod("IsNullOrWhiteSpace", BindingFlags.Public | BindingFlags.Static, null, new[] { typeof(string) }, null);
+#else
+            _checkEmptyMethod = typeof(StringHelper).GetMethod("IsNullOrWhiteSpace", BindingFlags.Public | BindingFlags.Static, null, new[] { typeof(string) }, null);
+#endif
 #endif
         }
 
@@ -46,6 +50,11 @@ namespace PowerMapper
                 }
             }
             return method;
+        }
+
+        public static bool IsNullOrWhiteSpace(string value)
+        {
+            return string.IsNullOrEmpty(value) || value.Trim().Length == 0;
         }
 #else
         private static readonly ConcurrentDictionary<Type, MethodInfo> _methods = new ConcurrentDictionary<Type, MethodInfo>();

@@ -7,7 +7,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "nuget", "nuget", "{47FDA704
 	ProjectSection(SolutionItems) = preProject
 		nuget\build.cmd = nuget\build.cmd
 		nuget\nuget.config = nuget\nuget.config
-		nuget\Wheatech.EmitMapper.nuspec = nuget\Wheatech.EmitMapper.nuspec
+		nuget\PowerMapper.nuspec = nuget\PowerMapper.nuspec
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5978B23E-97B4-42B3-8FD7-324AB673E907}"
@@ -24,6 +24,14 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PowerMapper.net35", "build\net35\PowerMapper.net35.csproj", "{2B10E441-7225-4040-98AD-965613B6EE02}"
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "PowerMapper.netcore", "netcore\PowerMapper\PowerMapper.netcore.xproj", "{B2376A01-448B-48E5-8070-A6986FF8AE7C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{989EB9B5-5C54-4BEC-8D2C-4DEBEAE1A249}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PowerMapper.UnitTests.net40", "tests\net40\PowerMapper.UnitTests.net40.csproj", "{46A9B974-EECB-4E92-AF7F-CE710F2BAEB0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PowerMapper.UnitTests.net35", "tests\net35\PowerMapper.UnitTests.net35.csproj", "{A56D6B7B-7062-46D2-B54F-8777BD24550E}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "PowerMapper.UnitTests.netcore", "netcore\PowerMapper.UnitTests\PowerMapper.UnitTests.netcore.xproj", "{597414A4-24D7-4035-BDD8-C7A1275B9BA5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,6 +51,18 @@ Global
 		{B2376A01-448B-48E5-8070-A6986FF8AE7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B2376A01-448B-48E5-8070-A6986FF8AE7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B2376A01-448B-48E5-8070-A6986FF8AE7C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{46A9B974-EECB-4E92-AF7F-CE710F2BAEB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46A9B974-EECB-4E92-AF7F-CE710F2BAEB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46A9B974-EECB-4E92-AF7F-CE710F2BAEB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46A9B974-EECB-4E92-AF7F-CE710F2BAEB0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A56D6B7B-7062-46D2-B54F-8777BD24550E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A56D6B7B-7062-46D2-B54F-8777BD24550E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A56D6B7B-7062-46D2-B54F-8777BD24550E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A56D6B7B-7062-46D2-B54F-8777BD24550E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{597414A4-24D7-4035-BDD8-C7A1275B9BA5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{597414A4-24D7-4035-BDD8-C7A1275B9BA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{597414A4-24D7-4035-BDD8-C7A1275B9BA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{597414A4-24D7-4035-BDD8-C7A1275B9BA5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -51,5 +71,8 @@ Global
 		{7374D484-0528-4C11-BA72-059FF63CB44F} = {1337D061-B431-4F15-B61A-7FBF381B475C}
 		{2B10E441-7225-4040-98AD-965613B6EE02} = {1337D061-B431-4F15-B61A-7FBF381B475C}
 		{B2376A01-448B-48E5-8070-A6986FF8AE7C} = {1337D061-B431-4F15-B61A-7FBF381B475C}
+		{46A9B974-EECB-4E92-AF7F-CE710F2BAEB0} = {989EB9B5-5C54-4BEC-8D2C-4DEBEAE1A249}
+		{A56D6B7B-7062-46D2-B54F-8777BD24550E} = {989EB9B5-5C54-4BEC-8D2C-4DEBEAE1A249}
+		{597414A4-24D7-4035-BDD8-C7A1275B9BA5} = {989EB9B5-5C54-4BEC-8D2C-4DEBEAE1A249}
 	EndGlobalSection
 EndGlobal

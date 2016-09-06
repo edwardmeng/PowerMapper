@@ -121,9 +121,9 @@ namespace PowerMapper
                 return;
             }
 #if NetCore
-            if (!targetType.GetTypeInfo().IsEnum)
+            if (targetType.GetTypeInfo().IsEnum)
 #else
-            if (!targetType.IsEnum)
+            if (targetType.IsEnum)
 #endif
             {
                 targetType = Enum.GetUnderlyingType(targetType);

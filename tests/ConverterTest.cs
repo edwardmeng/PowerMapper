@@ -1,7 +1,11 @@
 ﻿using System;
 using System.Net;
+#if !NetCore
 using System.Web.UI.WebControls;
+using NUnit.Framework;
+#else
 using Xunit;
+#endif
 
 namespace PowerMapper.UnitTests
 {
@@ -71,7 +75,11 @@ namespace PowerMapper.UnitTests
 
         #region ByteEnum
 
+#if NetCore
         [Fact]
+#else
+        [Test]
+#endif
         public void TestFromByteEnumConvert()
         {
             Assert.Equal((sbyte)2, Mapper.Map<ByteEnum, sbyte>(ByteEnum.Two));
@@ -100,7 +108,11 @@ namespace PowerMapper.UnitTests
             Assert.Equal(2, Mapper.Map<ByteEnum, double?>(ByteEnum.Two));
         }
 
+#if NetCore
         [Fact]
+#else
+        [Test]
+#endif
         public void TestFromNullbaleByteEnumConvert()
         {
             Assert.Equal((sbyte)2, Mapper.Map<ByteEnum?, sbyte>(ByteEnum.Two));
@@ -153,7 +165,11 @@ namespace PowerMapper.UnitTests
             Assert.Equal(null, Mapper.Map<ByteEnum?, string>((ByteEnum?)null));
         }
 
+#if NetCore
         [Fact]
+#else
+        [Test]
+#endif
         public void TestToByteEnumConvert()
         {
             Assert.Equal(ByteEnum.Two, Mapper.Map<sbyte, ByteEnum>(2));
@@ -182,7 +198,11 @@ namespace PowerMapper.UnitTests
             Assert.Equal(ByteEnum.Two, Mapper.Map<double?, ByteEnum>(2));
         }
 
+#if NetCore
         [Fact]
+#else
+        [Test]
+#endif
         public void TestToNullableByteEnumConvert()
         {
             Assert.Equal(ByteEnum.Two, Mapper.Map<sbyte, ByteEnum?>(2));
@@ -226,7 +246,11 @@ namespace PowerMapper.UnitTests
 
         #region SByteEnum
 
+#if NetCore
         [Fact]
+#else
+        [Test]
+#endif
         public void TestFromSByteEnumConvert()
         {
             Assert.Equal((sbyte)2, Mapper.Map<SByteEnum, sbyte>(SByteEnum.Two));
@@ -255,7 +279,11 @@ namespace PowerMapper.UnitTests
             Assert.Equal(2, Mapper.Map<SByteEnum, double?>(SByteEnum.Two));
         }
 
+#if NetCore
         [Fact]
+#else
+        [Test]
+#endif
         public void TestFromNullableSByteEnumConvert()
         {
             Assert.Equal((sbyte)2, Mapper.Map<SByteEnum?, sbyte>(SByteEnum.Two));
@@ -308,7 +336,11 @@ namespace PowerMapper.UnitTests
             Assert.Equal(null, Mapper.Map<SByteEnum?, string>((SByteEnum?)null));
         }
 
+#if NetCore
         [Fact]
+#else
+        [Test]
+#endif
         public void TestToSByteEnumConvert()
         {
             Assert.Equal(SByteEnum.Two, Mapper.Map<sbyte, SByteEnum>(2));
@@ -337,7 +369,11 @@ namespace PowerMapper.UnitTests
             Assert.Equal(SByteEnum.Two, Mapper.Map<double?, SByteEnum>(2));
         }
 
+#if NetCore
         [Fact]
+#else
+        [Test]
+#endif
         public void TestToNullableSByteEnumConvert()
         {
             Assert.Equal(SByteEnum.Two, Mapper.Map<sbyte, SByteEnum?>(2));
@@ -381,7 +417,11 @@ namespace PowerMapper.UnitTests
 
         #region Int16Enum
 
+#if NetCore
         [Fact]
+#else
+        [Test]
+#endif
         public void TestFromInt16EnumConvert()
         {
             Assert.Equal((sbyte)2, Mapper.Map<Int16Enum, sbyte>(Int16Enum.Two));
@@ -410,7 +450,11 @@ namespace PowerMapper.UnitTests
             Assert.Equal(2, Mapper.Map<Int16Enum, double?>(Int16Enum.Two));
         }
 
+#if NetCore
         [Fact]
+#else
+        [Test]
+#endif
         public void TestFromNullableInt16EnumConvert()
         {
             Assert.Equal((sbyte)2, Mapper.Map<Int16Enum?, sbyte>(Int16Enum.Two));
@@ -463,7 +507,11 @@ namespace PowerMapper.UnitTests
             Assert.Equal(null, Mapper.Map<Int16Enum?, string>((Int16Enum?)null));
         }
 
+#if NetCore
         [Fact]
+#else
+        [Test]
+#endif
         public void TestToInt16EnumConvert()
         {
             Assert.Equal(Int16Enum.Two, Mapper.Map<sbyte, Int16Enum>(2));
@@ -492,7 +540,11 @@ namespace PowerMapper.UnitTests
             Assert.Equal(Int16Enum.Two, Mapper.Map<double?, Int16Enum>(2));
         }
 
+#if NetCore
         [Fact]
+#else
+        [Test]
+#endif
         public void TestToNullableInt16EnumConvert()
         {
             Assert.Equal(Int16Enum.Two, Mapper.Map<sbyte, Int16Enum?>(2));
@@ -536,7 +588,11 @@ namespace PowerMapper.UnitTests
 
         #region UInt16Enum
 
+#if NetCore
         [Fact]
+#else
+        [Test]
+#endif
         public void TestFromUInt16EnumConvert()
         {
             Assert.Equal((sbyte)2, Mapper.Map<UInt16Enum, sbyte>(UInt16Enum.Two));
@@ -565,7 +621,11 @@ namespace PowerMapper.UnitTests
             Assert.Equal(2, Mapper.Map<UInt16Enum, double?>(UInt16Enum.Two));
         }
 
+#if NetCore
         [Fact]
+#else
+        [Test]
+#endif
         public void TestFromNullableUInt16EnumConvert()
         {
             Assert.Equal((sbyte)2, Mapper.Map<UInt16Enum?, sbyte>(UInt16Enum.Two));
@@ -618,7 +678,11 @@ namespace PowerMapper.UnitTests
             Assert.Equal(null, Mapper.Map<UInt16Enum?, string>((UInt16Enum?)null));
         }
 
+#if NetCore
         [Fact]
+#else
+        [Test]
+#endif
         public void TestToUInt16EnumConvert()
         {
             Assert.Equal(UInt16Enum.Two, Mapper.Map<sbyte, UInt16Enum>(2));
@@ -647,7 +711,11 @@ namespace PowerMapper.UnitTests
             Assert.Equal(UInt16Enum.Two, Mapper.Map<double?, UInt16Enum>(2));
         }
 
+#if NetCore
         [Fact]
+#else
+        [Test]
+#endif
         public void TestToNullableUInt16EnumConvert()
         {
             Assert.Equal(UInt16Enum.Two, Mapper.Map<sbyte, UInt16Enum?>(2));
@@ -691,7 +759,11 @@ namespace PowerMapper.UnitTests
 
         #region Int32Enum
 
+#if NetCore
         [Fact]
+#else
+        [Test]
+#endif
         public void TestFromInt32EnumConvert()
         {
             Assert.Equal((sbyte)2, Mapper.Map<Int32Enum, sbyte>(Int32Enum.Two));
@@ -720,7 +792,11 @@ namespace PowerMapper.UnitTests
             Assert.Equal(2, Mapper.Map<Int32Enum, double?>(Int32Enum.Two));
         }
 
+#if NetCore
         [Fact]
+#else
+        [Test]
+#endif
         public void TestFromNullableInt32EnumConvert()
         {
             Assert.Equal((sbyte)2, Mapper.Map<Int32Enum?, sbyte>(Int32Enum.Two));
@@ -773,7 +849,11 @@ namespace PowerMapper.UnitTests
             Assert.Equal(null, Mapper.Map<Int32Enum?, string>((Int32Enum?)null));
         }
 
+#if NetCore
         [Fact]
+#else
+        [Test]
+#endif
         public void TestToInt32EnumConvert()
         {
             Assert.Equal(Int32Enum.Two, Mapper.Map<sbyte, Int32Enum>(2));
@@ -802,7 +882,11 @@ namespace PowerMapper.UnitTests
             Assert.Equal(Int32Enum.Two, Mapper.Map<double?, Int32Enum>(2));
         }
 
+#if NetCore
         [Fact]
+#else
+        [Test]
+#endif
         public void TestToNullableInt32EnumConvert()
         {
             Assert.Equal(Int32Enum.Two, Mapper.Map<sbyte, Int32Enum?>(2));
@@ -846,7 +930,11 @@ namespace PowerMapper.UnitTests
 
         #region UInt32Enum
 
+#if NetCore
         [Fact]
+#else
+        [Test]
+#endif
         public void TestFromUInt32EnumConvert()
         {
             Assert.Equal((sbyte)2, Mapper.Map<UInt32Enum, sbyte>(UInt32Enum.Two));
@@ -875,7 +963,11 @@ namespace PowerMapper.UnitTests
             Assert.Equal(2, Mapper.Map<UInt32Enum, double?>(UInt32Enum.Two));
         }
 
+#if NetCore
         [Fact]
+#else
+        [Test]
+#endif
         public void TestFromNullableUInt32EnumConvert()
         {
             Assert.Equal((sbyte)2, Mapper.Map<UInt32Enum?, sbyte>(UInt32Enum.Two));
@@ -928,7 +1020,11 @@ namespace PowerMapper.UnitTests
             Assert.Equal(null, Mapper.Map<UInt32Enum?, string>((UInt32Enum?)null));
         }
 
+#if NetCore
         [Fact]
+#else
+        [Test]
+#endif
         public void TestToUInt32EnumConvert()
         {
             Assert.Equal(UInt32Enum.Two, Mapper.Map<sbyte, UInt32Enum>(2));
@@ -957,7 +1053,11 @@ namespace PowerMapper.UnitTests
             Assert.Equal(UInt32Enum.Two, Mapper.Map<double?, UInt32Enum>(2));
         }
 
+#if NetCore
         [Fact]
+#else
+        [Test]
+#endif
         public void TestToNullableUInt32EnumConvert()
         {
             Assert.Equal(UInt32Enum.Two, Mapper.Map<sbyte, UInt32Enum?>(2));
@@ -1001,7 +1101,11 @@ namespace PowerMapper.UnitTests
 
         #region Int64Enum
 
+#if NetCore
         [Fact]
+#else
+        [Test]
+#endif
         public void TestFromInt64EnumConvert()
         {
             Assert.Equal((sbyte)2, Mapper.Map<Int64Enum, sbyte>(Int64Enum.Two));
@@ -1030,7 +1134,11 @@ namespace PowerMapper.UnitTests
             Assert.Equal(2, Mapper.Map<Int64Enum, double?>(Int64Enum.Two));
         }
 
+#if NetCore
         [Fact]
+#else
+        [Test]
+#endif
         public void TestFromNullableInt64EnumConvert()
         {
             Assert.Equal((sbyte)2, Mapper.Map<Int64Enum?, sbyte>(Int64Enum.Two));
@@ -1083,7 +1191,11 @@ namespace PowerMapper.UnitTests
             Assert.Equal(null, Mapper.Map<Int64Enum?, string>((Int64Enum?)null));
         }
 
+#if NetCore
         [Fact]
+#else
+        [Test]
+#endif
         public void TestToInt64EnumConvert()
         {
             Assert.Equal(Int64Enum.Two, Mapper.Map<sbyte, Int64Enum>(2));
@@ -1112,7 +1224,11 @@ namespace PowerMapper.UnitTests
             Assert.Equal(Int64Enum.Two, Mapper.Map<double?, Int64Enum>(2));
         }
 
+#if NetCore
         [Fact]
+#else
+        [Test]
+#endif
         public void TestToNullableInt64EnumConvert()
         {
             Assert.Equal(Int64Enum.Two, Mapper.Map<sbyte, Int64Enum?>(2));
@@ -1156,7 +1272,11 @@ namespace PowerMapper.UnitTests
 
         #region UInt64Enum
 
+#if NetCore
         [Fact]
+#else
+        [Test]
+#endif
         public void TestFromUInt64EnumConvert()
         {
             Assert.Equal((sbyte)2, Mapper.Map<UInt64Enum, sbyte>(UInt64Enum.Two));
@@ -1185,7 +1305,11 @@ namespace PowerMapper.UnitTests
             Assert.Equal(2, Mapper.Map<UInt64Enum, double?>(UInt64Enum.Two));
         }
 
+#if NetCore
         [Fact]
+#else
+        [Test]
+#endif
         public void TestFromNullableUInt64EnumConvert()
         {
             Assert.Equal((sbyte)2, Mapper.Map<UInt64Enum?, sbyte>(UInt64Enum.Two));
@@ -1238,7 +1362,11 @@ namespace PowerMapper.UnitTests
             Assert.Equal(null, Mapper.Map<UInt64Enum?, string>((UInt64Enum?)null));
         }
 
+#if NetCore
         [Fact]
+#else
+        [Test]
+#endif
         public void TestToUInt64EnumConvert()
         {
             Assert.Equal(UInt64Enum.Two, Mapper.Map<sbyte, UInt64Enum>(2));
@@ -1267,7 +1395,11 @@ namespace PowerMapper.UnitTests
             Assert.Equal(UInt64Enum.Two, Mapper.Map<double?, UInt64Enum>(2));
         }
 
+#if NetCore
         [Fact]
+#else
+        [Test]
+#endif
         public void TestToNullableUInt64EnumConvert()
         {
             Assert.Equal(UInt64Enum.Two, Mapper.Map<sbyte, UInt64Enum?>(2));
@@ -1315,7 +1447,11 @@ namespace PowerMapper.UnitTests
 
         #region Byte
 
+#if NetCore
         [Fact]
+#else
+        [Test]
+#endif
         public void TestByteConvert()
         {
             Assert.Equal((sbyte)20, Mapper.Map<byte, sbyte>(20));
@@ -1354,7 +1490,11 @@ namespace PowerMapper.UnitTests
             Assert.Equal(new TimeSpan(20), Mapper.Map<byte, TimeSpan?>(20));
         }
 
+#if NetCore
         [Fact]
+#else
+        [Test]
+#endif
         public void TestNullableByteConvert()
         {
             Assert.Equal((sbyte)20, Mapper.Map<byte?, sbyte>(20));
@@ -1429,7 +1569,11 @@ namespace PowerMapper.UnitTests
 
         #region SByte
 
+#if NetCore
         [Fact]
+#else
+        [Test]
+#endif
         public void TestSByteConvert()
         {
             Assert.Equal((sbyte)20, Mapper.Map<sbyte, sbyte>(20));
@@ -1468,7 +1612,11 @@ namespace PowerMapper.UnitTests
             Assert.Equal(new TimeSpan(20), Mapper.Map<sbyte, TimeSpan?>(20));
         }
 
+#if NetCore
         [Fact]
+#else
+        [Test]
+#endif
         public void TestNullableSByteConvert()
         {
             Assert.Equal((sbyte)20, Mapper.Map<sbyte?, sbyte>(20));
@@ -1543,7 +1691,11 @@ namespace PowerMapper.UnitTests
 
         #region Char
 
+#if NetCore
         [Fact]
+#else
+        [Test]
+#endif
         public void TestCharConvert()
         {
             Assert.Equal((sbyte)20, Mapper.Map<char, sbyte>((char)20));
@@ -1583,7 +1735,11 @@ namespace PowerMapper.UnitTests
             Assert.Equal(new TimeSpan(20), Mapper.Map<char, TimeSpan?>((char)20));
         }
 
+#if NetCore
         [Fact]
+#else
+        [Test]
+#endif
         public void TestNullableCharConvert()
         {
             Assert.Equal((sbyte)20, Mapper.Map<char?, sbyte>((char)20));
@@ -1660,7 +1816,11 @@ namespace PowerMapper.UnitTests
 
         #region Int32
 
+#if NetCore
         [Fact]
+#else
+        [Test]
+#endif
         public void TestInt32Convert()
         {
             Assert.Equal((sbyte)20, Mapper.Map<int, sbyte>(20));
@@ -1700,7 +1860,11 @@ namespace PowerMapper.UnitTests
             Assert.Equal(new TimeSpan(20), Mapper.Map<int, TimeSpan?>(20));
         }
 
+#if NetCore
         [Fact]
+#else
+        [Test]
+#endif
         public void TestNullableInt32Convert()
         {
             Assert.Equal((sbyte)20, Mapper.Map<int?, sbyte>(20));
@@ -1777,7 +1941,11 @@ namespace PowerMapper.UnitTests
 
         #region UInt32
 
+#if NetCore
         [Fact]
+#else
+        [Test]
+#endif
         public void TestUInt32Convert()
         {
             Assert.Equal((sbyte)20, Mapper.Map<uint, sbyte>(20));
@@ -1817,7 +1985,11 @@ namespace PowerMapper.UnitTests
             Assert.Equal(new TimeSpan(20), Mapper.Map<uint, TimeSpan?>(20));
         }
 
+#if NetCore
         [Fact]
+#else
+        [Test]
+#endif
         public void TestNullableUInt32Convert()
         {
             Assert.Equal((sbyte)20, Mapper.Map<uint?, sbyte>(20));
@@ -1894,7 +2066,11 @@ namespace PowerMapper.UnitTests
 
         #region Int16
 
+#if NetCore
         [Fact]
+#else
+        [Test]
+#endif
         public void TestInt16Convert()
         {
             Assert.Equal((sbyte)20, Mapper.Map<short, sbyte>(20));
@@ -1934,7 +2110,11 @@ namespace PowerMapper.UnitTests
             Assert.Equal(new TimeSpan(20), Mapper.Map<short, TimeSpan?>(20));
         }
 
+#if NetCore
         [Fact]
+#else
+        [Test]
+#endif
         public void TestNullableInt16Convert()
         {
             Assert.Equal((sbyte)20, Mapper.Map<short?, sbyte>(20));
@@ -2011,7 +2191,11 @@ namespace PowerMapper.UnitTests
 
         #region UInt16
 
+#if NetCore
         [Fact]
+#else
+        [Test]
+#endif
         public void TestUInt16Convert()
         {
             Assert.Equal((sbyte)20, Mapper.Map<ushort, sbyte>(20));
@@ -2051,7 +2235,11 @@ namespace PowerMapper.UnitTests
             Assert.Equal(new TimeSpan(20), Mapper.Map<ushort, TimeSpan?>(20));
         }
 
+#if NetCore
         [Fact]
+#else
+        [Test]
+#endif
         public void TestNullableUInt16Convert()
         {
             Assert.Equal((sbyte)20, Mapper.Map<ushort?, sbyte>(20));
@@ -2128,7 +2316,11 @@ namespace PowerMapper.UnitTests
 
         #region Int64
 
+#if NetCore
         [Fact]
+#else
+        [Test]
+#endif
         public void TestInt64Convert()
         {
             Assert.Equal((sbyte)20, Mapper.Map<long, sbyte>(20));
@@ -2168,7 +2360,11 @@ namespace PowerMapper.UnitTests
             Assert.Equal(new TimeSpan(20), Mapper.Map<long, TimeSpan?>(20));
         }
 
+#if NetCore
         [Fact]
+#else
+        [Test]
+#endif
         public void TestNullableInt64Convert()
         {
             Assert.Equal((sbyte)20, Mapper.Map<long?, sbyte>(20));
@@ -2245,7 +2441,11 @@ namespace PowerMapper.UnitTests
 
         #region UInt64
 
+#if NetCore
         [Fact]
+#else
+        [Test]
+#endif
         public void TestUInt64Convert()
         {
             Assert.Equal((sbyte)20, Mapper.Map<ulong, sbyte>(20));
@@ -2285,7 +2485,11 @@ namespace PowerMapper.UnitTests
             Assert.Equal(new TimeSpan(20), Mapper.Map<ulong, TimeSpan?>(20));
         }
 
+#if NetCore
         [Fact]
+#else
+        [Test]
+#endif
         public void TestNullableUInt64Convert()
         {
             Assert.Equal((sbyte)20, Mapper.Map<ulong?, sbyte>(20));
@@ -2362,7 +2566,11 @@ namespace PowerMapper.UnitTests
 
         #region Decimal
 
+#if NetCore
         [Fact]
+#else
+        [Test]
+#endif
         public void TestDecimalConvert()
         {
             Assert.Equal((sbyte)20, Mapper.Map<decimal, sbyte>(20));
@@ -2401,7 +2609,11 @@ namespace PowerMapper.UnitTests
             Assert.Equal(new TimeSpan(20), Mapper.Map<decimal, TimeSpan?>(20));
         }
 
+#if NetCore
         [Fact]
+#else
+        [Test]
+#endif
         public void TestNullableDecimalConvert()
         {
             Assert.Equal((sbyte)20, Mapper.Map<decimal?, sbyte>(20));
@@ -2476,7 +2688,11 @@ namespace PowerMapper.UnitTests
 
         #region Double
 
+#if NetCore
         [Fact]
+#else
+        [Test]
+#endif
         public void TestDoubleConvert()
         {
             Assert.Equal((sbyte)20, Mapper.Map<double, sbyte>(20));
@@ -2516,7 +2732,11 @@ namespace PowerMapper.UnitTests
             Assert.Equal(new TimeSpan(20), Mapper.Map<double, TimeSpan?>(20));
         }
 
+#if NetCore
         [Fact]
+#else
+        [Test]
+#endif
         public void TestNullableDoubleConvert()
         {
             Assert.Equal((sbyte)20, Mapper.Map<double?, sbyte>(20));
@@ -2593,7 +2813,11 @@ namespace PowerMapper.UnitTests
 
         #region Single
 
+#if NetCore
         [Fact]
+#else
+        [Test]
+#endif
         public void TestSingleConvert()
         {
             Assert.Equal((sbyte)20, Mapper.Map<float, sbyte>(20));
@@ -2633,7 +2857,11 @@ namespace PowerMapper.UnitTests
             Assert.Equal(new TimeSpan(20), Mapper.Map<float, TimeSpan?>(20));
         }
 
+#if NetCore
         [Fact]
+#else
+        [Test]
+#endif
         public void TestNullableSingleConvert()
         {
             Assert.Equal((sbyte)20, Mapper.Map<float?, sbyte>(20));
@@ -2712,7 +2940,11 @@ namespace PowerMapper.UnitTests
 
         #region String
 
+#if NetCore
         [Fact]
+#else
+        [Test]
+#endif
         public void TestFromStringConvert()
         {
             Assert.Equal((sbyte)20, Mapper.Map<string, sbyte>("20"));
@@ -2737,8 +2969,6 @@ namespace PowerMapper.UnitTests
             Assert.Equal(offset, Mapper.Map<string, DateTimeOffset>(offset.ToString()));
             var guid = Guid.NewGuid();
             Assert.Equal(guid, Mapper.Map<string, Guid>(guid.ToString()));
-            var unit = Unit.Parse("57px");
-            Assert.Equal(unit, Mapper.Map<string, Unit>(unit.ToString()));
 
             Assert.Equal((sbyte?)20, Mapper.Map<string, sbyte?>("20"));
             Assert.Equal((byte?)20, Mapper.Map<string, byte?>("20"));
@@ -2758,19 +2988,27 @@ namespace PowerMapper.UnitTests
             Assert.Equal(span, Mapper.Map<string, TimeSpan?>(span.ToString()));
             Assert.Equal(offset, Mapper.Map<string, DateTimeOffset?>(offset.ToString()));
             Assert.Equal(guid, Mapper.Map<string, Guid?>(guid.ToString()));
-            Assert.Equal(unit, Mapper.Map<string, Unit?>(unit.ToString()));
             Assert.Equal(IPAddress.None, Mapper.Map<string, IPAddress>(IPAddress.None.ToString()));
-            var version = typeof(Mapper).Assembly.GetName().Version;
-            Assert.Equal(version, Mapper.Map<string, Version>(version.ToString()));
             var uri = new Uri("http://www.wheatsoft.cn");
             Assert.Equal(uri, Mapper.Map<string, Uri>(uri.ToString()));
+            var version = new Version(1, 2, 4, 5657);
+            Assert.Equal(version, Mapper.Map<string, Version>(version.ToString()));
+#if !NetCore
+            var unit = Unit.Parse("57px");
+            Assert.Equal(unit, Mapper.Map<string, Unit>(unit.ToString()));
+            Assert.Equal(unit, Mapper.Map<string, Unit?>(unit.ToString()));
             var type = typeof(Mapper);
             Assert.Equal(type, Mapper.Map<string, Type>(type.AssemblyQualifiedName));
             var zone = TimeZoneInfo.Local;
             Assert.Equal(zone, Mapper.Map<string, TimeZoneInfo>(zone.ToSerializedString()));
+#endif
         }
 
+#if NetCore
         [Fact]
+#else
+        [Test]
+#endif
         public void TestToStringConvert()
         {
             var now = DateTime.Now.ToString();
@@ -2781,38 +3019,46 @@ namespace PowerMapper.UnitTests
             Assert.Equal(offset, Mapper.Map<DateTimeOffset, string>(DateTimeOffset.Parse(offset)));
             var guid = Guid.NewGuid();
             Assert.Equal(guid.ToString(), Mapper.Map<Guid, string>(guid));
-            var unit = Unit.Parse("57px");
-            Assert.Equal(unit.ToString(), Mapper.Map<Unit, string>(unit));
 
             Assert.Equal(IPAddress.None.ToString(), Mapper.Map<IPAddress, string>(IPAddress.None));
-            var version = typeof(Mapper).Assembly.GetName().Version;
+            var version = new Version(1, 2, 4, 5657);
             Assert.Equal(version.ToString(), Mapper.Map<Version, string>(version));
             var uri = new Uri("http://www.wheatsoft.cn");
             Assert.Equal(uri.ToString(), Mapper.Map<Uri, string>(uri));
-            var type = typeof(Mapper);
-            Assert.Equal(type.AssemblyQualifiedName, Mapper.Map<Type, string>(type));
-            var zone = TimeZoneInfo.Local;
-            Assert.Equal(zone.ToSerializedString(), Mapper.Map<TimeZoneInfo, string>(zone));
 
             Assert.Equal(now, Mapper.Map<DateTime?, string>(DateTime.Parse(now)));
             Assert.Equal(span.ToString(), Mapper.Map<TimeSpan?, string>(span));
             Assert.Equal(offset, Mapper.Map<DateTimeOffset?, string>(DateTimeOffset.Parse(offset)));
             Assert.Equal(guid.ToString(), Mapper.Map<Guid?, string>(guid));
-            Assert.Equal(unit.ToString(), Mapper.Map<Unit?, string>(unit));
 
             Assert.Equal(null, Mapper.Map<DateTime?, string>((DateTime?)null));
             Assert.Equal(null, Mapper.Map<TimeSpan?, string>((TimeSpan?)null));
             Assert.Equal(null, Mapper.Map<DateTimeOffset?, string>((DateTimeOffset?)null));
             Assert.Equal(null, Mapper.Map<Guid?, string>((Guid?)null));
-            Assert.Equal(null, Mapper.Map<Unit?, string>((Unit?)null));
             Assert.Equal(null, Mapper.Map<IPAddress, string>((IPAddress)null));
             Assert.Equal(null, Mapper.Map<Version, string>((Version)null));
             Assert.Equal(null, Mapper.Map<Uri, string>((Uri)null));
             Assert.Equal(null, Mapper.Map<Type, string>((Type)null));
             Assert.Equal(null, Mapper.Map<TimeZoneInfo, string>((TimeZoneInfo)null));
+
+#if !NetCore
+            var type = typeof(Mapper);
+            Assert.Equal(type.AssemblyQualifiedName, Mapper.Map<Type, string>(type));
+            var zone = TimeZoneInfo.Local;
+            Assert.Equal(zone.ToSerializedString(), Mapper.Map<TimeZoneInfo, string>(zone));
+
+            var unit = Unit.Parse("57px");
+            Assert.Equal(unit.ToString(), Mapper.Map<Unit, string>(unit));
+            Assert.Equal(unit.ToString(), Mapper.Map<Unit?, string>(unit));
+            Assert.Equal(null, Mapper.Map<Unit?, string>((Unit?)null));
+#endif
         }
 
+#if NetCore
         [Fact]
+#else
+        [Test]
+#endif
         public void TestFromNullStringConvert()
         {
             Assert.Equal((sbyte)0, Mapper.Map<string, sbyte>((string)null));
@@ -2832,7 +3078,6 @@ namespace PowerMapper.UnitTests
             Assert.Equal(TimeSpan.Zero, Mapper.Map<string, TimeSpan>((string)null));
             Assert.Equal(DateTimeOffset.MinValue, Mapper.Map<string, DateTimeOffset>((string)null));
             Assert.Equal(Guid.Empty, Mapper.Map<string, Guid>((string)null));
-            Assert.Equal(Unit.Empty, Mapper.Map<string, Unit>((string)null));
 
             Assert.Equal(null, Mapper.Map<string, sbyte?>((string)null));
             Assert.Equal(null, Mapper.Map<string, byte?>((string)null));
@@ -2851,15 +3096,22 @@ namespace PowerMapper.UnitTests
             Assert.Equal(null, Mapper.Map<string, TimeSpan?>((string)null));
             Assert.Equal(null, Mapper.Map<string, DateTimeOffset?>((string)null));
             Assert.Equal(null, Mapper.Map<string, Guid?>((string)null));
-            Assert.Equal(null, Mapper.Map<string, Unit?>((string)null));
             Assert.Equal(null, Mapper.Map<string, IPAddress>((string)null));
             Assert.Equal(null, Mapper.Map<string, Version>((string)null));
             Assert.Equal(null, Mapper.Map<string, Uri>((string)null));
+#if !NetCore
             Assert.Equal(null, Mapper.Map<string, Type>((string)null));
             Assert.Equal(null, Mapper.Map<string, TimeZoneInfo>((string)null));
+            Assert.Equal(Unit.Empty, Mapper.Map<string, Unit>((string)null));
+            Assert.Equal(null, Mapper.Map<string, Unit?>((string)null));
+#endif
         }
 
+#if NetCore
         [Fact]
+#else
+        [Test]
+#endif
         public void TestFromEmptyStringConvert()
         {
             Assert.Equal((sbyte)0, Mapper.Map<string, sbyte>(string.Empty));
@@ -2879,7 +3131,6 @@ namespace PowerMapper.UnitTests
             Assert.Equal(TimeSpan.Zero, Mapper.Map<string, TimeSpan>(string.Empty));
             Assert.Equal(DateTimeOffset.MinValue, Mapper.Map<string, DateTimeOffset>(string.Empty));
             Assert.Equal(Guid.Empty, Mapper.Map<string, Guid>(string.Empty));
-            Assert.Equal(Unit.Empty, Mapper.Map<string, Unit>(string.Empty));
 
             Assert.Equal((sbyte?)0, Mapper.Map<string, sbyte?>(string.Empty));
             Assert.Equal((byte?)0, Mapper.Map<string, byte?>(string.Empty));
@@ -2898,11 +3149,18 @@ namespace PowerMapper.UnitTests
             Assert.Equal(null, Mapper.Map<string, IPAddress>(string.Empty));
             Assert.Equal(null, Mapper.Map<string, Version>(string.Empty));
             Assert.Equal(null, Mapper.Map<string, Uri>(string.Empty));
+#if !NetCore
             Assert.Equal(null, Mapper.Map<string, Type>(string.Empty));
             Assert.Equal(null, Mapper.Map<string, TimeZoneInfo>(string.Empty));
+            Assert.Equal(Unit.Empty, Mapper.Map<string, Unit>(string.Empty));
+#endif
         }
 
+#if NetCore
         [Fact]
+#else
+        [Test]
+#endif
         public void TestFromWhiteSpaceConvert()
         {
             Assert.Equal((sbyte)0, Mapper.Map<string, sbyte>(" "));
@@ -2922,7 +3180,6 @@ namespace PowerMapper.UnitTests
             Assert.Equal(TimeSpan.Zero, Mapper.Map<string, TimeSpan>(" "));
             Assert.Equal(DateTimeOffset.MinValue, Mapper.Map<string, DateTimeOffset>(" "));
             Assert.Equal(Guid.Empty, Mapper.Map<string, Guid>(" "));
-            Assert.Equal(Unit.Empty, Mapper.Map<string, Unit>(" "));
 
             Assert.Equal((sbyte?)0, Mapper.Map<string, sbyte?>(" "));
             Assert.Equal((byte?)0, Mapper.Map<string, byte?>(" "));
@@ -2941,15 +3198,22 @@ namespace PowerMapper.UnitTests
             Assert.Equal(null, Mapper.Map<string, IPAddress>(" "));
             Assert.Equal(null, Mapper.Map<string, Version>(" "));
             Assert.Equal(null, Mapper.Map<string, Uri>(" "));
+#if !NetCore
             Assert.Equal(null, Mapper.Map<string, Type>(" "));
             Assert.Equal(null, Mapper.Map<string, TimeZoneInfo>(" "));
+            Assert.Equal(Unit.Empty, Mapper.Map<string, Unit>(" "));
+#endif
         }
 
         #endregion
 
         #region Misc
 
+#if NetCore
         [Fact]
+#else
+        [Test]
+#endif
         public void TestNullableToNonNullable()
         {
             Assert.Equal(DateTime.MinValue, Mapper.Map<DateTime?, DateTime>((DateTime?)null));
@@ -2967,13 +3231,18 @@ namespace PowerMapper.UnitTests
             Assert.Equal(Guid.Empty, Mapper.Map<Guid?, Guid>((Guid?)null));
             var guid = Guid.NewGuid();
             Assert.Equal(guid, Mapper.Map<Guid?, Guid>(guid));
-
+#if !NetCore
             Assert.Equal(Unit.Empty, Mapper.Map<Unit?, Unit>((Unit?)null));
             var unit = Unit.Parse("57px");
             Assert.Equal(unit, Mapper.Map<Unit?, Unit>(unit));
+#endif
         }
 
+#if NetCore
         [Fact]
+#else
+        [Test]
+#endif
         public void TestFromByteArray()
         {
             Assert.Equal(20, Mapper.Map<byte[], int>(BitConverter.GetBytes(20)));
@@ -2996,7 +3265,11 @@ namespace PowerMapper.UnitTests
             Assert.Equal(IPAddress.None, Mapper.Map<byte[], IPAddress>(IPAddress.None.GetAddressBytes()));
         }
 
+#if NetCore
         [Fact]
+#else
+        [Test]
+#endif
         public void TestDateTimeToDateTimeOffset()
         {
             var now = DateTime.Now;
@@ -3005,6 +3278,6 @@ namespace PowerMapper.UnitTests
             Assert.Equal(new DateTimeOffset(now), Mapper.Map<DateTime, DateTimeOffset>(now));
         }
 
-        #endregion
+#endregion
     }
 }

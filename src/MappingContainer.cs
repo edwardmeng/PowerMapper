@@ -33,7 +33,7 @@ namespace PowerMapper
             _moduleBuilder = AssemblyBuilder.DefineDynamicAssembly(assemblyName, AssemblyBuilderAccess.Run).DefineDynamicModule(assemblyName.Name);
 #else
             _moduleBuilder =
-                AppDomain.CurrentDomain.DefineDynamicAssembly(assemblyName, AssemblyBuilderAccess.Run)
+                AppDomain.CurrentDomain.DefineDynamicAssembly(assemblyName, AssemblyBuilderAccess.RunAndSave)
                     .DefineDynamicModule(assemblyName.Name, assemblyName.Name + ".dll", false);
 #endif
             Converters = new ValueConverterCollection(this);
@@ -231,6 +231,10 @@ namespace PowerMapper
             Converters.AddIntrinsic((IPAddress source) => source?.GetAddressBytes());
             // string -> Uri
             Converters.AddIntrinsic((string source) => string.IsNullOrEmpty(source) || source.Trim().Length == 0 ? null : new Uri(source));
+#if Net35
+            Converters.AddIntrinsic((string source) => string.IsNullOrEmpty(source) || source.Trim().Length == 0 ? null : new Version(source));
+            Converters.AddIntrinsic((string source) => string.IsNullOrEmpty(source) || source.Trim().Length == 0 ? Guid.Empty : new Guid(source));
+#endif
 #if !NetCore
             // string -> Type
             Converters.AddIntrinsic((string source) => string.IsNullOrEmpty(source) || source.Trim().Length == 0 ? null : TypeNameConverter.GetType(source, true, false));

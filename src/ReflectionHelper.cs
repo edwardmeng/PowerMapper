@@ -105,7 +105,7 @@ namespace PowerMapper
 #else
                 if (reflectingSourceType == reflectingTargetType) return distance;
                 if (reflectingSourceType == typeof(object)) break;
-                sourceType = sourceType.BaseType;
+                reflectingSourceType = reflectingSourceType.BaseType;
 #endif
                 distance++;
             }

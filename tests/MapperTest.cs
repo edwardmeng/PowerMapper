@@ -4,13 +4,21 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using PowerMapper.UnitTests.BusinessModel;
 using PowerMapper.UnitTests.DataModel;
+#if !NetCore
+using NUnit.Framework;
+#else
 using Xunit;
+#endif
 
 namespace PowerMapper.UnitTests
 {
     public class MapperTest
     {
+#if NetCore
         [Fact]
+#else
+        [Test]
+#endif
         public void TestMapCollection()
         {
             var roleEntities = new RoleEntity[10];
@@ -58,7 +66,11 @@ namespace PowerMapper.UnitTests
             AreSequentialEqual(roles, Mapper.Map<RoleEntity[], RoleCollection>(roleEntities));
         }
 
+#if NetCore
         [Fact]
+#else
+        [Test]
+#endif
         public void TestMapClassToClass()
         {
             var entity = new RoleEntity
@@ -79,7 +91,11 @@ namespace PowerMapper.UnitTests
             Assert.Equal(entity.Description, role.Description);
         }
 
+#if NetCore
         [Fact]
+#else
+        [Test]
+#endif
         public void TestMapClassToStruct()
         {
             var entity = new RoleEntity
@@ -100,7 +116,11 @@ namespace PowerMapper.UnitTests
             Assert.Equal(entity.Description, role.Description);
         }
 
+#if NetCore
         [Fact]
+#else
+        [Test]
+#endif
         public void TestMapStructToClass()
         {
             var entity = new RoleStructEntity
@@ -121,7 +141,11 @@ namespace PowerMapper.UnitTests
             Assert.Equal(entity.Description, role.Description);
         }
 
+#if NetCore
         [Fact]
+#else
+        [Test]
+#endif
         public void TestMapStructToStruct()
         {
             var entity = new RoleStructEntity
@@ -142,7 +166,11 @@ namespace PowerMapper.UnitTests
             Assert.Equal(entity.Description, role.Description);
         }
 
+#if NetCore
         [Fact]
+#else
+        [Test]
+#endif
         public void TestCustomMemberMapper()
         {
             var container = Mapper.CreateContainer();
@@ -161,7 +189,11 @@ namespace PowerMapper.UnitTests
             Assert.Equal(entity.Description, role.Description);
         }
 
+#if NetCore
         [Fact]
+#else
+        [Test]
+#endif
         public void TestCustomCreator()
         {
             var container = Mapper.CreateContainer();
@@ -180,7 +212,11 @@ namespace PowerMapper.UnitTests
             Assert.Equal(entity.Description, role.Description);
         }
 
+#if NetCore
         [Fact]
+#else
+        [Test]
+#endif
         public void TestCustomMapper()
         {
             var container = Mapper.CreateContainer();
@@ -204,7 +240,11 @@ namespace PowerMapper.UnitTests
             Assert.Equal(entity.Description, role.Description);
         }
 
+#if NetCore
         [Fact]
+#else
+        [Test]
+#endif
         public void TestCustomConvension()
         {
             var container = Mapper.CreateContainer();
@@ -252,7 +292,11 @@ namespace PowerMapper.UnitTests
             Assert.Equal(entity.Description, role.Description);
         }
 
+#if NetCore
         [Fact]
+#else
+        [Test]
+#endif
         public void TestShadowMap()
         {
             var order = new Order
@@ -280,7 +324,11 @@ namespace PowerMapper.UnitTests
             Assert.Null(entity.Items);
         }
 
+#if NetCore
         [Fact]
+#else
+        [Test]
+#endif
         public void TestHierarchyMap()
         {
             var container = Mapper.CreateContainer();
@@ -316,7 +364,11 @@ namespace PowerMapper.UnitTests
             Assert.Equal(order.Items[0].Quantity, item.Quantity);
         }
 
+#if NetCore
         [Fact]
+#else
+        [Test]
+#endif
         public void TestBeforeMap()
         {
             var container = Mapper.CreateContainer();
@@ -335,7 +387,11 @@ namespace PowerMapper.UnitTests
             Assert.Equal(entity.Description, role.Description);
         }
 
+#if NetCore
         [Fact]
+#else
+        [Test]
+#endif
         public void TestAfterMap()
         {
             var container = Mapper.CreateContainer();
@@ -354,7 +410,11 @@ namespace PowerMapper.UnitTests
             Assert.Equal(entity.Description, role.Description);
         }
 
+#if NetCore
         [Fact]
+#else
+        [Test]
+#endif
         public void TestInheritMap()
         {
             var container = Mapper.CreateContainer();

@@ -1,0 +1,121 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{46A9B974-EECB-4E92-AF7F-CE710F2BAEB0}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PowerMapper.UnitTests</RootNamespace>
+    <AssemblyName>PowerMapper.UnitTests</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>..\..\PowerMapper.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="nunit.framework, Version=3.4.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\NUnit.3.4.1\lib\net40\nunit.framework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\GlobalAssemblyInfo.cs">
+      <Link>Properties\GlobalAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\Assert.cs">
+      <Link>Assert.cs</Link>
+    </Compile>
+    <Compile Include="..\BusinessModel\DerivedOrder.cs">
+      <Link>BusinessModel\DerivedOrder.cs</Link>
+    </Compile>
+    <Compile Include="..\BusinessModel\Order.cs">
+      <Link>BusinessModel\Order.cs</Link>
+    </Compile>
+    <Compile Include="..\BusinessModel\OrderItem.cs">
+      <Link>BusinessModel\OrderItem.cs</Link>
+    </Compile>
+    <Compile Include="..\BusinessModel\ReadOnlyRoleCollection.cs">
+      <Link>BusinessModel\ReadOnlyRoleCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\BusinessModel\Role.cs">
+      <Link>BusinessModel\Role.cs</Link>
+    </Compile>
+    <Compile Include="..\BusinessModel\RoleCollection.cs">
+      <Link>BusinessModel\RoleCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\BusinessModel\RoleStruct.cs">
+      <Link>BusinessModel\RoleStruct.cs</Link>
+    </Compile>
+    <Compile Include="..\ConverterTest.cs">
+      <Link>ConverterTest.cs</Link>
+    </Compile>
+    <Compile Include="..\DataModel\DerivedOrderEntity.cs">
+      <Link>DataModel\DerivedOrderEntity.cs</Link>
+    </Compile>
+    <Compile Include="..\DataModel\OrderEntity.cs">
+      <Link>DataModel\OrderEntity.cs</Link>
+    </Compile>
+    <Compile Include="..\DataModel\OrderItemEntity.cs">
+      <Link>DataModel\OrderItemEntity.cs</Link>
+    </Compile>
+    <Compile Include="..\DataModel\RoleEntity.cs">
+      <Link>DataModel\RoleEntity.cs</Link>
+    </Compile>
+    <Compile Include="..\DataModel\RoleStructEntity.cs">
+      <Link>DataModel\RoleStructEntity.cs</Link>
+    </Compile>
+    <Compile Include="..\MapperTest.cs">
+      <Link>MapperTest.cs</Link>
+    </Compile>
+    <Compile Include="..\Properties\AssemblyInfo.cs">
+      <Link>Properties\AssemblyInfo.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\PowerMapper.snk">
+      <Link>Properties\PowerMapper.snk</Link>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\build\net40\PowerMapper.net40.csproj">
+      <Project>{7374d484-0528-4c11-ba72-059ff63cb44f}</Project>
+      <Name>PowerMapper.net40</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

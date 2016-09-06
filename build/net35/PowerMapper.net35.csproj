@@ -211,6 +211,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Strings.resx</DependentUpon>
     </Compile>
+    <Compile Include="..\..\src\StringHelper.cs">
+      <Link>StringHelper.cs</Link>
+    </Compile>
     <Compile Include="..\..\src\Triplet.cs">
       <Link>Triplet.cs</Link>
     </Compile>
