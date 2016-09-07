@@ -2,7 +2,6 @@
 using System.Globalization;
 using System.Reflection;
 using System.Reflection.Emit;
-using PowerMapper.Properties;
 
 namespace PowerMapper
 {
@@ -86,11 +85,62 @@ namespace PowerMapper
             }
             else
             {
-                if (currentTypeIsValue)
+                if (context.CurrentType == typeof(long) || context.CurrentType == typeof(ulong) ||
+                    context.CurrentType == typeof(int) || context.CurrentType == typeof(uint) ||
+                    context.CurrentType == typeof(short) || context.CurrentType == typeof(ushort) ||
+                    context.CurrentType == typeof(byte) || context.CurrentType == typeof(sbyte) ||
+                    context.CurrentType == typeof(float) || context.CurrentType == typeof(double) || 
+                    context.CurrentType == typeof(char) || context.CurrentType == typeof(bool))
+                {
+                    if (targetType == typeof(sbyte))
+                    {
+                        context.Emit(OpCodes.Conv_I1);
+                    }
+                    if (targetType == typeof(byte))
+                    {
+                        context.Emit(OpCodes.Conv_U1);
+                    }
+                    if (targetType == typeof(short) || targetType == typeof(char))
+                    {
+                        context.Emit(OpCodes.Conv_I2);
+                    }
+                    if (targetType == typeof(ushort))
+                    {
+                        context.Emit(OpCodes.Conv_U2);
+                    }
+                    if (targetType == typeof(int)/* && (
+                        context.CurrentType == typeof(long) || context.CurrentType == typeof(ulong) || 
+                        context.CurrentType == typeof(float) || context.CurrentType == typeof(double)
+                    )*/)
+                    {
+                        context.Emit(OpCodes.Conv_I4);
+                    }
+                    if (targetType == typeof(uint))
+                    {
+                        context.Emit(OpCodes.Conv_U4);
+                    }
+                    if (targetType == typeof(long))
+                    {
+                        context.Emit(OpCodes.Conv_I8);
+                    }
+                    if (targetType == typeof(ulong))
+                    {
+                        context.Emit(OpCodes.Conv_U8);
+                    }
+                    if (targetType == typeof(float))
+                    {
+                        context.Emit(OpCodes.Conv_R4);
+                    }
+                    if (targetType == typeof(double))
+                    {
+                        context.Emit(OpCodes.Conv_R8);
+                    }
+                }
+                else if (currentTypeIsValue)
                 {
                     throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, Strings.Emit_InvalidCastType, context.CurrentType, targetType));
                 }
-                if (targetType != typeof(object))
+                else if (targetType != typeof(object))
                 {
                     context.Emit(OpCodes.Castclass, targetType);
                 }

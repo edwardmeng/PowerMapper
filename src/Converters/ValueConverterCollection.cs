@@ -1,11 +1,10 @@
 ﻿using System;
-#if !Net35
-using System.Collections.Concurrent;
-#endif
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Emit;
-using PowerMapper.Properties;
+#if !Net35
+using System.Collections.Concurrent;
+#endif
 
 namespace PowerMapper
 {

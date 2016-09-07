@@ -170,7 +170,7 @@
       <Link>Runtime\IInvokerBuilder.cs</Link>
     </Compile>
     <Compile Include="..\..\src\Properties\Strings.Designer.cs">
-      <Link>Properties\Strings.Designer.cs</Link>
+      <Link>Strings.Designer.cs</Link>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Strings.resx</DependentUpon>
@@ -181,7 +181,7 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="..\..\src\Properties\Strings.resx">
-      <Link>Properties\Strings.resx</Link>
+      <Link>Strings.resx</Link>
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Strings.Designer.cs</LastGenOutput>
     </EmbeddedResource>

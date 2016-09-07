@@ -8,12 +8,11 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using System.Reflection;
-
-namespace PowerMapper.Properties {
+namespace PowerMapper {
     using System;
-    
-    
+    using System.Reflection;
+
+
     /// <summary>
     ///   一个强类型的资源类，用于查找本地化的字符串等。
     /// </summary>
@@ -46,7 +45,7 @@ namespace PowerMapper.Properties {
 #else
                     var assembly = typeof(Strings).Assembly;
 #endif
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("PowerMapper.Properties.Strings", assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("PowerMapper.Strings", assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

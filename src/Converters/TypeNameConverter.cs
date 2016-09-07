@@ -6,7 +6,6 @@ using System.Reflection;
 using System.Web;
 using System.Web.Compilation;
 using System.Web.Hosting;
-using PowerMapper.Properties;
 
 namespace PowerMapper
 {

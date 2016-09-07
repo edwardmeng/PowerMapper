@@ -444,6 +444,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal(((Order)order).CustomerId, ((OrderEntity)entity).CustomerId);
             Assert.Equal(order.OrderCode, entity.OrderCode);
             Assert.Equal(order.Address, entity.Address);
+
         }
 
         public static void AreSequentialEqual<T>(IEnumerable<T> first, IEnumerable<T> second)
@@ -466,6 +467,11 @@ namespace PowerMapper.UnitTests
                 Assert.Equal(firstEnumerator.Current, secondEnumerator.Current);
             }
             Assert.False(secondEnumerator.MoveNext());
+        }
+
+        public void Sample()
+        {
+            int x = 1;
         }
     }
 }

@@ -3,7 +3,6 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using PowerMapper.Properties;
 
 namespace PowerMapper
 {

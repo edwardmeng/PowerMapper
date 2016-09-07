@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using PowerMapper.Properties;
 #if !Net35
 using System.Collections.Concurrent;
 #endif

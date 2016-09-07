@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 #if Net35
 using System.Collections.Generic;
 #else
@@ -17,17 +18,36 @@ namespace PowerMapper
 
         static FromStringConverter()
         {
+            Func<MethodInfo,bool> enumParsePredicate = method =>
+            {
+                if (method.Name == "Parse")
+                {
+                    var parameters = method.GetParameters();
+                    return parameters.Length == 2 && parameters[0].ParameterType == typeof (Type) && parameters[1].ParameterType == typeof (string);
+                }
+                return false;
+            };
+            Func<MethodInfo, bool> stringTrimPredicate = method => method.Name == "Trim" && method.GetParameters().Length == 0;
+            Func<MethodInfo, bool> checkEmptyPredicate = method =>
+            {
+                if (method.Name == "IsNullOrWhiteSpace")
+                {
+                    var parameters = method.GetParameters();
+                    return parameters.Length == 1 && parameters[0].ParameterType == typeof (string);
+                }
+                return false;
+            };
 #if NetCore
-            _enumParseMethod = typeof(Enum).GetTypeInfo().GetMethod("Parse", BindingFlags.Public | BindingFlags.Static);
-            _checkEmptyMethod = typeof(string).GetTypeInfo().GetMethod("IsNullOrWhiteSpace", BindingFlags.Public | BindingFlags.Static);
-            _stringTrimMethod = typeof(string).GetTypeInfo().GetMethod("Trim", BindingFlags.Public | BindingFlags.Instance);
+            _enumParseMethod = typeof(Enum).GetTypeInfo().GetMethods(BindingFlags.Public | BindingFlags.Static).Where(enumParsePredicate).FirstOrDefault();
+            _stringTrimMethod = typeof(string).GetTypeInfo().GetMethods(BindingFlags.Public | BindingFlags.Instance).FirstOrDefault(stringTrimPredicate);
+            _checkEmptyMethod = typeof(string).GetTypeInfo().GetMethods(BindingFlags.Public | BindingFlags.Static).FirstOrDefault(checkEmptyPredicate);
 #else
-            _enumParseMethod = typeof(Enum).GetMethod("Parse", BindingFlags.Public | BindingFlags.Static, null, new[] { typeof(Type), typeof(string) }, null);
-            _stringTrimMethod = typeof(string).GetMethod("Trim", BindingFlags.Public | BindingFlags.Instance, null, Type.EmptyTypes, null);
+            _enumParseMethod = typeof(Enum).GetMethods(BindingFlags.Public | BindingFlags.Static).Where(enumParsePredicate).FirstOrDefault();
+            _stringTrimMethod = typeof(string).GetMethods(BindingFlags.Public | BindingFlags.Instance).FirstOrDefault(stringTrimPredicate);
 #if !Net35
-            _checkEmptyMethod = typeof(string).GetMethod("IsNullOrWhiteSpace", BindingFlags.Public | BindingFlags.Static, null, new[] { typeof(string) }, null);
+            _checkEmptyMethod = typeof(string).GetMethods(BindingFlags.Public | BindingFlags.Static).FirstOrDefault(checkEmptyPredicate);
 #else
-            _checkEmptyMethod = typeof(StringHelper).GetMethod("IsNullOrWhiteSpace", BindingFlags.Public | BindingFlags.Static, null, new[] { typeof(string) }, null);
+            _checkEmptyMethod = typeof(StringHelper).GetMethods(BindingFlags.Public | BindingFlags.Static).FirstOrDefault(checkEmptyPredicate);
 #endif
 #endif
         }

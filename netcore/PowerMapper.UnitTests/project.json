@@ -1,6 +1,6 @@
 ﻿{
   "version": "1.0.0-*",
-
+  "testRunner": "xunit",
   "dependencies": {
     "Microsoft.NETCore.App": {
       "version": "1.0.0-*",
