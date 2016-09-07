@@ -87,11 +87,20 @@ namespace PowerMapper
 
         private static MethodInfo FindConvertMethod(Type type)
         {
+            Func<MethodInfo, bool> parsePredicate = method =>
+            {
+                if (method.Name == "Parse")
+                {
+                    var parameters = method.GetParameters();
+                    return parameters.Length == 1 && parameters[0].ParameterType == typeof(string);
+                }
+                return false;
+            };
 #if NetCore
             var typeInfo = type.GetTypeInfo();
-            return typeInfo.IsEnum ? _enumParseMethod : typeInfo.GetMethod("Parse", BindingFlags.Public | BindingFlags.Static);
+            return typeInfo.IsEnum ? _enumParseMethod : typeInfo.GetMethods(BindingFlags.Public | BindingFlags.Static).FirstOrDefault(parsePredicate);
 #else
-            return type.IsEnum ? _enumParseMethod : type.GetMethod("Parse", BindingFlags.Public | BindingFlags.Static, null, new[] {typeof(string)}, null);
+            return type.IsEnum ? _enumParseMethod : type.GetMethods(BindingFlags.Public | BindingFlags.Static).FirstOrDefault(parsePredicate);
 #endif
         }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 
@@ -108,10 +109,7 @@ namespace PowerMapper
                     {
                         context.Emit(OpCodes.Conv_U2);
                     }
-                    if (targetType == typeof(int)/* && (
-                        context.CurrentType == typeof(long) || context.CurrentType == typeof(ulong) || 
-                        context.CurrentType == typeof(float) || context.CurrentType == typeof(double)
-                    )*/)
+                    if (targetType == typeof(int))
                     {
                         context.Emit(OpCodes.Conv_I4);
                     }
@@ -208,12 +206,21 @@ namespace PowerMapper
                 context.CurrentType = originalType;
                 return;
             }
+            Func<MethodInfo, bool> coverterPredicate = method =>
+            {
+                if (method.Name == "op_Implicit")
+                {
+                    var parameters = method.GetParameters();
+                    return parameters.Length == 1 && parameters[0].ParameterType == typeof(int);
+                }
+                return false;
+            };
 #if NetCore
             var reflectingType = targetType.GetTypeInfo();
             if (targetType == typeof(decimal))
             {
                 context.Emit(OpCodes.Ldc_I4_0);
-                context.EmitCall(reflectingType.GetMethod("op_Implicit", BindingFlags.Static | BindingFlags.Public));
+                context.EmitCall(reflectingType.GetMethods(BindingFlags.Static | BindingFlags.Public).FirstOrDefault(coverterPredicate));
                 context.CurrentType = originalType;
                 return;
             }
@@ -222,7 +229,7 @@ namespace PowerMapper
             if (targetType == typeof(decimal))
             {
                 context.Emit(OpCodes.Ldc_I4_0);
-                context.EmitCall(reflectingType.GetMethod("op_Implicit", BindingFlags.Static | BindingFlags.Public, null, new[] { typeof(int) }, null));
+                context.EmitCall(reflectingType.GetMethods(BindingFlags.Static | BindingFlags.Public).FirstOrDefault(coverterPredicate));
                 context.CurrentType = originalType;
                 return;
             }
@@ -240,11 +247,11 @@ namespace PowerMapper
             var property = reflectingType.GetProperty("Empty", BindingFlags.Public | BindingFlags.Static) ??
                            reflectingType.GetProperty("Zero", BindingFlags.Public | BindingFlags.Static) ??
                            reflectingType.GetProperty("MinValue", BindingFlags.Public | BindingFlags.Static);
-            var method = property?.GetGetMethod();
-            if (method != null)
+            var getMethod = property?.GetGetMethod();
+            if (getMethod != null)
             {
-                context.EmitCall(method);
-                context.CurrentType = method.ReturnType;
+                context.EmitCall(getMethod);
+                context.CurrentType = getMethod.ReturnType;
                 context.EmitCast(originalType);
                 return;
             }

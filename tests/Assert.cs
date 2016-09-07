@@ -1,4 +1,7 @@
-﻿namespace PowerMapper.UnitTests
+﻿using System.Collections;
+using System.Collections.Generic;
+
+namespace PowerMapper.UnitTests
 {
     public static class Assert
     {
@@ -8,6 +11,29 @@
             Xunit.Assert.Equal(expected, actual);
 #else
             NUnit.Framework.Assert.AreEqual(expected, actual);
+#endif
+        }
+
+        public static void Equal<T>(IEnumerable<T> expected, IEnumerable<T> actual)
+        {
+#if NetCore
+            Xunit.Assert.Equal(expected, actual);
+#else
+            if (expected != null && actual != null)
+            {
+                var enumeratorExpected = expected.GetEnumerator();
+                var enumeratorActual = actual.GetEnumerator();
+                do
+                {
+                    var f1 = enumeratorExpected.MoveNext();
+                    var f2 = enumeratorActual.MoveNext();
+                    if ((!f1||!f2)&&(f1||f2))
+                    {
+                        NUnit.Framework.Assert.Fail();
+                    }
+                    NUnit.Framework.Assert.AreEqual(enumeratorExpected.Current, enumeratorActual.Current);
+                } while (true);
+            }
 #endif
         }
 

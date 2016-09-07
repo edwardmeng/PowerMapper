@@ -99,8 +99,8 @@ namespace PowerMapper
             while (reflectingSourceType != null)
             {
 #if NetCore
-                if (reflectingSourceType.GetType() == reflectingTargetType.GetType()) return distance;
-                if (reflectingSourceType.GetType() == typeof(object)) break;
+                if (reflectingSourceType.AsType() == reflectingTargetType.AsType()) return distance;
+                if (reflectingSourceType.AsType() == typeof(object)) break;
                 reflectingSourceType = reflectingSourceType.BaseType?.GetTypeInfo();
 #else
                 if (reflectingSourceType == reflectingTargetType) return distance;
