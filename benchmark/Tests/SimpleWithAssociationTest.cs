@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Benchmarks.Generators;
 using Benchmarks.Mapping;
 using Benchmarks.Models;
@@ -27,11 +26,6 @@ namespace Benchmarks.Tests
             ExpressMapperMapping.Init();
         }
 
-        protected override void InitOoMapper()
-        {
-            OoMapperMappings.Init();
-        }
-
         protected override void InitValueInjectorMapper()
         {
             ValueInjectorMappings.Init();
@@ -42,10 +36,18 @@ namespace Benchmarks.Tests
             MapsterMapperMappings.Init();
         }
 
+#if !NetCore
+        
+        protected override void InitOoMapper()
+        {
+            OoMapperMappings.Init();
+        }
+
         protected override void InitTinyMapper()
         {
             TinyMapperMappings.Init();
         }
+#endif
 
         protected override void InitNativeMapper()
         {
@@ -66,12 +68,6 @@ namespace Benchmarks.Tests
             return ExpressMapper.Mapper.Map<List<User>, List<UserViewModel>>(src);
         }
 
-        protected override List<UserViewModel> OoMapperMap(List<User> src)
-        {
-            var userViewModels = OoMapper.Mapper.Map<List<User>, List<UserViewModel>>(src);
-            return userViewModels;
-        }
-
         protected override List<UserViewModel> ValueInjectorMap(List<User> src)
         {
             var list = new List<UserViewModel>();
@@ -88,11 +84,20 @@ namespace Benchmarks.Tests
             return userViewModels;
         }
 
+#if !NetCore
+        
+        protected override List<UserViewModel> OoMapperMap(List<User> src)
+        {
+            var userViewModels = OoMapper.Mapper.Map<List<User>, List<UserViewModel>>(src);
+            return userViewModels;
+        }
+
         protected override List<UserViewModel> TinyMapperMap(List<User> src)
         {
             // custom mapping is not supported
-            throw new NotImplementedException();
+            throw new System.NotImplementedException();
         }
+#endif
 
         protected override List<UserViewModel> NativeMapperMap(List<User> src)
         {

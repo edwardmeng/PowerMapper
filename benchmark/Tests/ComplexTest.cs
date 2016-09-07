@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Benchmarks.Generators;
 using Benchmarks.Mapping;
 using Benchmarks.Models;
@@ -27,11 +26,6 @@ namespace Benchmarks.Tests
             ExpressMapperMapping.Init();
         }
 
-        protected override void InitOoMapper()
-        {
-            OoMapperMappings.Init();
-        }
-
         protected override void InitValueInjectorMapper()
         {
             ValueInjectorMappings.Init();
@@ -42,10 +36,17 @@ namespace Benchmarks.Tests
             MapsterMapperMappings.Init();
         }
 
+#if !NetCore
+        protected override void InitOoMapper()
+        {
+            OoMapperMappings.Init();
+        }
         protected override void InitTinyMapper()
         {
             TinyMapperMappings.Init();
         }
+        
+#endif
 
         protected override void InitNativeMapper()
         {
@@ -66,14 +67,6 @@ namespace Benchmarks.Tests
             return ExpressMapper.Mapper.Map<List<Test>, List<TestViewModel>>(src);
         }
 
-        protected override List<TestViewModel> OoMapperMap(List<Test> src)
-        {
-            // Custom constructor, beforeMap, AfterMap is not supported
-
-            throw new NotImplementedException();
-            //return OoMapper.Mapper.Map<List<Test>, List<TestViewModel>>(src);
-        }
-
         protected override List<TestViewModel> ValueInjectorMap(List<Test> src)
         {
             var list = new List<TestViewModel>();
@@ -88,12 +81,21 @@ namespace Benchmarks.Tests
         {
             return TypeAdapter.Adapt<List<Test>, List<TestViewModel>>(src);
         }
+#if !NetCore
+
+        protected override List<TestViewModel> OoMapperMap(List<Test> src)
+        {
+            // Custom constructor, beforeMap, AfterMap is not supported
+
+            throw new System.NotImplementedException();
+            //return OoMapper.Mapper.Map<List<Test>, List<TestViewModel>>(src);
+        }
 
         protected override List<TestViewModel> TinyMapperMap(List<Test> src)
         {
-            throw new NotImplementedException();
+            throw new System.NotImplementedException();
         }
-
+#endif
         protected override List<TestViewModel> NativeMapperMap(List<Test> src)
         {
             var list = new List<TestViewModel>();

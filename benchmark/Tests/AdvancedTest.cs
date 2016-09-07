@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Benchmarks.Generators;
 using Benchmarks.Mapping;
 using Benchmarks.Models;
@@ -27,11 +26,6 @@ namespace Benchmarks.Tests
             ExpressMapperMapping.InitAdvanced();
         }
 
-        protected override void InitOoMapper()
-        {
-            OoMapperMappings.InitAdvanced();
-        }
-
         protected override void InitValueInjectorMapper()
         {
             ValueInjectorMappings.Init();
@@ -42,10 +36,18 @@ namespace Benchmarks.Tests
             MapsterMapperMappings.Init();
         }
 
+#if !NetCore
+        
+        protected override void InitOoMapper()
+        {
+            OoMapperMappings.InitAdvanced();
+        }
+
         protected override void InitTinyMapper()
         {
             TinyMapperMappings.Init();
         }
+#endif
 
         protected override void InitNativeMapper()
         {
@@ -66,11 +68,18 @@ namespace Benchmarks.Tests
             return ExpressMapper.Mapper.Map<List<Test>, List<TestViewModel>>(src);
         }
 
+#if !NetCore
         protected override List<TestViewModel> OoMapperMap(List<Test> src)
         {
             var testViewModels = OoMapper.Mapper.Map<List<Test>, List<TestViewModel>>(src);
             return testViewModels;
         }
+
+        protected override List<TestViewModel> TinyMapperMap(List<Test> src)
+        {
+            throw new System.NotImplementedException();
+        }
+#endif
 
         protected override List<TestViewModel> ValueInjectorMap(List<Test> src)
         {
@@ -86,11 +95,6 @@ namespace Benchmarks.Tests
         {
             var testViewModels = TypeAdapter.Adapt<List<Test>, List<TestViewModel>>(src);
             return testViewModels;
-        }
-
-        protected override List<TestViewModel> TinyMapperMap(List<Test> src)
-        {
-            throw new NotImplementedException();
         }
 
         protected override List<TestViewModel> NativeMapperMap(List<Test> src)

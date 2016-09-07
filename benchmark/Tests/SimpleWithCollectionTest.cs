@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Benchmarks.Generators;
 using Benchmarks.Mapping;
 using Benchmarks.Models;
@@ -27,11 +26,6 @@ namespace Benchmarks.Tests
             ExpressMapperMapping.Init();
         }
 
-        protected override void InitOoMapper()
-        {
-            OoMapperMappings.Init();
-        }
-
         protected override void InitValueInjectorMapper()
         {
             ValueInjectorMappings.Init();
@@ -42,10 +36,18 @@ namespace Benchmarks.Tests
             MapsterMapperMappings.Init();
         }
 
+#if !NetCore
+        
+        protected override void InitOoMapper()
+        {
+            OoMapperMappings.Init();
+        }
+
         protected override void InitTinyMapper()
         {
             TinyMapperMappings.Init();
         }
+#endif
 
         protected override void InitNativeMapper()
         {
@@ -66,12 +68,6 @@ namespace Benchmarks.Tests
             return ExpressMapper.Mapper.Map<List<Author>, List<AuthorViewModel>>(src);
         }
 
-        protected override List<AuthorViewModel> OoMapperMap(List<Author> src)
-        {
-            var authorViewModels = OoMapper.Mapper.Map<List<Author>, List<AuthorViewModel>>(src);
-            return authorViewModels;
-        }
-
         protected override List<AuthorViewModel> ValueInjectorMap(List<Author> src)
         {
             var list = new List<AuthorViewModel>();
@@ -88,11 +84,20 @@ namespace Benchmarks.Tests
             return authorViewModels;
         }
 
+#if !NetCore
+        
+        protected override List<AuthorViewModel> OoMapperMap(List<Author> src)
+        {
+            var authorViewModels = OoMapper.Mapper.Map<List<Author>, List<AuthorViewModel>>(src);
+            return authorViewModels;
+        }
+
         protected override List<AuthorViewModel> TinyMapperMap(List<Author> src)
         {
             // custom mapping is not supported
-            throw new NotImplementedException();
+            throw new System.NotImplementedException();
         }
+#endif
 
         protected override List<AuthorViewModel> NativeMapperMap(List<Author> src)
         {

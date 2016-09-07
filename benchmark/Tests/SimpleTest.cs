@@ -4,7 +4,6 @@ using Benchmarks.Mapping;
 using Benchmarks.Models;
 using Benchmarks.ViewModels;
 using Mapster;
-using Nelibur.ObjectMapper;
 using PowerMapper;
 
 namespace Benchmarks.Tests
@@ -27,11 +26,6 @@ namespace Benchmarks.Tests
             ExpressMapperMapping.Init();
         }
 
-        protected override void InitOoMapper()
-        {
-            OoMapperMappings.Init();
-        }
-
         protected override void InitValueInjectorMapper()
         {
             ValueInjectorMappings.Init();
@@ -42,10 +36,18 @@ namespace Benchmarks.Tests
             MapsterMapperMappings.Init();
         }
 
+#if !NetCore
+        
+        protected override void InitOoMapper()
+        {
+            OoMapperMappings.Init();
+        }
+
         protected override void InitTinyMapper()
         {
             TinyMapperMappings.Init();
         }
+#endif
 
         protected override void InitNativeMapper()
         {
@@ -66,11 +68,6 @@ namespace Benchmarks.Tests
             return ExpressMapper.Mapper.Map<List<News>, List<NewsViewModel>>(src);
         }
 
-        protected override List<NewsViewModel> OoMapperMap(List<News> src)
-        {
-            return OoMapper.Mapper.Map<List<News>, List<NewsViewModel>>(src);
-        }
-
         protected override List<NewsViewModel> ValueInjectorMap(List<News> src)
         {
             var list = new List<NewsViewModel>();
@@ -86,6 +83,13 @@ namespace Benchmarks.Tests
             return TypeAdapter.Adapt<List<News>, List<NewsViewModel>>(src);
         }
 
+#if !NetCore
+        
+        protected override List<NewsViewModel> OoMapperMap(List<News> src)
+        {
+            return OoMapper.Mapper.Map<List<News>, List<NewsViewModel>>(src);
+        }
+
         protected override List<NewsViewModel> TinyMapperMap(List<News> src)
         {
             var list = new List<NewsViewModel>();
@@ -95,6 +99,7 @@ namespace Benchmarks.Tests
             }
             return list;
         }
+#endif
 
         protected override List<NewsViewModel> NativeMapperMap(List<News> src)
         {

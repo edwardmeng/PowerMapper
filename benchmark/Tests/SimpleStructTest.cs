@@ -4,7 +4,6 @@ using Benchmarks.Mapping;
 using Benchmarks.Models;
 using Benchmarks.ViewModels;
 using Mapster;
-using Nelibur.ObjectMapper;
 using PowerMapper;
 
 namespace Benchmarks.Tests
@@ -27,11 +26,6 @@ namespace Benchmarks.Tests
             ExpressMapperMapping.Init();
         }
 
-        protected override void InitOoMapper()
-        {
-            OoMapperMappings.Init();
-        }
-
         protected override void InitValueInjectorMapper()
         {
             ValueInjectorMappings.Init();
@@ -42,10 +36,18 @@ namespace Benchmarks.Tests
             MapsterMapperMappings.Init();
         }
 
+#if !NetCore
+        protected override void InitOoMapper()
+        {
+            OoMapperMappings.Init();
+        }
+
         protected override void InitTinyMapper()
         {
             TinyMapperMappings.Init();
         }
+        
+#endif
 
         protected override void InitNativeMapper()
         {
@@ -66,11 +68,6 @@ namespace Benchmarks.Tests
             return ExpressMapper.Mapper.Map<List<Item>, List<ItemViewModel>>(src);
         }
 
-        protected override List<ItemViewModel> OoMapperMap(List<Item> src)
-        {
-            return OoMapper.Mapper.Map<List<Item>, List<ItemViewModel>>(src);
-        }
-
         protected override List<ItemViewModel> ValueInjectorMap(List<Item> src)
         {
             var list = new List<ItemViewModel>();
@@ -86,6 +83,13 @@ namespace Benchmarks.Tests
             return TypeAdapter.Adapt<List<Item>, List<ItemViewModel>>(src);
         }
 
+#if !NetCore
+        
+        protected override List<ItemViewModel> OoMapperMap(List<Item> src)
+        {
+            return OoMapper.Mapper.Map<List<Item>, List<ItemViewModel>>(src);
+        }
+
         protected override List<ItemViewModel> TinyMapperMap(List<Item> src)
         {
             var list = new List<ItemViewModel>();
@@ -95,6 +99,7 @@ namespace Benchmarks.Tests
             }
             return list;
         }
+#endif
 
         protected override List<ItemViewModel> NativeMapperMap(List<Item> src)
         {
