@@ -10,7 +10,11 @@ Get it on NuGet!
 
 Supported platform:
 ------------------
-Microsoft .NET Framework 4.6.1
+Microsoft .NET Framework 3.5
+
+Microsoft .NET Framework 4.0+
+
+NetStandard 1.5
 
 Comparisons:
 -----------

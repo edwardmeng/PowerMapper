@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Benchmarks</RootNamespace>
     <AssemblyName>Benchmarks</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -36,7 +36,7 @@
     <StartupObject>Benchmarks.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>..\PowerMapper.snk</AssemblyOriginatorKeyFile>
@@ -47,7 +47,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="ExpressMapper, Version=1.8.2.0, Culture=neutral, PublicKeyToken=ac363faa09311ba0, processorArchitecture=MSIL">
-      <HintPath>..\packages\Expressmapper.1.8.2\lib\net45\ExpressMapper.dll</HintPath>
+      <HintPath>..\packages\Expressmapper.1.8.2\lib\net46\ExpressMapper.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Mapster, Version=2.5.0.0, Culture=neutral, PublicKeyToken=2f39883af23c29a8, processorArchitecture=MSIL">
@@ -114,9 +114,6 @@
     <Compile Include="ViewModels\UserViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\PowerMapper.snk">
-      <Link>Properties\PowerMapper.snk</Link>
-    </None>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
