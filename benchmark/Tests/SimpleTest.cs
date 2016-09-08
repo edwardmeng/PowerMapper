@@ -95,7 +95,7 @@ namespace Benchmarks.Tests
             var list = new List<NewsViewModel>();
             foreach (var item in src)
             {
-                list.Add(TinyMapper.Map<News, NewsViewModel>(item));
+                list.Add(Nelibur.ObjectMapper.TinyMapper.Map<News, NewsViewModel>(item));
             }
             return list;
         }

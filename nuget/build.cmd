@@ -19,19 +19,15 @@ set VisualStudioVersion=14.0
 REM Package restore
 echo.
 echo Running package restore...
-call :ExecuteCmd ..\tools\nuget.exe restore ..\Wheatech.EmitMapper.sln -OutputDirectory ..\packages -NonInteractive -ConfigFile nuget.config
+call :ExecuteCmd nuget.exe restore ..\PowerMapper.sln -OutputDirectory ..\packages -NonInteractive -ConfigFile nuget.config
 IF %ERRORLEVEL% NEQ 0 goto error
 
 echo Building solution...
-call :ExecuteCmd %msbuild% "..\Wheatech.EmitMapper.sln" /p:Configuration="%config%" /m /v:M /fl /flp:LogFile=msbuild.log;Verbosity=Normal /nr:false
+call :ExecuteCmd %msbuild% "..\build\net35\PowerMapper.net35.csproj" /p:Configuration="%config%" /m /v:M /fl /flp:LogFile=msbuild.log;Verbosity=Normal /nr:false
 IF %ERRORLEVEL% NEQ 0 goto error
-
-REM Run tests
-echo.
-echo Run tests...
-call :ExecuteCmd ..\tools\nuget.exe install xunit.runner.console -Version 2.1.0 -OutputDirectory ..\packages
+call :ExecuteCmd %msbuild% "..\build\net40\PowerMapper.net40.csproj" /p:Configuration="%config%" /m /v:M /fl /flp:LogFile=msbuild.log;Verbosity=Normal /nr:false
 IF %ERRORLEVEL% NEQ 0 goto error
-call :ExecuteCmd ..\packages\xunit.runner.console.2.1.0\tools\xunit.console.exe ..\tests\bin\%config%\Wheatech.EmitMapper.UnitTests.dll
+call :ExecuteCmd %msbuild% "..\netcore\PowerMapper\PowerMapper.netcore.xproj" /p:Configuration="%config%" /m /v:M /fl /flp:LogFile=msbuild.log;Verbosity=Normal /nr:false
 IF %ERRORLEVEL% NEQ 0 goto error
 
 echo Packaging...
@@ -40,11 +36,20 @@ set packagestmp="%cd%\packages"
 if not exist %libtmp% mkdir %libtmp%
 if not exist %packagestmp% mkdir %packagestmp%
 
-if not exist %libtmp%\net461 mkdir %libtmp%\net461
-copy ..\src\bin\%config%\Wheatech.EmitMapper.dll %libtmp%\net461 /Y
-copy ..\src\bin\%config%\Wheatech.EmitMapper.xml %libtmp%\net461 /Y
+if not exist %libtmp%\net35 mkdir %libtmp%\net35
+copy ..\build\net35\bin\%config%\PowerMapper.dll %libtmp%\net35 /Y
+copy ..\build\net35\bin\%config%\PowerMapper.xml %libtmp%\net35 /Y
 
-call :ExecuteCmd ..\tools\nuget.exe pack "%cd%\Wheatech.EmitMapper.nuspec" -OutputDirectory %packagestmp% %version%
+if not exist %libtmp%\net40 mkdir %libtmp%\net40
+copy ..\build\net40\bin\%config%\PowerMapper.dll %libtmp%\net40 /Y
+copy ..\build\net40\bin\%config%\PowerMapper.xml %libtmp%\net40 /Y
+
+if not exist %libtmp%\netstandard1.5 mkdir %libtmp%\netstandard1.5
+copy ..\netcore\PowerMapper\bin\%config%\netstandard1.5\PowerMapper.dll %libtmp%\netstandard1.5 /Y
+copy ..\netcore\PowerMapper\bin\%config%\netstandard1.5\PowerMapper.xml %libtmp%\netstandard1.5 /Y
+copy ..\netcore\PowerMapper\bin\%config%\netstandard1.5\PowerMapper.deps.json %libtmp%\netstandard1.5 /Y
+
+call :ExecuteCmd nuget.exe pack "%cd%\PowerMapper.nuspec" -OutputDirectory %packagestmp% %version%
 IF %ERRORLEVEL% NEQ 0 goto error
 
 rmdir %libtmp% /S /Q

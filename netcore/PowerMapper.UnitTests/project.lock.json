@@ -1,5 +1,4 @@
 {
-  "locked": false,
   "version": 2,
   "targets": {
     ".NETCoreApp,Version=v1.0": {
@@ -7501,6 +7500,7 @@
     "": [
       "Microsoft.NETCore.App >= 1.0.0-*",
       "PowerMapper",
+      "System.Runtime.Numerics >= 4.0.1",
       "dotnet-test-xunit >= 2.2.0-preview2-build1029",
       "xunit >= 2.2.0-beta2-build3300",
       "xunit.runner.console >= 2.2.0-beta2-build3300"
@@ -7508,5 +7508,8 @@
     ".NETCoreApp,Version=v1.0": []
   },
   "tools": {},
-  "projectFileToolGroups": {}
+  "projectFileToolGroups": {},
+  "packageFolders": {
+    "D:\\github\\PowerMapper\\packages": {}
+  }
 }

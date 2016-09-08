@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace PowerMapper.UnitTests
 {
@@ -23,16 +22,31 @@ namespace PowerMapper.UnitTests
             {
                 var enumeratorExpected = expected.GetEnumerator();
                 var enumeratorActual = actual.GetEnumerator();
-                do
+                try
                 {
-                    var f1 = enumeratorExpected.MoveNext();
-                    var f2 = enumeratorActual.MoveNext();
-                    if ((!f1||!f2)&&(f1||f2))
+                    do
                     {
-                        NUnit.Framework.Assert.Fail();
-                    }
-                    NUnit.Framework.Assert.AreEqual(enumeratorExpected.Current, enumeratorActual.Current);
-                } while (true);
+                        var f1 = enumeratorExpected.MoveNext();
+                        var f2 = enumeratorActual.MoveNext();
+                        if ((!f1 || !f2) && (f1 || f2))
+                        {
+                            NUnit.Framework.Assert.Fail();
+                        }
+                        if (f1)
+                        {
+                            NUnit.Framework.Assert.AreEqual(enumeratorExpected.Current, enumeratorActual.Current);
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    } while (true);
+                }
+                finally
+                {
+                    enumeratorExpected.Dispose();
+                    enumeratorActual.Dispose();
+                }
             }
 #endif
         }

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Net;
 using System.Reflection;
 using System.Reflection.Emit;
+using System.Runtime.Versioning;
+using System.Text;
 using System.Threading;
 
 namespace PowerMapper
@@ -64,9 +66,9 @@ namespace PowerMapper
             // decimal -> bool
             Converters.AddIntrinsic((decimal source) => source != 0);
             // float -> bool
-            Converters.AddIntrinsic((float source) => source != 0);
+            Converters.AddIntrinsic((float source) => Math.Abs(source) > float.Epsilon);
             // double -> bool
-            Converters.AddIntrinsic((double source) => source != 0);
+            Converters.AddIntrinsic((double source) => Math.Abs(source) > double.Epsilon);
 
             // bool -> int
             Converters.AddIntrinsic((bool source) => (source ? 1 : 0));
@@ -231,9 +233,16 @@ namespace PowerMapper
             Converters.AddIntrinsic((IPAddress source) => source?.GetAddressBytes());
             // string -> Uri
             Converters.AddIntrinsic((string source) => string.IsNullOrEmpty(source) || source.Trim().Length == 0 ? null : new Uri(source));
+            // string -> StringBuilder
+            Converters.AddIntrinsic((string source) => source == null ? null : new StringBuilder(source));
+
 #if Net35
             Converters.AddIntrinsic((string source) => string.IsNullOrEmpty(source) || source.Trim().Length == 0 ? null : new Version(source));
             Converters.AddIntrinsic((string source) => string.IsNullOrEmpty(source) || source.Trim().Length == 0 ? Guid.Empty : new Guid(source));
+#else
+            Converters.AddIntrinsic((string source) => string.IsNullOrEmpty(source) || source.Trim().Length == 0 ? null : new FrameworkName(source));
+            Converters.AddIntrinsic((System.Numerics.BigInteger source) => source.ToByteArray());
+            Converters.AddIntrinsic((byte[] source) => source == null ? System.Numerics.BigInteger.Zero : new System.Numerics.BigInteger(source));
 #endif
 #if !NetCore
             // string -> Type
@@ -242,6 +251,21 @@ namespace PowerMapper
             Converters.AddIntrinsic((string source) => string.IsNullOrEmpty(source) || source.Trim().Length == 0 ? null : TimeZoneInfo.FromSerializedString(source));
             // TimeZoneInfo -> string
             Converters.AddIntrinsic((TimeZoneInfo source) => source?.ToSerializedString());
+#else
+            // string -> Type
+            Converters.AddIntrinsic((string source) => string.IsNullOrEmpty(source) || source.Trim().Length == 0 ? null : Type.GetType(source, true, false));
+            // TypeInfo -> string
+            Converters.AddIntrinsic((TypeInfo source)=> source?.AssemblyQualifiedName);
+            // string -> TypeInfo
+            Converters.AddIntrinsic((string source) => string.IsNullOrEmpty(source) || source.Trim().Length == 0 ? null : Type.GetType(source, true, false)?.GetTypeInfo());
+            // TypeInfo -> Type
+            Converters.AddIntrinsic((TypeInfo source) => source?.AsType());
+            // TypeInfo -> Type
+            Converters.AddIntrinsic((Type source) => source?.GetTypeInfo());
+            // string -> TimeZoneInfo
+            Converters.AddIntrinsic((string source) => string.IsNullOrEmpty(source) || source.Trim().Length == 0 ? null : TimeZoneInfo.FindSystemTimeZoneById(source));
+            // TimeZoneInfo -> string
+            Converters.AddIntrinsic((TimeZoneInfo source) => source?.Id);
 #endif
             // Type -> string
             Converters.AddIntrinsic((Type source) => source?.AssemblyQualifiedName);

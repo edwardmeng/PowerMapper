@@ -1,5 +1,4 @@
 {
-  "locked": false,
   "version": 2,
   "targets": {
     ".NETCoreApp,Version=v1.0": {
@@ -2221,15 +2220,15 @@
       ]
     },
     "Mapster/2.5.0": {
-      "sha512": "QjbPU+HhJ3zcqOZIU3qH0URisZp2ShAgB1fuaNB2MWzLibOpBc6g9b/ssew5W+qw+XiblX5VKaeQa+u0TtW5rg==",
+      "sha512": "KBPLiMZgnLj83qh4NskUoKFPoOSwsQ5+1bGGRnNQngmEjP5C6oQDUQ5KSoGhaXPocEfSjXTpHti7Toi6IXbSEA==",
       "type": "package",
-      "path": "Mapster/2.5.0",
+      "path": "mapster/2.5.0",
       "files": [
-        "Mapster.2.5.0.nupkg.sha512",
-        "Mapster.nuspec",
         "lib/net40/Mapster.dll",
         "lib/net45/Mapster.dll",
-        "lib/netstandard1.3/Mapster.dll"
+        "lib/netstandard1.3/Mapster.dll",
+        "mapster.2.5.0.nupkg.sha512",
+        "mapster.nuspec"
       ]
     },
     "Microsoft.CodeAnalysis.Analyzers/1.1.0": {
@@ -7005,5 +7004,8 @@
     ".NETCoreApp,Version=v1.0": []
   },
   "tools": {},
-  "projectFileToolGroups": {}
+  "projectFileToolGroups": {},
+  "packageFolders": {
+    "D:\\github\\PowerMapper\\packages": {}
+  }
 }

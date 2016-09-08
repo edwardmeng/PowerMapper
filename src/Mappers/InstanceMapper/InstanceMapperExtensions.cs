@@ -50,7 +50,7 @@ namespace PowerMapper
         /// <exception cref="ArgumentNullException"><paramref name="mapper"/> is <see langword="null"/>.</exception>
         public static ICollection<TTarget> Map<TSource, TTarget>(this IInstanceMapper<TSource, TTarget> mapper, ICollection<TSource> sources)
         {
-            return (ICollection<TTarget>)mapper.Map((IEnumerable<TSource>)sources);
+            return (ICollection<TTarget>) mapper.Map((IEnumerable<TSource>) sources);
         }
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace PowerMapper
         /// <exception cref="ArgumentNullException"><paramref name="mapper"/> is <see langword="null"/>.</exception>
         public static IList<TTarget> Map<TSource, TTarget>(this IInstanceMapper<TSource, TTarget> mapper, IList<TSource> sources)
         {
-            return (IList<TTarget>)mapper.Map((IEnumerable<TSource>)sources);
+            return (IList<TTarget>) mapper.Map((IEnumerable<TSource>) sources);
         }
 
         /// <summary>
@@ -78,7 +78,7 @@ namespace PowerMapper
         /// <exception cref="ArgumentNullException"><paramref name="mapper"/> is <see langword="null"/>.</exception>
         public static TTarget[] Map<TSource, TTarget>(this IInstanceMapper<TSource, TTarget> mapper, TSource[] sources)
         {
-            return (TTarget[])mapper.Map((IEnumerable<TSource>)sources);
+            return (TTarget[]) mapper.Map((IEnumerable<TSource>) sources);
         }
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace PowerMapper
         public static List<TTarget> Map<TSource, TTarget>(this IInstanceMapper<TSource, TTarget> mapper, List<TSource> sources)
         {
             if (sources == null) return null;
-            return new List<TTarget>(mapper.Map((IEnumerable<TSource>)sources));
+            return new List<TTarget>(mapper.Map((IEnumerable<TSource>) sources));
         }
 
         /// <summary>
@@ -109,9 +109,17 @@ namespace PowerMapper
             if (sources == null || targets == null) return;
             var sourceEnumerator = sources.GetEnumerator();
             var targetEnumerator = targets.GetEnumerator();
-            while (sourceEnumerator.MoveNext()&&targetEnumerator.MoveNext())
+            try
             {
-                mapper.Map(sourceEnumerator.Current, targetEnumerator.Current);
+                while (sourceEnumerator.MoveNext() && targetEnumerator.MoveNext())
+                {
+                    mapper.Map(sourceEnumerator.Current, targetEnumerator.Current);
+                }
+            }
+            finally
+            {
+                sourceEnumerator.Dispose();
+                targetEnumerator.Dispose();
             }
         }
     }

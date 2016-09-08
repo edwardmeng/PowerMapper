@@ -36,6 +36,7 @@
   <files>
     <file src="lib\**\*.dll" target="lib" />
     <file src="lib\**\*.xml" target="lib" />
+    <file src="lib\**\*.deps.json" target="lib" />
     <file src="..\LICENSE" />
   </files>
 </package>

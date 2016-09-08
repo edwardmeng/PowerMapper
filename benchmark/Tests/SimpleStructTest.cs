@@ -95,7 +95,7 @@ namespace Benchmarks.Tests
             var list = new List<ItemViewModel>();
             foreach (var item in src)
             {
-                list.Add(TinyMapper.Map<Item, ItemViewModel>(item));
+                list.Add(Nelibur.ObjectMapper.TinyMapper.Map<Item, ItemViewModel>(item));
             }
             return list;
         }

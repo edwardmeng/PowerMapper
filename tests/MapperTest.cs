@@ -468,10 +468,5 @@ namespace PowerMapper.UnitTests
             }
             Assert.False(secondEnumerator.MoveNext());
         }
-
-        public void Sample()
-        {
-            int x = 1;
-        }
     }
 }
