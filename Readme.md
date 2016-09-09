@@ -20,16 +20,155 @@ Comparisons:
 -----------
 PowerMapper is now blistering fast! Please refer to the benchmark
 
-| Engine            | Structs | Simple objects | Parent-Child | Parent-Children | Complex objects | Advance mapping |
-|-------------------|--------:|---------------:|-------------:|----------------:|----------------:|----------------:|
-| AutoMapper        |     721 |           1119 |          881 |             901 |            3943 |            4087 |
-| ExpressMapper     |     360 |           1042 |          536 |             630 |            3120 |            2866 |
-| OoMapper          |       - |            760 |          675 |             787 |               - |            1904 |
-| ValueInjector     |    4444 |          10814 |         9154 |             340 |           17681 |           18284 |
-| TinyMapper        |       - |            573 |            - |               - |               - |               - |
-| Mapster           |     338 |            628 |         1481 |             705 |            4372 |            4479 |
-| Native            |     310 |            419 |          271 |             454 |            2297 |            2096 |
-| **PowerMapper**   |**314** |        **395** |     **267** |         **387** |         **795** |       **2761** |
+<table>
+    <thead>
+        <tr>
+            <td rowspan=2>Engine</td>
+            <td colspan=2>Structs</td>
+            <td colspan=2>Simple objects</td>
+            <td colspan=2>Parent-Child</td>
+            <td colspan=2>Parent-Children</td>
+            <td colspan=2>Complex objects</td>
+            <td colspan=2>Advance mapping</td>
+        </tr>
+        <tr>
+            <td>NetFx</td>
+            <td>NetCore</td>
+            <td>NetFx</td>
+            <td>NetCore</td>
+            <td>NetFx</td>
+            <td>NetCore</td>
+            <td>NetFx</td>
+            <td>NetCore</td>
+            <td>NetFx</td>
+            <td>NetCore</td>
+            <td>NetFx</td>
+            <td>NetCore</td>
+        </td>
+    </thead>
+    <tbody>
+        <tr>
+            <td>AutoMapper</td>
+            <td align=right>426</td>
+            <td align=right>225</td>
+            <td align=right>802</td>
+            <td align=right>519</td>
+            <td align=right>617</td>
+            <td align=right>360</td>
+            <td align=right>679</td>
+            <td align=right>569</td>
+            <td align=right>2162</td>
+            <td align=right>4273</td>
+            <td align=right>2270</td>
+            <td align=right>2607</td>
+        </tr>
+        <tr>
+            <td>ExpressMapper</td>
+            <td align=right>597</td>
+            <td align=right>549</td>
+            <td align=right>1522</td>
+            <td align=right>1112</td>
+            <td align=right>917</td>
+            <td align=right>298</td>
+            <td align=right>960</td>
+            <td align=right>542</td>
+            <td align=right>2553</td>
+            <td align=right>5515</td>
+            <td align=right>2407</td>
+            <td align=right>3097</td>
+        </tr>
+        <tr>
+            <td>OoMapper</td>
+            <td align=right>-</td>
+            <td align=right>-</td>
+            <td align=right>884</td>
+            <td align=right>-</td>
+            <td align=right>783</td>
+            <td align=right>-</td>
+            <td align=right>922</td>
+            <td align=right>-</td>
+            <td align=right>-</td>
+            <td align=right>-</td>
+            <td align=right>2481</td>
+            <td align=right>-</td>
+        </tr>
+        <tr>
+            <td>ValueInjector</td>
+            <td align=right>5650</td>
+            <td align=right>5611</td>
+            <td align=right>13006</td>
+            <td align=right>13645</td>
+            <td align=right>11167</td>
+            <td align=right>11405</td>
+            <td align=right>452</td>
+            <td align=right>502</td>
+            <td align=right>9944</td>
+            <td align=right>34226</td>
+            <td align=right>9134</td>
+            <td align=right>18536</td>
+        </tr>
+        <tr>
+            <td>TinyMapper</td>
+            <td align=right>-</td>
+            <td align=right>-</td>
+            <td align=right>751</td>
+            <td align=right>-</td>
+            <td align=right>-</td>
+            <td align=right>-</td>
+            <td align=right>-</td>
+            <td align=right>-</td>
+            <td align=right>-</td>
+            <td align=right>-</td>
+            <td align=right>-</td>
+            <td align=right>-</td>
+        </tr>
+        <tr>
+            <td>Mapster</td>
+            <td align=right>379</td>
+            <td align=right>127</td>
+            <td align=right>719</td>
+            <td align=right>457</td>
+            <td align=right>1694</td>
+            <td align=right>821</td>
+            <td align=right>788</td>
+            <td align=right>564</td>
+            <td align=right>3527</td>
+            <td align=right>4165</td>
+            <td align=right>3392</td>
+            <td align=right>2781</td>
+        </tr>
+        <tr>
+            <td>Native</td>
+            <td align=right>337</td>
+            <td align=right>213</td>
+            <td align=right>519</td>
+            <td align=right>525</td>
+            <td align=right>324</td>
+            <td align=right>336</td>
+            <td align=right>539</td>
+            <td align=right>470</td>
+            <td align=right>1603</td>
+            <td align=right>4111</td>
+            <td align=right>1532</td>
+            <td align=right>2116</td>
+        </tr>
+        <tr style="font-weight:bold">
+            <td>PowerMapper</td>
+            <td align=right>332</td>
+            <td align=right>290</td>
+            <td align=right>482</td>
+            <td align=right>481</td>
+            <td align=right>327</td>
+            <td align=right>341</td>
+            <td align=right>450</td>
+            <td align=right>524</td>
+            <td align=right>647</td>
+            <td align=right>1296</td>
+            <td align=right>1418</td>
+            <td align=right>3001</td>
+        </tr>
+    </tbody>
+</table>
 
 (NOTE: Benchmark was run against largest set of data,
 times are in milliseconds, lower is better. Blank values mean the library did not support the test.)
