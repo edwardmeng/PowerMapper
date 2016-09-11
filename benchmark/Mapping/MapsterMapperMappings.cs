@@ -20,7 +20,6 @@ namespace Benchmarks.Mapping
                 .Map(dest => dest.Weight, src => src.Weight * 2)
                 .Map(dest => dest.Type, src => (Types)src.Type)
                 .Map(dest => dest.Name, src => $"{src.Name} - {src.Weight} - {src.Age}")
-                .Map(dest => dest.Name, src => $"{src.Name} - {src.Weight} - {src.Age}")
                 .Map(dest => dest.SpareTheProduct, src => src.SpareProduct.Adapt<Product, ProductViewModel>())
                 .Map(dest => dest.Description, src => $"{src.Name} - {src.Id}");
 

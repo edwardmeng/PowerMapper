@@ -32,7 +32,7 @@ namespace PowerMapper
 
             var assemblyName = new AssemblyName("ILEmit_TypeMappers" + Interlocked.Increment(ref _counter));
 #if NetCore
-            _moduleBuilder = AssemblyBuilder.DefineDynamicAssembly(assemblyName, AssemblyBuilderAccess.Run).DefineDynamicModule(assemblyName.Name);
+            _moduleBuilder = AssemblyBuilder.DefineDynamicAssembly(assemblyName, AssemblyBuilderAccess.RunAndCollect).DefineDynamicModule(assemblyName.Name);
 #else
             _moduleBuilder =
                 AppDomain.CurrentDomain.DefineDynamicAssembly(assemblyName, AssemblyBuilderAccess.RunAndSave)
