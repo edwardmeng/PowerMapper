@@ -12,6 +12,9 @@ namespace PowerMapper
         private static readonly object _locker = new object();
         private static IMappingContainer _instance;
 
+        /// <summary>
+        /// Gets the default object mapper container.
+        /// </summary>
         public static IMappingContainer Default
         {
             get
