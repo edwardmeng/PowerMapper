@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <package>
-  <metadata>
+  <metadata minClientVersion="3.4">
     <id>PowerMapper</id>
     <version>1.0.0-rc1</version>
     <authors>edwardmeng</authors>
