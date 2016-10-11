@@ -402,3 +402,8 @@ or using lambda expression
 * Linq Query Support.
 * .Net Core Support.
 * TransparentProxy Support.
+
+License
+------
+PowerMapper is Open Source software and it is released under the MIT license.
+The licenses allow the use of PowerMapper in free and commercial applications and libraries without restrictions.
