@@ -21,11 +21,12 @@ namespace Benchmarks.Tests
             AutoMapperMapping.Init();
         }
 
+#if !NETCOREAPP
         protected override void InitExpressMapper()
         {
             ExpressMapperMapping.Init();
         }
-
+#endif
         protected override void InitValueInjectorMapper()
         {
             ValueInjectorMappings.Init();
@@ -36,18 +37,10 @@ namespace Benchmarks.Tests
             MapsterMapperMappings.Init();
         }
 
-#if !NetCore
-        protected override void InitOoMapper()
-        {
-            OoMapperMappings.Init();
-        }
-
         protected override void InitTinyMapper()
         {
             TinyMapperMappings.Init();
         }
-        
-#endif
 
         protected override void InitNativeMapper()
         {
@@ -62,12 +55,12 @@ namespace Benchmarks.Tests
         {
             return AutoMapper.Mapper.Map<List<Item>, List<ItemViewModel>>(src);
         }
-
+#if !NETCOREAPP
         protected override List<ItemViewModel> ExpressMapperMap(List<Item> src)
         {
             return ExpressMapper.Mapper.Map<List<Item>, List<ItemViewModel>>(src);
         }
-
+#endif
         protected override List<ItemViewModel> ValueInjectorMap(List<Item> src)
         {
             var list = new List<ItemViewModel>();
@@ -83,13 +76,6 @@ namespace Benchmarks.Tests
             return TypeAdapter.Adapt<List<Item>, List<ItemViewModel>>(src);
         }
 
-#if !NetCore
-        
-        protected override List<ItemViewModel> OoMapperMap(List<Item> src)
-        {
-            return OoMapper.Mapper.Map<List<Item>, List<ItemViewModel>>(src);
-        }
-
         protected override List<ItemViewModel> TinyMapperMap(List<Item> src)
         {
             var list = new List<ItemViewModel>();
@@ -99,7 +85,6 @@ namespace Benchmarks.Tests
             }
             return list;
         }
-#endif
 
         protected override List<ItemViewModel> NativeMapperMap(List<Item> src)
         {

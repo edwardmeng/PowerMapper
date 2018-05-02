@@ -38,7 +38,7 @@ namespace PowerMapper
 
         public override void Emit(Type sourceType, Type targetType, CompilationContext context)
         {
-#if NetCore
+#if NETSTANDARD
             var reflectingTargetType = targetType.GetTypeInfo();
 #else
             var reflectingTargetType = targetType;
@@ -107,7 +107,7 @@ namespace PowerMapper
                         context.Emit(OpCodes.Ldloc, targetInstance);
                         context.Emit(OpCodes.Ldloc, targetArray);
                         context.Emit(OpCodes.Ldloc, index);
-#if NetCore
+#if NETSTANDARD
                         var targetElementTypeInfo = targetElementType.GetTypeInfo();
                         if (targetElementTypeInfo.IsValueType && !targetElementTypeInfo.IsPrimitive)
 #else

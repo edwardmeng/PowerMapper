@@ -1,5 +1,5 @@
 ﻿using System;
-#if Net35
+#if NET35
 using System.Collections.Generic;
 #else
 using System.Collections.Concurrent;
@@ -11,7 +11,7 @@ namespace PowerMapper
     {
         private readonly Func<TSource, TTarget> _converter;
         private readonly Action<TSource, TTarget> _mapper;
-#if Net35
+#if NET35
         private static readonly Dictionary<MappingContainer, InstanceMapper<TSource, TTarget>> _mappers =
             new Dictionary<MappingContainer, InstanceMapper<TSource, TTarget>>();
         public static InstanceMapper<TSource, TTarget> GetInstance(MappingContainer container)

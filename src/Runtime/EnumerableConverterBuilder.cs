@@ -13,7 +13,7 @@ namespace PowerMapper
 
         static EnumerableConverterBuilder()
         {
-#if NetCore
+#if NETSTANDARD
             _toArrayMethod = typeof(Enumerable).GetTypeInfo().GetMethod("ToArray").MakeGenericMethod(typeof(TSource));
 #else
             _toArrayMethod = typeof(Enumerable).GetMethod("ToArray").MakeGenericMethod(typeof(TSource));
@@ -91,7 +91,7 @@ namespace PowerMapper
             il.Emit(OpCodes.Castclass, typeof(IEnumerable<TTarget>));
             il.Emit(OpCodes.Ret);
 
-#if NetCore
+#if NETSTANDARD
             var type = typeBuilder.CreateTypeInfo();
 #else
             var type = typeBuilder.CreateType();

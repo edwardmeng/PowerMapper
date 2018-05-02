@@ -76,7 +76,7 @@ namespace PowerMapper
         {
             const BindingFlags bindingFlags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
             Predicate<MappingMember> condition = member => (member.CanRead(true) && includeReadOnly) || (member.CanWrite(true) && includeWriteOnly);
-#if NetCore
+#if NETSTANDARD
             var reflectingType = type.GetTypeInfo();
 #else
             var reflectingType = type;

@@ -59,7 +59,7 @@ namespace PowerMapper
                 var member = members[0];
                 for (int i = 1; i < members.Length; i++)
                 {
-#if NetCore
+#if NETSTANDARD
                     if (members[i].DeclaringType.GetTypeInfo().IsSubclassOf(member.DeclaringType))
 #else
                     if (members[i].DeclaringType.IsSubclassOf(member.DeclaringType))

@@ -27,7 +27,7 @@ namespace PowerMapper
             {
                 if (_sourceType == null)
                 {
-#if NetCore
+#if NETSTANDARD
                     _sourceType = _expression.GetType().GetTypeInfo().GetGenericArguments()[1];
 #else
                     _sourceType = _expression.GetType().GetGenericArguments()[1];

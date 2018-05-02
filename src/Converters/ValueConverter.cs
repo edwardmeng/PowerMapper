@@ -28,7 +28,7 @@ namespace PowerMapper
             context.CurrentType = sourceType;
             Emit(sourceType, targetType, context);
             context.Emit(OpCodes.Ret);
-#if NetCore
+#if NETSTANDARD
             return typeBuilder.CreateTypeInfo()
                 .GetMethod("Convert", BindingFlags.Static | BindingFlags.Public)
                 .CreateDelegate(typeof(Func<,>).MakeGenericType(sourceType, targetType));

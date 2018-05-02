@@ -31,7 +31,7 @@ namespace PowerMapper
         {
 
             var assemblyName = new AssemblyName("ILEmit_TypeMappers" + Interlocked.Increment(ref _counter));
-#if NetCore
+#if NETSTANDARD
             _moduleBuilder = AssemblyBuilder.DefineDynamicAssembly(assemblyName, AssemblyBuilderAccess.RunAndCollect).DefineDynamicModule(assemblyName.Name);
 #else
             _moduleBuilder =
@@ -236,7 +236,7 @@ namespace PowerMapper
             // string -> StringBuilder
             Converters.AddIntrinsic((string source) => source == null ? null : new StringBuilder(source));
 
-#if Net35
+#if NET35
             Converters.AddIntrinsic((string source) => string.IsNullOrEmpty(source) || source.Trim().Length == 0 ? null : new Version(source));
             Converters.AddIntrinsic((string source) => string.IsNullOrEmpty(source) || source.Trim().Length == 0 ? Guid.Empty : new Guid(source));
 #else
@@ -244,7 +244,7 @@ namespace PowerMapper
             Converters.AddIntrinsic((System.Numerics.BigInteger source) => source.ToByteArray());
             Converters.AddIntrinsic((byte[] source) => source == null ? System.Numerics.BigInteger.Zero : new System.Numerics.BigInteger(source));
 #endif
-#if !NetCore
+#if !NETSTANDARD
             // string -> Type
             Converters.AddIntrinsic((string source) => string.IsNullOrEmpty(source) || source.Trim().Length == 0 ? null : TypeNameConverter.GetType(source, true, false));
             // string -> TimeZoneInfo

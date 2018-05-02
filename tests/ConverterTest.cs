@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Net;
-#if !Net35
+#if !NET35
 using System.Numerics;
 #endif
 using System.Text;
-#if !NetCore
+#if !NETCOREAPP
 using System.Web.UI.WebControls;
 using NUnit.Framework;
 #else
@@ -79,7 +79,7 @@ namespace PowerMapper.UnitTests
 
         #region ByteEnum
 
-#if NetCore
+#if NETCOREAPP
         [Fact]
 #else
         [Test]
@@ -112,7 +112,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal((double?)2, Mapper.Map<ByteEnum, double?>(ByteEnum.Two));
         }
 
-#if NetCore
+#if NETCOREAPP
         [Fact]
 #else
         [Test]
@@ -171,7 +171,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal(null, Mapper.Map<ByteEnum?, string>((ByteEnum?)null));
         }
 
-#if NetCore
+#if NETCOREAPP
         [Fact]
 #else
         [Test]
@@ -204,7 +204,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal(ByteEnum.Two, Mapper.Map<double?, ByteEnum>(2));
         }
 
-#if NetCore
+#if NETCOREAPP
         [Fact]
 #else
         [Test]
@@ -254,7 +254,7 @@ namespace PowerMapper.UnitTests
 
         #region SByteEnum
 
-#if NetCore
+#if NETCOREAPP
         [Fact]
 #else
         [Test]
@@ -287,7 +287,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal((double?)2, Mapper.Map<SByteEnum, double?>(SByteEnum.Two));
         }
 
-#if NetCore
+#if NETCOREAPP
         [Fact]
 #else
         [Test]
@@ -346,7 +346,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal(null, Mapper.Map<SByteEnum?, string>((SByteEnum?)null));
         }
 
-#if NetCore
+#if NETCOREAPP
         [Fact]
 #else
         [Test]
@@ -379,7 +379,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal(SByteEnum.Two, Mapper.Map<double?, SByteEnum>(2));
         }
 
-#if NetCore
+#if NETCOREAPP
         [Fact]
 #else
         [Test]
@@ -429,7 +429,7 @@ namespace PowerMapper.UnitTests
 
         #region Int16Enum
 
-#if NetCore
+#if NETCOREAPP
         [Fact]
 #else
         [Test]
@@ -462,7 +462,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal((double?)2, Mapper.Map<Int16Enum, double?>(Int16Enum.Two));
         }
 
-#if NetCore
+#if NETCOREAPP
         [Fact]
 #else
         [Test]
@@ -521,7 +521,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal(null, Mapper.Map<Int16Enum?, string>((Int16Enum?)null));
         }
 
-#if NetCore
+#if NETCOREAPP
         [Fact]
 #else
         [Test]
@@ -554,7 +554,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal(Int16Enum.Two, Mapper.Map<double?, Int16Enum>(2));
         }
 
-#if NetCore
+#if NETCOREAPP
         [Fact]
 #else
         [Test]
@@ -604,7 +604,7 @@ namespace PowerMapper.UnitTests
 
         #region UInt16Enum
 
-#if NetCore
+#if NETCOREAPP
         [Fact]
 #else
         [Test]
@@ -637,7 +637,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal((double?)2, Mapper.Map<UInt16Enum, double?>(UInt16Enum.Two));
         }
 
-#if NetCore
+#if NETCOREAPP
         [Fact]
 #else
         [Test]
@@ -696,7 +696,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal(null, Mapper.Map<UInt16Enum?, string>((UInt16Enum?)null));
         }
 
-#if NetCore
+#if NETCOREAPP
         [Fact]
 #else
         [Test]
@@ -729,7 +729,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal(UInt16Enum.Two, Mapper.Map<double?, UInt16Enum>(2));
         }
 
-#if NetCore
+#if NETCOREAPP
         [Fact]
 #else
         [Test]
@@ -779,7 +779,7 @@ namespace PowerMapper.UnitTests
 
         #region Int32Enum
 
-#if NetCore
+#if NETCOREAPP
         [Fact]
 #else
         [Test]
@@ -812,7 +812,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal((double?)2, Mapper.Map<Int32Enum, double?>(Int32Enum.Two));
         }
 
-#if NetCore
+#if NETCOREAPP
         [Fact]
 #else
         [Test]
@@ -871,7 +871,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal(null, Mapper.Map<Int32Enum?, string>((Int32Enum?)null));
         }
 
-#if NetCore
+#if NETCOREAPP
         [Fact]
 #else
         [Test]
@@ -904,7 +904,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal(Int32Enum.Two, Mapper.Map<double?, Int32Enum>(2));
         }
 
-#if NetCore
+#if NETCOREAPP
         [Fact]
 #else
         [Test]
@@ -954,7 +954,7 @@ namespace PowerMapper.UnitTests
 
         #region UInt32Enum
 
-#if NetCore
+#if NETCOREAPP
         [Fact]
 #else
         [Test]
@@ -987,7 +987,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal((double?)2, Mapper.Map<UInt32Enum, double?>(UInt32Enum.Two));
         }
 
-#if NetCore
+#if NETCOREAPP
         [Fact]
 #else
         [Test]
@@ -1046,7 +1046,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal(null, Mapper.Map<UInt32Enum?, string>((UInt32Enum?)null));
         }
 
-#if NetCore
+#if NETCOREAPP
         [Fact]
 #else
         [Test]
@@ -1079,7 +1079,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal(UInt32Enum.Two, Mapper.Map<double?, UInt32Enum>(2));
         }
 
-#if NetCore
+#if NETCOREAPP
         [Fact]
 #else
         [Test]
@@ -1129,7 +1129,7 @@ namespace PowerMapper.UnitTests
 
         #region Int64Enum
 
-#if NetCore
+#if NETCOREAPP
         [Fact]
 #else
         [Test]
@@ -1162,7 +1162,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal((double?)2, Mapper.Map<Int64Enum, double?>(Int64Enum.Two));
         }
 
-#if NetCore
+#if NETCOREAPP
         [Fact]
 #else
         [Test]
@@ -1221,7 +1221,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal(null, Mapper.Map<Int64Enum?, string>((Int64Enum?)null));
         }
 
-#if NetCore
+#if NETCOREAPP
         [Fact]
 #else
         [Test]
@@ -1254,7 +1254,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal(Int64Enum.Two, Mapper.Map<double?, Int64Enum>(2));
         }
 
-#if NetCore
+#if NETCOREAPP
         [Fact]
 #else
         [Test]
@@ -1304,7 +1304,7 @@ namespace PowerMapper.UnitTests
 
         #region UInt64Enum
 
-#if NetCore
+#if NETCOREAPP
         [Fact]
 #else
         [Test]
@@ -1337,7 +1337,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal((double?)2, Mapper.Map<UInt64Enum, double?>(UInt64Enum.Two));
         }
 
-#if NetCore
+#if NETCOREAPP
         [Fact]
 #else
         [Test]
@@ -1396,7 +1396,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal(null, Mapper.Map<UInt64Enum?, string>((UInt64Enum?)null));
         }
 
-#if NetCore
+#if NETCOREAPP
         [Fact]
 #else
         [Test]
@@ -1429,7 +1429,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal(UInt64Enum.Two, Mapper.Map<double?, UInt64Enum>(2));
         }
 
-#if NetCore
+#if NETCOREAPP
         [Fact]
 #else
         [Test]
@@ -1483,7 +1483,7 @@ namespace PowerMapper.UnitTests
 
         #region Byte
 
-#if NetCore
+#if NETCOREAPP
         [Fact]
 #else
         [Test]
@@ -1507,7 +1507,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal("20", Mapper.Map<byte, string>(20));
             Assert.Equal(new DateTime(20), Mapper.Map<byte, DateTime>(20));
             Assert.Equal(new TimeSpan(20), Mapper.Map<byte, TimeSpan>(20));
-#if !Net35
+#if !NET35
             Assert.Equal(new BigInteger((byte)20), Mapper.Map<byte, BigInteger>(20));
             Assert.Equal(new Complex(20,0), Mapper.Map<byte, Complex>(20));
 #endif
@@ -1528,13 +1528,13 @@ namespace PowerMapper.UnitTests
             Assert.Equal(false, Mapper.Map<byte, bool?>(0));
             Assert.Equal(new DateTime(20), Mapper.Map<byte, DateTime?>(20));
             Assert.Equal(new TimeSpan(20), Mapper.Map<byte, TimeSpan?>(20));
-#if !Net35
+#if !NET35
             Assert.Equal(new BigInteger((byte)20), Mapper.Map<byte, BigInteger?>(20));
             Assert.Equal(new Complex(20, 0), Mapper.Map<byte, Complex?>(20));
 #endif
         }
 
-#if NetCore
+#if NETCOREAPP
         [Fact]
 #else
         [Test]
@@ -1558,7 +1558,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal("20", Mapper.Map<byte?, string>(20));
             Assert.Equal(new DateTime(20), Mapper.Map<byte?, DateTime>(20));
             Assert.Equal(new TimeSpan(20), Mapper.Map<byte?, TimeSpan>(20));
-#if !Net35
+#if !NET35
             Assert.Equal(new BigInteger((byte)20), Mapper.Map<byte?, BigInteger>(20));
             Assert.Equal(new Complex(20, 0), Mapper.Map<byte?, Complex>(20));
 #endif
@@ -1579,7 +1579,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal(null, Mapper.Map<byte?, string>((byte?)null));
             Assert.Equal(DateTime.MinValue, Mapper.Map<byte?, DateTime>((byte?)null));
             Assert.Equal(TimeSpan.Zero, Mapper.Map<byte?, TimeSpan>((byte?)null));
-#if !Net35
+#if !NET35
             Assert.Equal(BigInteger.Zero, Mapper.Map<byte?, BigInteger>((byte?)null));
             Assert.Equal(Complex.Zero, Mapper.Map<byte?, Complex>((byte?)null));
 #endif
@@ -1600,7 +1600,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal(false, Mapper.Map<byte?, bool?>(0));
             Assert.Equal(new DateTime(20), Mapper.Map<byte?, DateTime?>(20));
             Assert.Equal(new TimeSpan(20), Mapper.Map<byte?, TimeSpan?>(20));
-#if !Net35
+#if !NET35
             Assert.Equal(new BigInteger((byte)20), Mapper.Map<byte?, BigInteger?>(20));
             Assert.Equal(new Complex(20, 0), Mapper.Map<byte?, Complex?>(20));
 #endif
@@ -1621,7 +1621,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal(null, Mapper.Map<byte?, DateTime?>((byte?)null));
             Assert.Equal(null, Mapper.Map<byte?, string>((byte?)null));
             Assert.Equal(null, Mapper.Map<byte?, TimeSpan?>((byte?)null));
-#if !Net35
+#if !NET35
             Assert.Equal(null, Mapper.Map<byte?, BigInteger?>((byte?)null));
             Assert.Equal(null, Mapper.Map<byte?, Complex?>((byte?)null));
 #endif
@@ -1631,7 +1631,7 @@ namespace PowerMapper.UnitTests
 
         #region SByte
 
-#if NetCore
+#if NETCOREAPP
         [Fact]
 #else
         [Test]
@@ -1655,7 +1655,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal("20", Mapper.Map<sbyte, string>(20));
             Assert.Equal(new DateTime(20), Mapper.Map<sbyte, DateTime>(20));
             Assert.Equal(new TimeSpan(20), Mapper.Map<sbyte, TimeSpan>(20));
-#if !Net35
+#if !NET35
             Assert.Equal(new BigInteger((sbyte)20), Mapper.Map<sbyte, BigInteger>(20));
             Assert.Equal(new Complex(20, 0), Mapper.Map<sbyte, Complex>(20));
 #endif
@@ -1676,13 +1676,13 @@ namespace PowerMapper.UnitTests
             Assert.Equal(false, Mapper.Map<sbyte, bool?>(0));
             Assert.Equal(new DateTime(20), Mapper.Map<sbyte, DateTime?>(20));
             Assert.Equal(new TimeSpan(20), Mapper.Map<sbyte, TimeSpan?>(20));
-#if !Net35
+#if !NET35
             Assert.Equal(new BigInteger((sbyte)20), Mapper.Map<sbyte, BigInteger?>(20));
             Assert.Equal(new Complex(20, 0), Mapper.Map<sbyte, Complex?>(20));
 #endif
         }
 
-#if NetCore
+#if NETCOREAPP
         [Fact]
 #else
         [Test]
@@ -1706,7 +1706,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal("20", Mapper.Map<sbyte?, string>(20));
             Assert.Equal(new DateTime(20), Mapper.Map<sbyte?, DateTime>(20));
             Assert.Equal(new TimeSpan(20), Mapper.Map<sbyte?, TimeSpan>(20));
-#if !Net35
+#if !NET35
             Assert.Equal(new BigInteger((sbyte)20), Mapper.Map<sbyte?, BigInteger>(20));
             Assert.Equal(new Complex(20, 0), Mapper.Map<sbyte?, Complex>(20));
 #endif
@@ -1727,7 +1727,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal(null, Mapper.Map<sbyte?, string>((sbyte?)null));
             Assert.Equal(DateTime.MinValue, Mapper.Map<sbyte?, DateTime>((sbyte?)null));
             Assert.Equal(TimeSpan.Zero, Mapper.Map<sbyte?, TimeSpan>((sbyte?)null));
-#if !Net35
+#if !NET35
             Assert.Equal(BigInteger.Zero, Mapper.Map<sbyte?, BigInteger>((sbyte?)null));
             Assert.Equal(Complex.Zero, Mapper.Map<sbyte?, Complex>((sbyte?)null));
 #endif
@@ -1748,7 +1748,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal(false, Mapper.Map<sbyte?, bool?>(0));
             Assert.Equal(new DateTime(20), Mapper.Map<sbyte?, DateTime?>(20));
             Assert.Equal(new TimeSpan(20), Mapper.Map<sbyte?, TimeSpan?>(20));
-#if !Net35
+#if !NET35
             Assert.Equal(new BigInteger((sbyte)20), Mapper.Map<sbyte?, BigInteger?>(20));
             Assert.Equal(new Complex(20, 0), Mapper.Map<sbyte?, Complex?>(20));
 #endif
@@ -1769,7 +1769,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal(null, Mapper.Map<sbyte?, DateTime?>((sbyte?)null));
             Assert.Equal(null, Mapper.Map<sbyte?, string>((sbyte?)null));
             Assert.Equal(null, Mapper.Map<sbyte?, TimeSpan?>((sbyte?)null));
-#if !Net35
+#if !NET35
             Assert.Equal(null, Mapper.Map<sbyte?, BigInteger?>((sbyte?)null));
             Assert.Equal(null, Mapper.Map<sbyte?, Complex?>((sbyte?)null));
 #endif
@@ -1779,7 +1779,7 @@ namespace PowerMapper.UnitTests
 
         #region Char
 
-#if NetCore
+#if NETCOREAPP
         [Fact]
 #else
         [Test]
@@ -1823,7 +1823,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal(new TimeSpan(20), Mapper.Map<char, TimeSpan?>((char)20));
         }
 
-#if NetCore
+#if NETCOREAPP
         [Fact]
 #else
         [Test]
@@ -1906,7 +1906,7 @@ namespace PowerMapper.UnitTests
 
         #region Int32
 
-#if NetCore
+#if NETCOREAPP
         [Fact]
 #else
         [Test]
@@ -1931,7 +1931,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal(new DateTime(20), Mapper.Map<int, DateTime>(20));
             Assert.Equal(new TimeSpan(20), Mapper.Map<int, TimeSpan>(20));
             Assert.Equal(BitConverter.GetBytes(20), Mapper.Map<int, byte[]>(20));
-#if !Net35
+#if !NET35
             Assert.Equal(new BigInteger(20), Mapper.Map<int, BigInteger>(20));
             Assert.Equal(new Complex(20, 0), Mapper.Map<int, Complex>(20));
 #endif
@@ -1952,13 +1952,13 @@ namespace PowerMapper.UnitTests
             Assert.Equal(false, Mapper.Map<int, bool?>(0));
             Assert.Equal(new DateTime(20), Mapper.Map<int, DateTime?>(20));
             Assert.Equal(new TimeSpan(20), Mapper.Map<int, TimeSpan?>(20));
-#if !Net35
+#if !NET35
             Assert.Equal(new BigInteger(20), Mapper.Map<int, BigInteger?>(20));
             Assert.Equal(new Complex(20, 0), Mapper.Map<int, Complex?>(20));
 #endif
         }
 
-#if NetCore
+#if NETCOREAPP
         [Fact]
 #else
         [Test]
@@ -1983,7 +1983,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal(new DateTime(20), Mapper.Map<int?, DateTime>(20));
             Assert.Equal(new TimeSpan(20), Mapper.Map<int?, TimeSpan>(20));
             Assert.Equal(BitConverter.GetBytes(20), Mapper.Map<int?, byte[]>(20));
-#if !Net35
+#if !NET35
             Assert.Equal(new BigInteger(20), Mapper.Map<int?, BigInteger>(20));
             Assert.Equal(new Complex(20, 0), Mapper.Map<int?, Complex>(20));
 #endif
@@ -2004,7 +2004,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal(null, Mapper.Map<int?, string>((int?)null));
             Assert.Equal(DateTime.MinValue, Mapper.Map<int?, DateTime>((int?)null));
             Assert.Equal(TimeSpan.Zero, Mapper.Map<int?, TimeSpan>((int?)null));
-#if !Net35
+#if !NET35
             Assert.Equal(BigInteger.Zero, Mapper.Map<int?, BigInteger>((int?)null));
             Assert.Equal(Complex.Zero, Mapper.Map<int?, Complex>((int?)null));
 #endif
@@ -2025,7 +2025,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal(false, Mapper.Map<int?, bool?>(0));
             Assert.Equal(new DateTime(20), Mapper.Map<int?, DateTime?>(20));
             Assert.Equal(new TimeSpan(20), Mapper.Map<int?, TimeSpan?>(20));
-#if !Net35
+#if !NET35
             Assert.Equal(new BigInteger(20), Mapper.Map<int?, BigInteger?>(20));
             Assert.Equal(new Complex(20, 0), Mapper.Map<int?, Complex?>(20));
 #endif
@@ -2047,7 +2047,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal(null, Mapper.Map<int?, string>((int?)null));
             Assert.Equal(null, Mapper.Map<int?, TimeSpan?>((int?)null));
             Assert.Equal(null, Mapper.Map<int?, byte[]>((int?)null));
-#if !Net35
+#if !NET35
             Assert.Equal(null, Mapper.Map<int?, BigInteger?>((int?)null));
             Assert.Equal(null, Mapper.Map<int?, Complex?>((int?)null));
 #endif
@@ -2057,7 +2057,7 @@ namespace PowerMapper.UnitTests
 
         #region UInt32
 
-#if NetCore
+#if NETCOREAPP
         [Fact]
 #else
         [Test]
@@ -2082,7 +2082,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal(new DateTime(20), Mapper.Map<uint, DateTime>(20));
             Assert.Equal(new TimeSpan(20), Mapper.Map<uint, TimeSpan>(20));
             Assert.Equal(BitConverter.GetBytes((uint)20), Mapper.Map<uint, byte[]>(20));
-#if !Net35
+#if !NET35
             Assert.Equal(new BigInteger((uint)20), Mapper.Map<uint, BigInteger>(20));
             Assert.Equal(new Complex(20, 0), Mapper.Map<uint, Complex>(20));
 #endif
@@ -2103,13 +2103,13 @@ namespace PowerMapper.UnitTests
             Assert.Equal(false, Mapper.Map<uint, bool?>(0));
             Assert.Equal(new DateTime(20), Mapper.Map<uint, DateTime?>(20));
             Assert.Equal(new TimeSpan(20), Mapper.Map<uint, TimeSpan?>(20));
-#if !Net35
+#if !NET35
             Assert.Equal(new BigInteger((uint)20), Mapper.Map<uint, BigInteger?>(20));
             Assert.Equal(new Complex(20, 0), Mapper.Map<uint, Complex?>(20));
 #endif
         }
 
-#if NetCore
+#if NETCOREAPP
         [Fact]
 #else
         [Test]
@@ -2134,7 +2134,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal(new DateTime(20), Mapper.Map<uint?, DateTime>(20));
             Assert.Equal(new TimeSpan(20), Mapper.Map<uint?, TimeSpan>(20));
             Assert.Equal(BitConverter.GetBytes((uint)20), Mapper.Map<uint?, byte[]>(20));
-#if !Net35
+#if !NET35
             Assert.Equal(new BigInteger((uint)20), Mapper.Map<uint?, BigInteger>(20));
             Assert.Equal(new Complex(20, 0), Mapper.Map<uint?, Complex>(20));
 #endif
@@ -2155,7 +2155,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal(null, Mapper.Map<uint?, string>((uint?)null));
             Assert.Equal(DateTime.MinValue, Mapper.Map<uint?, DateTime>((uint?)null));
             Assert.Equal(TimeSpan.Zero, Mapper.Map<uint?, TimeSpan>((uint?)null));
-#if !Net35
+#if !NET35
             Assert.Equal(BigInteger.Zero, Mapper.Map<uint?, BigInteger>((uint?)null));
             Assert.Equal(Complex.Zero, Mapper.Map<uint?, Complex>((uint?)null));
 #endif
@@ -2175,7 +2175,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal(false, Mapper.Map<uint?, bool?>(0));
             Assert.Equal(new DateTime(20), Mapper.Map<uint?, DateTime?>(20));
             Assert.Equal(new TimeSpan(20), Mapper.Map<uint?, TimeSpan?>(20));
-#if !Net35
+#if !NET35
             Assert.Equal(new BigInteger((uint)20), Mapper.Map<uint?, BigInteger?>(20));
             Assert.Equal(new Complex(20, 0), Mapper.Map<uint?, Complex?>(20));
 #endif
@@ -2196,7 +2196,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal(null, Mapper.Map<uint?, string>((uint?)null));
             Assert.Equal(null, Mapper.Map<uint?, TimeSpan?>((uint?)null));
             Assert.Equal(null, Mapper.Map<uint?, byte[]>((uint?)null));
-#if !Net35
+#if !NET35
             Assert.Equal(null, Mapper.Map<uint?, BigInteger?>((uint?)null));
             Assert.Equal(null, Mapper.Map<uint?, Complex?>((uint?)null));
 #endif
@@ -2206,7 +2206,7 @@ namespace PowerMapper.UnitTests
 
         #region Int16
 
-#if NetCore
+#if NETCOREAPP
         [Fact]
 #else
         [Test]
@@ -2231,7 +2231,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal(new DateTime(20), Mapper.Map<short, DateTime>(20));
             Assert.Equal(new TimeSpan(20), Mapper.Map<short, TimeSpan>(20));
             Assert.Equal(BitConverter.GetBytes((short)20), Mapper.Map<short, byte[]>(20));
-#if !Net35
+#if !NET35
             Assert.Equal(new BigInteger((short)20), Mapper.Map<short, BigInteger>(20));
             Assert.Equal(new Complex(20, 0), Mapper.Map<short, Complex>(20));
 #endif
@@ -2252,13 +2252,13 @@ namespace PowerMapper.UnitTests
             Assert.Equal(false, Mapper.Map<short, bool?>(0));
             Assert.Equal(new DateTime(20), Mapper.Map<short, DateTime?>(20));
             Assert.Equal(new TimeSpan(20), Mapper.Map<short, TimeSpan?>(20));
-#if !Net35
+#if !NET35
             Assert.Equal(new BigInteger((short)20), Mapper.Map<short, BigInteger?>(20));
             Assert.Equal(new Complex(20, 0), Mapper.Map<short, Complex?>(20));
 #endif
         }
 
-#if NetCore
+#if NETCOREAPP
         [Fact]
 #else
         [Test]
@@ -2283,7 +2283,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal(new DateTime(20), Mapper.Map<short?, DateTime>(20));
             Assert.Equal(new TimeSpan(20), Mapper.Map<short?, TimeSpan>(20));
             Assert.Equal(BitConverter.GetBytes((short)20), Mapper.Map<short?, byte[]>(20));
-#if !Net35
+#if !NET35
             Assert.Equal(new BigInteger((short)20), Mapper.Map<short?, BigInteger>(20));
             Assert.Equal(new Complex(20, 0), Mapper.Map<short?, Complex>(20));
 #endif
@@ -2304,7 +2304,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal(null, Mapper.Map<short?, string>((short?)null));
             Assert.Equal(DateTime.MinValue, Mapper.Map<short?, DateTime>((short?)null));
             Assert.Equal(TimeSpan.Zero, Mapper.Map<short?, TimeSpan>((short?)null));
-#if !Net35
+#if !NET35
             Assert.Equal(BigInteger.Zero, Mapper.Map<short?, BigInteger>((short?)null));
             Assert.Equal(Complex.Zero, Mapper.Map<short?, Complex>((short?)null));
 #endif
@@ -2325,7 +2325,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal(false, Mapper.Map<short?, bool?>(0));
             Assert.Equal(new DateTime(20), Mapper.Map<short?, DateTime?>(20));
             Assert.Equal(new TimeSpan(20), Mapper.Map<short?, TimeSpan?>(20));
-#if !Net35
+#if !NET35
             Assert.Equal(new BigInteger((short)20), Mapper.Map<short?, BigInteger?>(20));
             Assert.Equal(new Complex(20, 0), Mapper.Map<short?, Complex?>(20));
 #endif
@@ -2347,7 +2347,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal(null, Mapper.Map<short?, string>((short?)null));
             Assert.Equal(null, Mapper.Map<short?, TimeSpan?>((short?)null));
             Assert.Equal(null, Mapper.Map<short?, byte[]>((short?)null));
-#if !Net35
+#if !NET35
             Assert.Equal(null, Mapper.Map<short?, BigInteger?>((short?)null));
             Assert.Equal(null, Mapper.Map<short?, Complex?>((short?)null));
 #endif
@@ -2357,7 +2357,7 @@ namespace PowerMapper.UnitTests
 
         #region UInt16
 
-#if NetCore
+#if NETCOREAPP
         [Fact]
 #else
         [Test]
@@ -2382,7 +2382,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal(new DateTime(20), Mapper.Map<ushort, DateTime>(20));
             Assert.Equal(new TimeSpan(20), Mapper.Map<ushort, TimeSpan>(20));
             Assert.Equal(BitConverter.GetBytes((ushort)20), Mapper.Map<ushort, byte[]>(20));
-#if !Net35
+#if !NET35
             Assert.Equal(new BigInteger((ushort)20), Mapper.Map<ushort, BigInteger>(20));
             Assert.Equal(new Complex(20, 0), Mapper.Map<ushort, Complex>(20));
 #endif
@@ -2403,13 +2403,13 @@ namespace PowerMapper.UnitTests
             Assert.Equal(false, Mapper.Map<ushort, bool?>(0));
             Assert.Equal(new DateTime(20), Mapper.Map<ushort, DateTime?>(20));
             Assert.Equal(new TimeSpan(20), Mapper.Map<ushort, TimeSpan?>(20));
-#if !Net35
+#if !NET35
             Assert.Equal(new BigInteger((ushort)20), Mapper.Map<ushort, BigInteger?>(20));
             Assert.Equal(new Complex(20, 0), Mapper.Map<ushort, Complex?>(20));
 #endif
         }
 
-#if NetCore
+#if NETCOREAPP
         [Fact]
 #else
         [Test]
@@ -2434,7 +2434,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal(new DateTime(20), Mapper.Map<ushort?, DateTime>(20));
             Assert.Equal(new TimeSpan(20), Mapper.Map<ushort?, TimeSpan>(20));
             Assert.Equal(BitConverter.GetBytes((ushort)20), Mapper.Map<ushort?, byte[]>(20));
-#if !Net35
+#if !NET35
             Assert.Equal(new BigInteger((ushort)20), Mapper.Map<ushort?, BigInteger>(20));
             Assert.Equal(new Complex(20, 0), Mapper.Map<ushort?, Complex>(20));
 #endif
@@ -2455,7 +2455,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal(null, Mapper.Map<ushort?, string>((ushort?)null));
             Assert.Equal(DateTime.MinValue, Mapper.Map<ushort?, DateTime>((ushort?)null));
             Assert.Equal(TimeSpan.Zero, Mapper.Map<ushort?, TimeSpan>((ushort?)null));
-#if !Net35
+#if !NET35
             Assert.Equal(BigInteger.Zero, Mapper.Map<ushort?, BigInteger>((ushort?)null));
             Assert.Equal(Complex.Zero, Mapper.Map<ushort?, Complex>((ushort?)null));
 #endif
@@ -2476,7 +2476,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal(false, Mapper.Map<ushort?, bool?>(0));
             Assert.Equal(new DateTime(20), Mapper.Map<ushort?, DateTime?>(20));
             Assert.Equal(new TimeSpan(20), Mapper.Map<ushort?, TimeSpan?>(20));
-#if !Net35
+#if !NET35
             Assert.Equal(new BigInteger((ushort)20), Mapper.Map<ushort?, BigInteger?>(20));
             Assert.Equal(new Complex(20, 0), Mapper.Map<ushort?, Complex?>(20));
 #endif
@@ -2498,7 +2498,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal(null, Mapper.Map<ushort?, string>((ushort?)null));
             Assert.Equal(null, Mapper.Map<ushort?, TimeSpan?>((ushort?)null));
             Assert.Equal(null, Mapper.Map<ushort?, byte[]>((ushort?)null));
-#if !Net35
+#if !NET35
             Assert.Equal(null, Mapper.Map<ushort?, BigInteger?>((ushort?)null));
             Assert.Equal(null, Mapper.Map<ushort?, Complex?>((ushort?)null));
 #endif
@@ -2508,7 +2508,7 @@ namespace PowerMapper.UnitTests
 
         #region Int64
 
-#if NetCore
+#if NETCOREAPP
         [Fact]
 #else
         [Test]
@@ -2533,7 +2533,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal(new DateTime(20), Mapper.Map<long, DateTime>(20));
             Assert.Equal(new TimeSpan(20), Mapper.Map<long, TimeSpan>(20));
             Assert.Equal(BitConverter.GetBytes((long)20), Mapper.Map<long, byte[]>(20));
-#if !Net35
+#if !NET35
             Assert.Equal(new BigInteger((long)20), Mapper.Map<long, BigInteger>(20));
             Assert.Equal(new Complex(20, 0), Mapper.Map<long, Complex>(20));
 #endif
@@ -2554,13 +2554,13 @@ namespace PowerMapper.UnitTests
             Assert.Equal(false, Mapper.Map<long, bool?>(0));
             Assert.Equal(new DateTime(20), Mapper.Map<long, DateTime?>(20));
             Assert.Equal(new TimeSpan(20), Mapper.Map<long, TimeSpan?>(20));
-#if !Net35
+#if !NET35
             Assert.Equal(new BigInteger((long)20), Mapper.Map<long, BigInteger?>(20));
             Assert.Equal(new Complex(20, 0), Mapper.Map<long, Complex?>(20));
 #endif
         }
 
-#if NetCore
+#if NETCOREAPP
         [Fact]
 #else
         [Test]
@@ -2585,7 +2585,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal(new DateTime(20), Mapper.Map<long?, DateTime>(20));
             Assert.Equal(new TimeSpan(20), Mapper.Map<long?, TimeSpan>(20));
             Assert.Equal(BitConverter.GetBytes((long)20), Mapper.Map<long?, byte[]>(20));
-#if !Net35
+#if !NET35
             Assert.Equal(new BigInteger((long)20), Mapper.Map<long?, BigInteger>(20));
             Assert.Equal(new Complex(20, 0), Mapper.Map<long?, Complex>(20));
 #endif
@@ -2606,7 +2606,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal(null, Mapper.Map<long?, string>((long?)null));
             Assert.Equal(DateTime.MinValue, Mapper.Map<long?, DateTime>((long?)null));
             Assert.Equal(TimeSpan.Zero, Mapper.Map<long?, TimeSpan>((long?)null));
-#if !Net35
+#if !NET35
             Assert.Equal(BigInteger.Zero, Mapper.Map<long?, BigInteger>((long?)null));
             Assert.Equal(Complex.Zero, Mapper.Map<long?, Complex>((long?)null));
 #endif
@@ -2627,7 +2627,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal(false, Mapper.Map<long?, bool?>(0));
             Assert.Equal(new DateTime(20), Mapper.Map<long?, DateTime?>(20));
             Assert.Equal(new TimeSpan(20), Mapper.Map<long?, TimeSpan?>(20));
-#if !Net35
+#if !NET35
             Assert.Equal(new BigInteger((long)20), Mapper.Map<long?, BigInteger?>(20));
             Assert.Equal(new Complex(20, 0), Mapper.Map<long?, Complex?>(20));
 #endif
@@ -2649,7 +2649,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal(null, Mapper.Map<long?, string>((long?)null));
             Assert.Equal(null, Mapper.Map<long?, TimeSpan?>((long?)null));
             Assert.Equal(null, Mapper.Map<long?, byte[]>((long?)null));
-#if !Net35
+#if !NET35
             Assert.Equal(null, Mapper.Map<long?, BigInteger?>((long?)null));
             Assert.Equal(null, Mapper.Map<long?, Complex?>((long?)null));
 #endif
@@ -2659,7 +2659,7 @@ namespace PowerMapper.UnitTests
 
         #region UInt64
 
-#if NetCore
+#if NETCOREAPP
         [Fact]
 #else
         [Test]
@@ -2684,7 +2684,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal(new DateTime(20), Mapper.Map<ulong, DateTime>(20));
             Assert.Equal(new TimeSpan(20), Mapper.Map<ulong, TimeSpan>(20));
             Assert.Equal(BitConverter.GetBytes((ulong)20), Mapper.Map<ulong, byte[]>(20));
-#if !Net35
+#if !NET35
             Assert.Equal(new BigInteger((ulong)20), Mapper.Map<ulong, BigInteger>(20));
             Assert.Equal(new Complex(20, 0), Mapper.Map<ulong, Complex>(20));
 #endif
@@ -2705,13 +2705,13 @@ namespace PowerMapper.UnitTests
             Assert.Equal(false, Mapper.Map<ulong, bool?>(0));
             Assert.Equal(new DateTime(20), Mapper.Map<ulong, DateTime?>(20));
             Assert.Equal(new TimeSpan(20), Mapper.Map<ulong, TimeSpan?>(20));
-#if !Net35
+#if !NET35
             Assert.Equal(new BigInteger((ulong)20), Mapper.Map<ulong, BigInteger?>(20));
             Assert.Equal(new Complex(20, 0), Mapper.Map<ulong, Complex?>(20));
 #endif
         }
 
-#if NetCore
+#if NETCOREAPP
         [Fact]
 #else
         [Test]
@@ -2736,7 +2736,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal(new DateTime(20), Mapper.Map<ulong?, DateTime>(20));
             Assert.Equal(new TimeSpan(20), Mapper.Map<ulong?, TimeSpan>(20));
             Assert.Equal(BitConverter.GetBytes((ulong)20), Mapper.Map<ulong?, byte[]>(20));
-#if !Net35
+#if !NET35
             Assert.Equal(new BigInteger((ulong)20), Mapper.Map<ulong?, BigInteger>(20));
             Assert.Equal(new Complex(20, 0), Mapper.Map<ulong?, Complex>(20));
 #endif
@@ -2757,7 +2757,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal(null, Mapper.Map<ulong?, string>((ulong?)null));
             Assert.Equal(DateTime.MinValue, Mapper.Map<ulong?, DateTime>((ulong?)null));
             Assert.Equal(TimeSpan.Zero, Mapper.Map<ulong?, TimeSpan>((ulong?)null));
-#if !Net35
+#if !NET35
             Assert.Equal(BigInteger.Zero, Mapper.Map<ulong?, BigInteger>((ulong?)null));
             Assert.Equal(Complex.Zero, Mapper.Map<ulong?, Complex>((ulong?)null));
 #endif
@@ -2778,7 +2778,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal(false, Mapper.Map<ulong?, bool?>(0));
             Assert.Equal(new DateTime(20), Mapper.Map<ulong?, DateTime?>(20));
             Assert.Equal(new TimeSpan(20), Mapper.Map<ulong?, TimeSpan?>(20));
-#if !Net35
+#if !NET35
             Assert.Equal(new BigInteger((ulong)20), Mapper.Map<ulong?, BigInteger?>(20));
             Assert.Equal(new Complex(20, 0), Mapper.Map<ulong?, Complex?>(20));
 #endif
@@ -2800,7 +2800,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal(null, Mapper.Map<ulong?, string>((ulong?)null));
             Assert.Equal(null, Mapper.Map<ulong?, TimeSpan?>((ulong?)null));
             Assert.Equal(null, Mapper.Map<ulong?, byte[]>((ulong?)null));
-#if !Net35
+#if !NET35
             Assert.Equal(null, Mapper.Map<ulong?, BigInteger?>((ulong?)null));
             Assert.Equal(null, Mapper.Map<ulong?, Complex?>((ulong?)null));
 #endif
@@ -2810,7 +2810,7 @@ namespace PowerMapper.UnitTests
 
         #region Decimal
 
-#if NetCore
+#if NETCOREAPP
         [Fact]
 #else
         [Test]
@@ -2834,7 +2834,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal("20", Mapper.Map<decimal, string>(20));
             Assert.Equal(new DateTime(20), Mapper.Map<decimal, DateTime>(20));
             Assert.Equal(new TimeSpan(20), Mapper.Map<decimal, TimeSpan>(20));
-#if !Net35
+#if !NET35
             Assert.Equal(new BigInteger((decimal)20), Mapper.Map<decimal, BigInteger>(20));
             Assert.Equal(new Complex(20, 0), Mapper.Map<decimal, Complex>(20));
 #endif
@@ -2855,13 +2855,13 @@ namespace PowerMapper.UnitTests
             Assert.Equal(false, Mapper.Map<decimal, bool?>(0));
             Assert.Equal(new DateTime(20), Mapper.Map<decimal, DateTime?>(20));
             Assert.Equal(new TimeSpan(20), Mapper.Map<decimal, TimeSpan?>(20));
-#if !Net35
+#if !NET35
             Assert.Equal(new BigInteger((decimal)20), Mapper.Map<decimal, BigInteger?>(20));
             Assert.Equal(new Complex(20, 0), Mapper.Map<decimal, Complex?>(20));
 #endif
         }
 
-#if NetCore
+#if NETCOREAPP
         [Fact]
 #else
         [Test]
@@ -2885,7 +2885,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal("20", Mapper.Map<decimal?, string>(20));
             Assert.Equal(new DateTime(20), Mapper.Map<decimal?, DateTime>(20));
             Assert.Equal(new TimeSpan(20), Mapper.Map<decimal?, TimeSpan>(20));
-#if !Net35
+#if !NET35
             Assert.Equal(new BigInteger((decimal)20), Mapper.Map<decimal?, BigInteger>(20));
             Assert.Equal(new Complex(20, 0), Mapper.Map<decimal?, Complex>(20));
 #endif
@@ -2906,7 +2906,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal(null, Mapper.Map<decimal?, string>((decimal?)null));
             Assert.Equal(DateTime.MinValue, Mapper.Map<decimal?, DateTime>((decimal?)null));
             Assert.Equal(TimeSpan.Zero, Mapper.Map<decimal?, TimeSpan>((decimal?)null));
-#if !Net35
+#if !NET35
             Assert.Equal(BigInteger.Zero, Mapper.Map<decimal?, BigInteger>((decimal?)null));
             Assert.Equal(Complex.Zero, Mapper.Map<decimal?, Complex>((decimal?)null));
 #endif
@@ -2927,7 +2927,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal(false, Mapper.Map<decimal?, bool?>(0));
             Assert.Equal(new DateTime(20), Mapper.Map<decimal?, DateTime?>(20));
             Assert.Equal(new TimeSpan(20), Mapper.Map<decimal?, TimeSpan?>(20));
-#if !Net35
+#if !NET35
             Assert.Equal(new BigInteger((decimal)20), Mapper.Map<decimal?, BigInteger?>(20));
             Assert.Equal(new Complex(20, 0), Mapper.Map<decimal?, Complex?>(20));
 #endif
@@ -2948,7 +2948,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal(null, Mapper.Map<decimal?, DateTime?>((decimal?)null));
             Assert.Equal(null, Mapper.Map<decimal?, string>((decimal?)null));
             Assert.Equal(null, Mapper.Map<decimal?, TimeSpan?>((decimal?)null));
-#if !Net35
+#if !NET35
             Assert.Equal(null, Mapper.Map<decimal?, BigInteger?>((decimal?)null));
             Assert.Equal(null, Mapper.Map<decimal?, Complex?>((decimal?)null));
 #endif
@@ -2958,7 +2958,7 @@ namespace PowerMapper.UnitTests
 
         #region Double
 
-#if NetCore
+#if NETCOREAPP
         [Fact]
 #else
         [Test]
@@ -2983,7 +2983,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal(new DateTime(20), Mapper.Map<double, DateTime>(20));
             Assert.Equal(new TimeSpan(20), Mapper.Map<double, TimeSpan>(20));
             Assert.Equal(BitConverter.GetBytes((double)20), Mapper.Map<double, byte[]>(20));
-#if !Net35
+#if !NET35
             Assert.Equal(new BigInteger((double)20), Mapper.Map<double, BigInteger>(20));
             Assert.Equal(new Complex(20, 0), Mapper.Map<double, Complex>(20));
 #endif
@@ -3004,13 +3004,13 @@ namespace PowerMapper.UnitTests
             Assert.Equal((bool?)false, Mapper.Map<double, bool?>(0));
             Assert.Equal((DateTime?)new DateTime(20), Mapper.Map<double, DateTime?>(20));
             Assert.Equal((TimeSpan?)new TimeSpan(20), Mapper.Map<double, TimeSpan?>(20));
-#if !Net35
+#if !NET35
             Assert.Equal(new BigInteger((double)20), Mapper.Map<double, BigInteger?>(20));
             Assert.Equal(new Complex(20, 0), Mapper.Map<double, Complex?>(20));
 #endif
         }
 
-#if NetCore
+#if NETCOREAPP
         [Fact]
 #else
         [Test]
@@ -3035,7 +3035,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal(new DateTime(20), Mapper.Map<double?, DateTime>(20));
             Assert.Equal(new TimeSpan(20), Mapper.Map<double?, TimeSpan>(20));
             Assert.Equal(BitConverter.GetBytes((double)20), Mapper.Map<double?, byte[]>(20));
-#if !Net35
+#if !NET35
             Assert.Equal(new BigInteger((double)20), Mapper.Map<double?, BigInteger>(20));
             Assert.Equal(new Complex(20, 0), Mapper.Map<double?, Complex>(20));
 #endif
@@ -3056,7 +3056,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal(null, Mapper.Map<double?, string>((double?)null));
             Assert.Equal(DateTime.MinValue, Mapper.Map<double?, DateTime>((double?)null));
             Assert.Equal(TimeSpan.Zero, Mapper.Map<double?, TimeSpan>((double?)null));
-#if !Net35
+#if !NET35
             Assert.Equal(BigInteger.Zero, Mapper.Map<double?, BigInteger>((double?)null));
             Assert.Equal(Complex.Zero, Mapper.Map<double?, Complex>((double?)null));
 #endif
@@ -3077,7 +3077,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal((bool?)false, Mapper.Map<double?, bool?>(0));
             Assert.Equal((DateTime?)new DateTime(20), Mapper.Map<double?, DateTime?>(20));
             Assert.Equal((TimeSpan?)new TimeSpan(20), Mapper.Map<double?, TimeSpan?>(20));
-#if !Net35
+#if !NET35
             Assert.Equal(new BigInteger((double)20), Mapper.Map<double?, BigInteger?>(20));
             Assert.Equal(new Complex(20, 0), Mapper.Map<double?, Complex?>(20));
 #endif
@@ -3099,7 +3099,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal(null, Mapper.Map<double?, string>((double?)null));
             Assert.Equal(null, Mapper.Map<double?, TimeSpan?>((double?)null));
             Assert.Equal(null, Mapper.Map<double?, byte[]>((double?)null));
-#if !Net35
+#if !NET35
             Assert.Equal(null, Mapper.Map<double?, BigInteger?>((double?)null));
             Assert.Equal(null, Mapper.Map<double?, Complex?>((double?)null));
 #endif
@@ -3109,7 +3109,7 @@ namespace PowerMapper.UnitTests
 
         #region Single
 
-#if NetCore
+#if NETCOREAPP
         [Fact]
 #else
         [Test]
@@ -3134,7 +3134,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal(new DateTime(20), Mapper.Map<float, DateTime>(20));
             Assert.Equal(new TimeSpan(20), Mapper.Map<float, TimeSpan>(20));
             Assert.Equal(BitConverter.GetBytes((float)20), Mapper.Map<float, byte[]>(20));
-#if !Net35
+#if !NET35
             Assert.Equal(new BigInteger((float)20), Mapper.Map<float, BigInteger>(20));
             Assert.Equal(new Complex(20, 0), Mapper.Map<float, Complex>(20));
 #endif
@@ -3155,13 +3155,13 @@ namespace PowerMapper.UnitTests
             Assert.Equal((bool?)false, Mapper.Map<float, bool?>(0));
             Assert.Equal((DateTime?)new DateTime(20), Mapper.Map<float, DateTime?>(20));
             Assert.Equal((TimeSpan?)new TimeSpan(20), Mapper.Map<float, TimeSpan?>(20));
-#if !Net35
+#if !NET35
             Assert.Equal(new BigInteger((float)20), Mapper.Map<float, BigInteger?>(20));
             Assert.Equal(new Complex(20, 0), Mapper.Map<float, Complex?>(20));
 #endif
         }
 
-#if NetCore
+#if NETCOREAPP
         [Fact]
 #else
         [Test]
@@ -3186,7 +3186,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal(new DateTime(20), Mapper.Map<float?, DateTime>(20));
             Assert.Equal(new TimeSpan(20), Mapper.Map<float?, TimeSpan>(20));
             Assert.Equal(BitConverter.GetBytes((float)20), Mapper.Map<float?, byte[]>(20));
-#if !Net35
+#if !NET35
             Assert.Equal(new BigInteger((float)20), Mapper.Map<float?, BigInteger>(20));
             Assert.Equal(new Complex(20, 0), Mapper.Map<float?, Complex>(20));
 #endif
@@ -3207,7 +3207,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal(null, Mapper.Map<float?, string>((float?)null));
             Assert.Equal(DateTime.MinValue, Mapper.Map<float?, DateTime>((float?)null));
             Assert.Equal(TimeSpan.Zero, Mapper.Map<float?, TimeSpan>((float?)null));
-#if !Net35
+#if !NET35
             Assert.Equal(BigInteger.Zero, Mapper.Map<float?, BigInteger>((float?)null));
             Assert.Equal(Complex.Zero, Mapper.Map<float?, Complex>((float?)null));
 #endif
@@ -3228,7 +3228,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal((bool?)false, Mapper.Map<float?, bool?>(0));
             Assert.Equal((DateTime?)new DateTime(20), Mapper.Map<float?, DateTime?>(20));
             Assert.Equal((TimeSpan?)new TimeSpan(20), Mapper.Map<float?, TimeSpan?>(20));
-#if !Net35
+#if !NET35
             Assert.Equal(new BigInteger((float)20), Mapper.Map<float?, BigInteger?>(20));
             Assert.Equal(new Complex(20, 0), Mapper.Map<float?, Complex?>(20));
 #endif
@@ -3250,7 +3250,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal(null, Mapper.Map<float?, string>((float?)null));
             Assert.Equal(null, Mapper.Map<float?, TimeSpan?>((float?)null));
             Assert.Equal(null, Mapper.Map<float?, byte[]>((float?)null));
-#if !Net35
+#if !NET35
             Assert.Equal(null, Mapper.Map<float?, BigInteger?>((float?)null));
             Assert.Equal(null, Mapper.Map<float?, Complex?>((float?)null));
 #endif
@@ -3258,11 +3258,11 @@ namespace PowerMapper.UnitTests
 
         #endregion
 
-#if !Net35
+#if !NET35
 
         #region BigInteger
 
-#if NetCore
+#if NETCOREAPP
         [Fact]
 #else
         [Test]
@@ -3298,7 +3298,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal(new Complex(20, 0), Mapper.Map<BigInteger, Complex?>(new BigInteger(20)));
         }
 
-#if NetCore
+#if NETCOREAPP
         [Fact]
 #else
         [Test]
@@ -3370,7 +3370,7 @@ namespace PowerMapper.UnitTests
 
         #region String
 
-#if NetCore
+#if NETCOREAPP
         [Fact]
 #else
         [Test]
@@ -3392,7 +3392,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal(true, Mapper.Map<string, bool>("true"));
             Assert.Equal(false, Mapper.Map<string, bool>("false"));
             Assert.Equal("20", Mapper.Map<string, string>("20"));
-#if !Net35
+#if !NET35
             Assert.Equal(new BigInteger(20), Mapper.Map<string, BigInteger>("20"));
 #endif
             var now = DateTime.Parse(DateTime.Now.ToString());
@@ -3418,7 +3418,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal((double?)20, Mapper.Map<string, double?>("20"));
             Assert.Equal((bool?)true, Mapper.Map<string, bool?>("true"));
             Assert.Equal((bool?)false, Mapper.Map<string, bool?>("false"));
-#if !Net35
+#if !NET35
             Assert.Equal(new BigInteger(20), Mapper.Map<string, BigInteger?>("20"));
 #endif
             Assert.Equal((DateTime?)now, Mapper.Map<string, DateTime?>(now.ToString()));
@@ -3436,7 +3436,7 @@ namespace PowerMapper.UnitTests
 
             var sb = new StringBuilder("PowerMapper");
             Assert.Equal(sb.ToString(), Mapper.Map<string, StringBuilder>(sb.ToString())?.ToString());
-#if !NetCore
+#if !NETCOREAPP
             var unit = Unit.Parse("57px");
             Assert.Equal(unit, Mapper.Map<string, Unit>(unit.ToString()));
             Assert.Equal(unit, Mapper.Map<string, Unit?>(unit.ToString()));
@@ -3446,7 +3446,7 @@ namespace PowerMapper.UnitTests
 #endif
         }
 
-#if NetCore
+#if NETCOREAPP
         [Fact]
 #else
         [Test]
@@ -3461,7 +3461,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal(offset, Mapper.Map<DateTimeOffset, string>(DateTimeOffset.Parse(offset)));
             var guid = Guid.NewGuid();
             Assert.Equal(guid.ToString(), Mapper.Map<Guid, string>(guid));
-#if !Net35
+#if !NET35
             Assert.Equal("20", Mapper.Map<BigInteger, string>(new BigInteger(20)));
 #endif
 
@@ -3480,7 +3480,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal(null, Mapper.Map<TimeSpan?, string>((TimeSpan?)null));
             Assert.Equal(null, Mapper.Map<DateTimeOffset?, string>((DateTimeOffset?)null));
             Assert.Equal(null, Mapper.Map<Guid?, string>((Guid?)null));
-#if !Net35
+#if !NET35
             Assert.Equal(null, Mapper.Map<BigInteger?, string>((BigInteger?)null));
 #endif
             Assert.Equal(null, Mapper.Map<IPAddress, string>((IPAddress)null));
@@ -3494,7 +3494,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal(sb.ToString(), Mapper.Map<StringBuilder, string>(sb));
 
             var zone = TimeZoneInfo.Local;
-#if !NetCore
+#if !NETCOREAPP
             Assert.Equal(zone.ToSerializedString(), Mapper.Map<TimeZoneInfo, string>(zone));
 
             var unit = Unit.Parse("57px");
@@ -3506,7 +3506,7 @@ namespace PowerMapper.UnitTests
 #endif
         }
 
-#if NetCore
+#if NETCOREAPP
         [Fact]
 #else
         [Test]
@@ -3530,7 +3530,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal(TimeSpan.Zero, Mapper.Map<string, TimeSpan>((string)null));
             Assert.Equal(DateTimeOffset.MinValue, Mapper.Map<string, DateTimeOffset>((string)null));
             Assert.Equal(Guid.Empty, Mapper.Map<string, Guid>((string)null));
-#if !Net35
+#if !NET35
             Assert.Equal(BigInteger.Zero, Mapper.Map<string, BigInteger>((string)null));
 #endif
 
@@ -3557,16 +3557,16 @@ namespace PowerMapper.UnitTests
             Assert.Equal(null, Mapper.Map<string, TimeZoneInfo>((string)null));
             Assert.Equal(null, Mapper.Map<string, Type>((string)null));
             Assert.Equal(null, Mapper.Map<string, StringBuilder>((string)null));
-#if !Net35
+#if !NET35
             Assert.Equal(null, Mapper.Map<string, BigInteger?>((string)null));
 #endif
-#if !NetCore
+#if !NETCOREAPP
             Assert.Equal(Unit.Empty, Mapper.Map<string, Unit>((string)null));
             Assert.Equal(null, Mapper.Map<string, Unit?>((string)null));
 #endif
         }
 
-#if NetCore
+#if NETCOREAPP
         [Fact]
 #else
         [Test]
@@ -3590,7 +3590,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal(TimeSpan.Zero, Mapper.Map<string, TimeSpan>(string.Empty));
             Assert.Equal(DateTimeOffset.MinValue, Mapper.Map<string, DateTimeOffset>(string.Empty));
             Assert.Equal(Guid.Empty, Mapper.Map<string, Guid>(string.Empty));
-#if !Net35
+#if !NET35
             Assert.Equal(BigInteger.Zero, Mapper.Map<string, BigInteger>(string.Empty));
 #endif
 
@@ -3614,15 +3614,15 @@ namespace PowerMapper.UnitTests
             Assert.Equal(null, Mapper.Map<string, TimeZoneInfo>(string.Empty));
             Assert.Equal(null, Mapper.Map<string, Type>(string.Empty));
             Assert.Equal(string.Empty, Mapper.Map<string, StringBuilder>(string.Empty)?.ToString());
-#if !Net35
+#if !NET35
             Assert.Equal(BigInteger.Zero, Mapper.Map<string, BigInteger?>(string.Empty));
 #endif
-#if !NetCore
+#if !NETCOREAPP
             Assert.Equal(Unit.Empty, Mapper.Map<string, Unit>(string.Empty));
 #endif
         }
 
-#if NetCore
+#if NETCOREAPP
         [Fact]
 #else
         [Test]
@@ -3646,7 +3646,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal(TimeSpan.Zero, Mapper.Map<string, TimeSpan>(" "));
             Assert.Equal(DateTimeOffset.MinValue, Mapper.Map<string, DateTimeOffset>(" "));
             Assert.Equal(Guid.Empty, Mapper.Map<string, Guid>(" "));
-#if !Net35
+#if !NET35
             Assert.Equal(BigInteger.Zero, Mapper.Map<string, BigInteger>(" "));
 #endif
 
@@ -3670,10 +3670,10 @@ namespace PowerMapper.UnitTests
             Assert.Equal(null, Mapper.Map<string, TimeZoneInfo>(" "));
             Assert.Equal(null, Mapper.Map<string, Type>(" "));
             Assert.Equal(" ", Mapper.Map<string, StringBuilder>(" ")?.ToString());
-#if !Net35
+#if !NET35
             Assert.Equal(BigInteger.Zero, Mapper.Map<string, BigInteger?>(" "));
 #endif
-#if !NetCore
+#if !NETCOREAPP
             Assert.Equal(Unit.Empty, Mapper.Map<string, Unit>(" "));
 #endif
         }
@@ -3682,7 +3682,7 @@ namespace PowerMapper.UnitTests
 
         #region Misc
 
-#if NetCore
+#if NETCOREAPP
         [Fact]
 #else
         [Test]
@@ -3704,20 +3704,20 @@ namespace PowerMapper.UnitTests
             Assert.Equal(Guid.Empty, Mapper.Map<Guid?, Guid>((Guid?)null));
             var guid = Guid.NewGuid();
             Assert.Equal(guid, Mapper.Map<Guid?, Guid>(guid));
-#if !Net35
+#if !NET35
             Assert.Equal(BigInteger.Zero, Mapper.Map<BigInteger?, BigInteger>((BigInteger?)null));
             Assert.Equal(new BigInteger(20), Mapper.Map<BigInteger?, BigInteger>(new BigInteger(20)));
             Assert.Equal(Complex.Zero, Mapper.Map<Complex?, Complex>((Complex?)null));
             Assert.Equal(new Complex(20, 0), Mapper.Map<Complex?, Complex>(new Complex(20,0)));
 #endif
-#if !NetCore
+#if !NETCOREAPP
             Assert.Equal(Unit.Empty, Mapper.Map<Unit?, Unit>((Unit?)null));
             var unit = Unit.Parse("57px");
             Assert.Equal(unit, Mapper.Map<Unit?, Unit>(unit));
 #endif
         }
 
-#if NetCore
+#if NETCOREAPP
         [Fact]
 #else
         [Test]
@@ -3735,7 +3735,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal((char)20, Mapper.Map<byte[], char>(BitConverter.GetBytes((char)20)));
             Assert.Equal((double)20, Mapper.Map<byte[], double>(BitConverter.GetBytes((double)20)));
             Assert.Equal((float)20, Mapper.Map<byte[], float>(BitConverter.GetBytes((float)20)));
-#if !Net35
+#if !NET35
             Assert.Equal(new BigInteger(20), Mapper.Map<byte[], BigInteger>(new BigInteger(20).ToByteArray()));
             Assert.Equal(null, Mapper.Map<byte[], BigInteger?>((byte[])null));
 #endif
@@ -3748,7 +3748,7 @@ namespace PowerMapper.UnitTests
             Assert.Equal(IPAddress.None, Mapper.Map<byte[], IPAddress>(IPAddress.None.GetAddressBytes()));
         }
 
-#if NetCore
+#if NETCOREAPP
         [Fact]
 #else
         [Test]

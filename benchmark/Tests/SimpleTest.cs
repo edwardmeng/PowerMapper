@@ -21,11 +21,12 @@ namespace Benchmarks.Tests
             AutoMapperMapping.Init();
         }
 
+#if !NETCOREAPP
         protected override void InitExpressMapper()
         {
             ExpressMapperMapping.Init();
         }
-
+#endif
         protected override void InitValueInjectorMapper()
         {
             ValueInjectorMappings.Init();
@@ -36,18 +37,10 @@ namespace Benchmarks.Tests
             MapsterMapperMappings.Init();
         }
 
-#if !NetCore
-        
-        protected override void InitOoMapper()
-        {
-            OoMapperMappings.Init();
-        }
-
         protected override void InitTinyMapper()
         {
             TinyMapperMappings.Init();
         }
-#endif
 
         protected override void InitNativeMapper()
         {
@@ -63,11 +56,12 @@ namespace Benchmarks.Tests
             return AutoMapper.Mapper.Map<List<News>, List<NewsViewModel>>(src);
         }
 
+#if !NETCOREAPP
         protected override List<NewsViewModel> ExpressMapperMap(List<News> src)
         {
             return ExpressMapper.Mapper.Map<List<News>, List<NewsViewModel>>(src);
         }
-
+#endif
         protected override List<NewsViewModel> ValueInjectorMap(List<News> src)
         {
             var list = new List<NewsViewModel>();
@@ -83,13 +77,6 @@ namespace Benchmarks.Tests
             return TypeAdapter.Adapt<List<News>, List<NewsViewModel>>(src);
         }
 
-#if !NetCore
-        
-        protected override List<NewsViewModel> OoMapperMap(List<News> src)
-        {
-            return OoMapper.Mapper.Map<List<News>, List<NewsViewModel>>(src);
-        }
-
         protected override List<NewsViewModel> TinyMapperMap(List<News> src)
         {
             var list = new List<NewsViewModel>();
@@ -99,7 +86,6 @@ namespace Benchmarks.Tests
             }
             return list;
         }
-#endif
 
         protected override List<NewsViewModel> NativeMapperMap(List<News> src)
         {

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Reflection;
-#if Net35
+#if NET35
 using System.Collections.Generic;
 #else
 using System.Collections.Concurrent;
@@ -16,7 +16,7 @@ namespace PowerMapper
         private ValueConverter _converter;
         private ValueMapper _mapper;
 
-#if Net35
+#if NET35
         private static readonly Dictionary<Triplet<MappingContainer, Type, Type>, Type> _genericMapperTypes
             = new Dictionary<Triplet<MappingContainer, Type, Type>, Type>();
 
@@ -40,7 +40,7 @@ namespace PowerMapper
             return (_options & option) == option;
         }
 #else
-#if NetCore
+#if NETSTANDARD
         private static readonly ConcurrentDictionary<Triplet<MappingContainer, Type, Type>, TypeInfo> _genericMapperTypes
             = new ConcurrentDictionary<Triplet<MappingContainer, Type, Type>, TypeInfo>();
 #else
@@ -117,7 +117,7 @@ namespace PowerMapper
             }
             _mapper?.Compile(builder);
             if ((_converter == null || _mapper == null) && HasOption(MemberMapOptions.Hierarchy) && !(
-#if NetCore
+#if NETSTANDARD
                 TargetMember.MemberType.GetTypeInfo().IsValueType
 #else
                 TargetMember.MemberType.IsValueType 
@@ -128,7 +128,7 @@ namespace PowerMapper
             }
         }
 
-#if NetCore
+#if NETSTANDARD
         private TypeInfo CreateMapper(ModuleBuilder builder, Type sourceType, Type targetType)
         {
             var instanceMapperType = typeof(InstanceMapper<,>).MakeGenericType(sourceType, targetType).GetTypeInfo();
@@ -175,7 +175,7 @@ namespace PowerMapper
                 il.Emit(OpCodes.Ret);
             }
 
-#if NetCore
+#if NETSTANDARD
             return typeBuilder.CreateTypeInfo();
 #else
             return typeBuilder.CreateType();
@@ -188,7 +188,7 @@ namespace PowerMapper
             {
                 return context => { };
             }
-#if NetCore
+#if NETSTANDARD
             if (targetType.GetTypeInfo().IsAssignableFrom(sourceType))
 #else
             if (targetType.IsAssignableFrom(sourceType))
@@ -228,7 +228,7 @@ namespace PowerMapper
                 return;
             }
             if (!HasOption(MemberMapOptions.Hierarchy) ||
-#if NetCore
+#if NETSTANDARD
                 !targetType.GetTypeInfo().IsClass
 #else
                 !targetType.IsClass 

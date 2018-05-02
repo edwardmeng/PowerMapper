@@ -21,11 +21,12 @@ namespace Benchmarks.Tests
             AutoMapperMapping.Init();
         }
 
+#if !NETCOREAPP
         protected override void InitExpressMapper()
         {
             ExpressMapperMapping.Init();
         }
-
+#endif
         protected override void InitValueInjectorMapper()
         {
             ValueInjectorMappings.Init();
@@ -36,18 +37,10 @@ namespace Benchmarks.Tests
             MapsterMapperMappings.Init();
         }
 
-#if !NetCore
-        
-        protected override void InitOoMapper()
-        {
-            OoMapperMappings.Init();
-        }
-
         protected override void InitTinyMapper()
         {
             TinyMapperMappings.Init();
         }
-#endif
 
         protected override void InitNativeMapper()
         {
@@ -63,11 +56,12 @@ namespace Benchmarks.Tests
             return AutoMapper.Mapper.Map<List<Author>, List<AuthorViewModel>>(src);
         }
 
+#if !NETCOREAPP
         protected override List<AuthorViewModel> ExpressMapperMap(List<Author> src)
         {
             return ExpressMapper.Mapper.Map<List<Author>, List<AuthorViewModel>>(src);
         }
-
+#endif
         protected override List<AuthorViewModel> ValueInjectorMap(List<Author> src)
         {
             var list = new List<AuthorViewModel>();
@@ -84,20 +78,11 @@ namespace Benchmarks.Tests
             return authorViewModels;
         }
 
-#if !NetCore
-        
-        protected override List<AuthorViewModel> OoMapperMap(List<Author> src)
-        {
-            var authorViewModels = OoMapper.Mapper.Map<List<Author>, List<AuthorViewModel>>(src);
-            return authorViewModels;
-        }
-
         protected override List<AuthorViewModel> TinyMapperMap(List<Author> src)
         {
             // custom mapping is not supported
             throw new System.NotImplementedException();
         }
-#endif
 
         protected override List<AuthorViewModel> NativeMapperMap(List<Author> src)
         {

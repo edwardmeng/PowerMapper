@@ -14,7 +14,7 @@ namespace PowerMapper
 
         public void Emit(CompilationContext context)
         {
-#if NetCore
+#if NETSTANDARD
             var reflectingTargetType = typeof(TTarget).GetTypeInfo();
 #else
             var reflectingTargetType = typeof(TTarget);

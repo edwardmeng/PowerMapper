@@ -25,14 +25,14 @@ namespace PowerMapper
             var il = methodBuilder.GetILGenerator();
             il.Emit(OpCodes.Ldsfld, field);
             il.Emit(OpCodes.Ldarg_0);
-#if NetCore
+#if NETSTANDARD
             var invokeMethod = typeof(Func<T, TResult>).GetTypeInfo().GetMethod("Invoke");
 #else
             var invokeMethod = typeof(Func<T, TResult>).GetMethod("Invoke");
 #endif
             il.Emit(OpCodes.Callvirt, invokeMethod);
             il.Emit(OpCodes.Ret);
-#if NetCore
+#if NETSTANDARD
             var type = typeBuilder.CreateTypeInfo();
 #else
             var type = typeBuilder.CreateType();

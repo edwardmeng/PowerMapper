@@ -6,7 +6,7 @@ namespace PowerMapper.UnitTests
     {
         public static void Equal(object expected, object actual)
         {
-#if NetCore
+#if NETCOREAPP
             Xunit.Assert.Equal(expected, actual);
 #else
             NUnit.Framework.Assert.AreEqual(expected, actual);
@@ -15,7 +15,7 @@ namespace PowerMapper.UnitTests
 
         public static void Equal<T>(IEnumerable<T> expected, IEnumerable<T> actual)
         {
-#if NetCore
+#if NETCOREAPP
             Xunit.Assert.Equal(expected, actual);
 #else
             if (expected != null && actual != null)
@@ -53,7 +53,7 @@ namespace PowerMapper.UnitTests
 
         public static void NotNull(object value)
         {
-#if NetCore
+#if NETCOREAPP
             Xunit.Assert.NotNull(value);
 #else
             NUnit.Framework.Assert.NotNull(value);
@@ -62,7 +62,7 @@ namespace PowerMapper.UnitTests
 
         public static void Null(object value)
         {
-#if NetCore
+#if NETCOREAPP
             Xunit.Assert.Null(value);
 #else
             NUnit.Framework.Assert.Null(value);
@@ -71,7 +71,7 @@ namespace PowerMapper.UnitTests
 
         public static void True(bool condition)
         {
-#if NetCore
+#if NETCOREAPP
             Xunit.Assert.True(condition);
 #else
             NUnit.Framework.Assert.True(condition);
@@ -80,7 +80,7 @@ namespace PowerMapper.UnitTests
 
         public static void False(bool condition)
         {
-#if NetCore
+#if NETCOREAPP
             Xunit.Assert.False(condition);
 #else
             NUnit.Framework.Assert.False(condition);

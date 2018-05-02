@@ -21,7 +21,7 @@ namespace PowerMapper
             context.SetTarget(purpose => il.Emit(OpCodes.Ldarg_1));
             Emit(sourceType, targetType, context);
             context.Emit(OpCodes.Ret);
-#if NetCore
+#if NETSTANDARD
             return typeBuilder.CreateTypeInfo()
                 .GetMethod("Map", BindingFlags.Static | BindingFlags.Public)
                 .CreateDelegate(typeof(Action<,>).MakeGenericType(sourceType, targetType));

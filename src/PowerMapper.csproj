@@ -1,113 +1,72 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-  <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{7374D484-0528-4C11-BA72-059FF63CB44F}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PowerMapper</RootNamespace>
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup Label="Package">
+    <TargetFrameworks>net35;net40;netstandard1.5;netstandard2.0</TargetFrameworks>
     <AssemblyName>PowerMapper</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
+    <PackageId>PowerMapper</PackageId>
+    <Product>PowerMapper</Product>
+    <Description>
+      A extremely fast and friendly convention-based object-object mapper.
+      It is implemented via the Emit library and uses a fluent configuration API to define an object-object mapping strategy.
+      PowerMapper is useful for dealing with DTO objects, data access layers an so on.
+    </Description>
+    <Summary>
+      A extremely fast and friendly convention-based object-object mapper.
+    </Summary>
+    <PackageTags>PowerMapper Mapper Fast Mapping</PackageTags>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <Version>1.0.1</Version>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+
+  <PropertyGroup Label="Signing">
+    <AssemblyOriginatorKeyFile>../PowerMapper.snk</AssemblyOriginatorKeyFile>
+    <SignAssembly>true</SignAssembly>
+    <PublicSign Condition=" '$(OS)' != 'Windows_NT' ">true</PublicSign>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\PowerMapper.xml</DocumentationFile>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Web" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Conventions\ConventionCollection.cs" />
-    <Compile Include="Conventions\ConventionContext.cs" />
-    <Compile Include="Conventions\IConvention.cs" />
-    <Compile Include="Conventions\IMemberBuilder.cs" />
-    <Compile Include="Conventions\LambdaConvention.cs" />
-    <Compile Include="Conventions\MappingField.cs" />
-    <Compile Include="Conventions\MappingMember.cs" />
-    <Compile Include="Conventions\MappingMemberCollection.cs" />
-    <Compile Include="Conventions\MappingProperty.cs" />
-    <Compile Include="Conventions\MatchNameConvention.cs" />
-    <Compile Include="Conventions\MemberMapping.cs" />
-    <Compile Include="Conventions\MemberMappingCollection.cs" />
-    <Compile Include="Converters\ValueConverterCollection.cs" />
-    <Compile Include="Converters\ValueConverter.cs" />
-    <Compile Include="Converters\ConverterMatchContext.cs" />
-    <Compile Include="Converters\EnumerableValueConverter.cs" />
-    <Compile Include="IMappingContainer.cs" />
-    <Compile Include="Mappers\Creator\ConventionCreator.cs" />
-    <Compile Include="Mappers\ValueMapper\ValueMapper.cs" />
-    <Compile Include="Mappers\ValueMapper\EnumerableMapper.cs" />
-    <Compile Include="Converters\FromStringConverter.cs" />
-    <Compile Include="Converters\LambdaValueConverter.cs" />
-    <Compile Include="Converters\ObjectToStringConverter.cs" />
-    <Compile Include="Converters\PrimitiveValueConverter.cs" />
-    <Compile Include="Converters\TypeNameConverter.cs" />
-    <Compile Include="ReflectionHelper.cs" />
-    <Compile Include="Mapper.cs" />
-    <Compile Include="Mappers\Creator\DefaultCreator.cs" />
-    <Compile Include="Mappers\Creator\IInstanceCreator.cs" />
-    <Compile Include="Mappers\Creator\LambdaCreator.cs" />
-    <Compile Include="Mappers\InstanceMapper\IInstanceMapper.cs" />
-    <Compile Include="Mappers\InstanceMapper\InstanceMapper.cs" />
-    <Compile Include="Mappers\TypeMapper\ITypeMapper.cs" />
-    <Compile Include="Mappers\InstanceMapper\InstanceMapperExtensions.cs" />
-    <Compile Include="Mappers\TypeMapper\TypeMapperExtensions.cs" />
-    <Compile Include="Mappers\MemberMapper\DefaultMemberMapper.cs" />
-    <Compile Include="Mappers\MemberMapper\LambdaMemberMapper.cs" />
-    <Compile Include="Mappers\MemberMapper\MemberMapOptions.cs" />
-    <Compile Include="Mappers\MemberMapper\MemberMapper.cs" />
-    <Compile Include="Mappers\MemberMapper\MemberMapperCollection.cs" />
-    <Compile Include="Mappers\TypeMapper\TypeMapper.cs" />
-    <Compile Include="ContainerExtensions.cs" />
-    <Compile Include="MappingContainer.cs" />
-    <Compile Include="MappingExtensions.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Runtime\ActionInvokerBuilder.cs" />
-    <Compile Include="Runtime\CompilationContext.cs" />
-    <Compile Include="Runtime\CompilationContextExtensions.cs" />
-    <Compile Include="Runtime\EnumerableConverterBuilder.cs" />
-    <Compile Include="Runtime\EnumerableMapperBuilder.cs" />
-    <Compile Include="Runtime\FuncInvokerBuilder.cs" />
-    <Compile Include="Runtime\IInvokerBuilder.cs" />
-    <Compile Include="Properties\Strings.Designer.cs">
-      <AutoGen>True</AutoGen>
+    <Compile Update="Strings.Designer.cs">
       <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
       <DependentUpon>Strings.resx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Properties\Strings.resx">
+    <EmbeddedResource Update="Strings.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Strings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+
+  <ItemGroup>
+    <None Include="..\LICENSE" />
+  </ItemGroup>
+
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard1.5' ">
+    <DefineConstants>$(DefineConstants);NETSTANDARD;NETSTANDARD_15</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
+    <DefineConstants>$(DefineConstants);NETSTANDARD;NETSTANDARD_20</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net35' ">
+    <DefineConstants>$(DefineConstants);NETFX;NET35</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net40' ">
+    <DefineConstants>$(DefineConstants);NETFX;NET40</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net35' OR '$(TargetFramework)' == 'net40' ">
+    <Reference Include="System.Web" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net40' ">
+    <Reference Include="System.Numerics" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard1.5' OR '$(TargetFramework)' == 'netstandard2.0'">
+    <PackageReference Include="System.Reflection.Emit" Version="4.0.1" />
+  </ItemGroup>
 </Project>

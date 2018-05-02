@@ -14,7 +14,7 @@ namespace PowerMapper
 
         static CompilationContextExtensions()
         {
-#if NetCore
+#if NETSTANDARD
             _referenceEqualsMethod = typeof(object).GetTypeInfo().GetMethod("ReferenceEquals", BindingFlags.Public | BindingFlags.Static);
             _getTypeFromHandleMethod = typeof(Type).GetTypeInfo().GetMethod("GetTypeFromHandle");
 #else
@@ -28,7 +28,7 @@ namespace PowerMapper
             var label = context.DefineLabel();
             if (local.LocalType.IsNullable())
             {
-#if NetCore
+#if NETSTANDARD
                 var variableType = local.LocalType.GetTypeInfo();
 #else
                 var variableType = local.LocalType;
@@ -65,7 +65,7 @@ namespace PowerMapper
         public static void EmitCast(this CompilationContext context, Type targetType)
         {
             if (context.CurrentType == targetType) return;
-#if NetCore
+#if NETSTANDARD
             var currentTypeIsValue = context.CurrentType.GetTypeInfo().IsValueType;
             var targetTypeIsValue = targetType.GetTypeInfo().IsValueType;
 #else
@@ -158,7 +158,7 @@ namespace PowerMapper
                 context.CurrentType = originalType;
                 return;
             }
-#if NetCore
+#if NETSTANDARD
             if (!targetType.GetTypeInfo().IsValueType)
 #else
             if (!targetType.IsValueType)
@@ -168,7 +168,7 @@ namespace PowerMapper
                 context.CurrentType = originalType;
                 return;
             }
-#if NetCore
+#if NETSTANDARD
             if (targetType.GetTypeInfo().IsEnum)
 #else
             if (targetType.IsEnum)
@@ -215,7 +215,7 @@ namespace PowerMapper
                 }
                 return false;
             };
-#if NetCore
+#if NETSTANDARD
             var reflectingType = targetType.GetTypeInfo();
             if (targetType == typeof(decimal))
             {

@@ -1,5 +1,5 @@
 ﻿using System;
-#if !Net35
+#if !NET35
 using System.Collections.Concurrent;
 #endif
 using System.Collections.Generic;
@@ -14,9 +14,9 @@ namespace PowerMapper
     /// </summary>
     public static class ContainerExtensions
     {
-#region Helper
+        #region Helper
 
-#if Net35
+#if NET35
         private static readonly object _syncLock = new object();
         private static readonly Dictionary<Pair<Type, Type>, Delegate> _convertMethods = new Dictionary<Pair<Type, Type>, Delegate>();
         private static readonly Dictionary<Pair<Type, Type>, Delegate> _mapMethods = new Dictionary<Pair<Type, Type>, Delegate>();
@@ -25,7 +25,7 @@ namespace PowerMapper
         {
             var key = Pair.Create(sourceType, targetType);
             Delegate method;
-            if (!_convertMethods.TryGetValue(key,out method))
+            if (!_convertMethods.TryGetValue(key, out method))
             {
                 lock (_syncLock)
                 {
@@ -73,7 +73,7 @@ namespace PowerMapper
 
         private static Delegate CreateConvertMethod(Type sourceType, Type targetType)
         {
-#if NetCore
+#if NETSTANDARD
             var containerMethods = typeof(IMappingContainer).GetTypeInfo().GetMethods(BindingFlags.Instance | BindingFlags.Public);
 #else
             var containerMethods = typeof(IMappingContainer).GetMethods(BindingFlags.Instance | BindingFlags.Public);
@@ -86,7 +86,7 @@ namespace PowerMapper
 
         private static Delegate CreateMapMethod(Type sourceType, Type targetType)
         {
-#if NetCore
+#if NETSTANDARD
             var containerMethods = typeof(MappingContainer).GetTypeInfo().GetMethods(BindingFlags.Instance | BindingFlags.Public);
 #else
             var containerMethods = typeof(MappingContainer).GetMethods(BindingFlags.Instance | BindingFlags.Public);
@@ -107,7 +107,7 @@ namespace PowerMapper
             }
         }
 
-#endregion
+        #endregion
 
         /// <summary>
         /// Execute a mapping from the source object to the existing target object.

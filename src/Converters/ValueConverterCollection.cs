@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Emit;
-#if !Net35
+#if !NET35
 using System.Collections.Concurrent;
 #endif
 
@@ -14,7 +14,7 @@ namespace PowerMapper
         private readonly IList<ValueConverter> _converters = new List<ValueConverter>();
         private bool _readonly;
 
-#if Net35
+#if NET35
         private readonly Dictionary<Pair<Type, Type>, ValueConverter> _resolvedConverters =
             new Dictionary<Pair<Type, Type>, ValueConverter>();
         internal ValueConverter Get(Type sourceType, Type targetType)

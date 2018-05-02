@@ -12,7 +12,7 @@ namespace PowerMapper
 
         static ActionInvokerBuilder()
         {
-#if NetCore
+#if NETSTANDARD
             _actionInvokeMethod = typeof(Action<TSource, TTarget>).GetTypeInfo().GetMethod("Invoke");
 #else
             _actionInvokeMethod = typeof(Action<TSource, TTarget>).GetMethod("Invoke");
@@ -39,7 +39,7 @@ namespace PowerMapper
             il.Emit(OpCodes.Ldarg_1);
             il.Emit(OpCodes.Callvirt, _actionInvokeMethod);
             il.Emit(OpCodes.Ret);
-#if NetCore
+#if NETSTANDARD
             var type = typeBuilder.CreateTypeInfo();
 #else
             var type = typeBuilder.CreateType();

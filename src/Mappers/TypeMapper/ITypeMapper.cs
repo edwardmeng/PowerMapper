@@ -9,7 +9,7 @@ namespace PowerMapper
     /// <typeparam name="TSource">The source type.</typeparam>
     /// <typeparam name="TTarget">The target type.</typeparam>
     public interface ITypeMapper<
-#if !Net35
+#if !NET35
         out 
 #endif
         TSource, TTarget>

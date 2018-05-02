@@ -1,5 +1,5 @@
 ﻿using System;
-#if NetCore
+#if NETSTANDARD
 using System.Collections.Generic;
 #else
 using System.Collections;
@@ -19,7 +19,7 @@ namespace PowerMapper
 
         public Type TargetType { get; }
 
-#if NetCore
+#if NETSTANDARD
         private readonly IDictionary<object,object> _properties = new Dictionary<object, object>();
 
         public object GetProperty(object key)

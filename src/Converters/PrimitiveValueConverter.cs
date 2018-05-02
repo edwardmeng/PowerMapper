@@ -22,7 +22,7 @@ namespace PowerMapper
         {
             var targetType = context.TargetType;
             var sourceType = context.SourceType;
-#if NetCore
+#if NETSTANDARD
             var reflectingTargetType = targetType.GetTypeInfo();
             var reflectingSourceType = sourceType.GetTypeInfo();
 #else
@@ -60,7 +60,7 @@ namespace PowerMapper
         {
             var converter = FindConverter(sourceType, targetType);
             if (converter != null) return 1;
-#if NetCore
+#if NETSTANDARD
             var reflectingTargetType = targetType.GetTypeInfo();
             var reflectingSourceType = sourceType.GetTypeInfo();
 #else
@@ -123,7 +123,7 @@ namespace PowerMapper
 
         private bool EmitNullableSource(CompilationContext context, Type sourceType, Type targetType)
         {
-#if NetCore
+#if NETSTANDARD
             var reflectingSourceType = sourceType.GetTypeInfo();
 #else
             var reflectingSourceType = sourceType;
@@ -155,7 +155,7 @@ namespace PowerMapper
         // or can be explictly or implicitly converted to the underling type of the target type.
         private bool EmitNullableTarget(CompilationContext context, Type sourceType, Type targetType)
         {
-#if NetCore
+#if NETSTANDARD
             var reflectingTargetType = targetType.GetTypeInfo();
 #else
             var reflectingTargetType = targetType;
@@ -172,7 +172,7 @@ namespace PowerMapper
 
         private bool EmitBothNullable(CompilationContext context, Type sourceType, Type targetType)
         {
-#if NetCore
+#if NETSTANDARD
             var reflectingTargetType = targetType.GetTypeInfo();
             var reflectingSourceType = sourceType.GetTypeInfo();
 #else
@@ -231,7 +231,7 @@ namespace PowerMapper
             {
                 return context => { };
             }
-#if NetCore
+#if NETSTANDARD
             var reflectingTargetType = targetType.GetTypeInfo();
             var reflectingSourceType = sourceType.GetTypeInfo();
 #else

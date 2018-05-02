@@ -40,7 +40,7 @@ namespace PowerMapper
 
         internal bool HasOption(MemberMapOptions options, MemberMapOptions option)
         {
-#if Net35
+#if NET35
             return (options & option) == option;
 #else
             return options.HasFlag(option);
@@ -88,7 +88,7 @@ namespace PowerMapper
                     targetIndex >= 0 && sourceIndex >= 0; targetIndex--)
                 {
                     MappingMember targetMember = targetMembers[targetIndex], sourceMember = sourceMembers[sourceIndex];
-#if NetCore
+#if NETSTANDARD
                     var assignable = targetMember.MemberType.GetTypeInfo().IsAssignableFrom(sourceMember.MemberType);
 #else
                     var assignable = targetMember.MemberType.IsAssignableFrom(sourceMember.MemberType);

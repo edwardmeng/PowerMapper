@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-#if Net35
+#if NET35
 using System.Collections.Generic;
 #else
 using System.Collections.Concurrent;
@@ -37,14 +37,14 @@ namespace PowerMapper
                 }
                 return false;
             };
-#if NetCore
+#if NETSTANDARD
             _enumParseMethod = typeof(Enum).GetTypeInfo().GetMethods(BindingFlags.Public | BindingFlags.Static).Where(enumParsePredicate).FirstOrDefault();
             _stringTrimMethod = typeof(string).GetTypeInfo().GetMethods(BindingFlags.Public | BindingFlags.Instance).FirstOrDefault(stringTrimPredicate);
             _checkEmptyMethod = typeof(string).GetTypeInfo().GetMethods(BindingFlags.Public | BindingFlags.Static).FirstOrDefault(checkEmptyPredicate);
 #else
             _enumParseMethod = typeof(Enum).GetMethods(BindingFlags.Public | BindingFlags.Static).Where(enumParsePredicate).FirstOrDefault();
             _stringTrimMethod = typeof(string).GetMethods(BindingFlags.Public | BindingFlags.Instance).FirstOrDefault(stringTrimPredicate);
-#if !Net35
+#if !NET35
             _checkEmptyMethod = typeof(string).GetMethods(BindingFlags.Public | BindingFlags.Static).FirstOrDefault(checkEmptyPredicate);
 #else
             _checkEmptyMethod = typeof(StringHelper).GetMethods(BindingFlags.Public | BindingFlags.Static).FirstOrDefault(checkEmptyPredicate);
@@ -52,7 +52,7 @@ namespace PowerMapper
 #endif
         }
 
-#if Net35
+#if NET35
         private static readonly Dictionary<Type, MethodInfo> _methods = new Dictionary<Type, MethodInfo>();
 
         private static MethodInfo GetConvertMethod(Type targetType)
@@ -96,7 +96,7 @@ namespace PowerMapper
                 }
                 return false;
             };
-#if NetCore
+#if NETSTANDARD
             var typeInfo = type.GetTypeInfo();
             return typeInfo.IsEnum ? _enumParseMethod : typeInfo.GetMethods(BindingFlags.Public | BindingFlags.Static).FirstOrDefault(parsePredicate);
 #else
@@ -109,7 +109,7 @@ namespace PowerMapper
             if (context.SourceType == typeof(string))
             {
                 var targetType = context.TargetType;
-#if NetCore
+#if NETSTANDARD
                 if (targetType.IsNullable() && GetConvertMethod(targetType.GetTypeInfo().GetGenericArguments()[0]) != null) return 1;
 #else          
                 if (targetType.IsNullable() && GetConvertMethod(targetType.GetGenericArguments()[0]) != null) return 1;
@@ -125,7 +125,7 @@ namespace PowerMapper
 
         public override void Emit(Type sourceType, Type targetType, CompilationContext context)
         {
-#if NetCore
+#if NETSTANDARD
             var reflectingTargetType = targetType.GetTypeInfo();
 #else
             var reflectingTargetType = targetType;
@@ -169,7 +169,7 @@ namespace PowerMapper
                 // or
                 // target = new Nullable<$TargetType$>($TargetType$.Parse(source));
                 var underlingType = reflectingTargetType.GetGenericArguments()[0];
-#if NetCore
+#if NETSTANDARD
                 if (underlingType.GetTypeInfo().IsEnum)
 #else
                 if (underlingType.IsEnum)

@@ -17,7 +17,7 @@ namespace PowerMapper.Runtime
 
         static EnumerableMapperBuilder()
         {
-#if NetCore
+#if NETSTANDARD
             _sourceGetEnumeratorMethod = typeof(IEnumerable<TSource>).GetTypeInfo().GetMethod("GetEnumerator");
             _targetGetEnumeratorMethod = typeof(IEnumerable<TTarget>).GetTypeInfo().GetMethod("GetEnumerator");
             _sourceGetCurrentMethod = typeof(IEnumerator<TSource>).GetTypeInfo().GetMethod("get_Current");
@@ -88,7 +88,7 @@ namespace PowerMapper.Runtime
             il.MarkLabel(endLabel);
             il.Emit(OpCodes.Ret);
 
-#if NetCore
+#if NETSTANDARD
             var type = typeBuilder.CreateTypeInfo();
 #else
             var type = typeBuilder.CreateType();

@@ -21,11 +21,12 @@ namespace Benchmarks.Tests
             AutoMapperMapping.Init();
         }
 
+#if !NETCOREAPP
         protected override void InitExpressMapper()
         {
             ExpressMapperMapping.Init();
         }
-
+#endif
         protected override void InitValueInjectorMapper()
         {
             ValueInjectorMappings.Init();
@@ -36,18 +37,10 @@ namespace Benchmarks.Tests
             MapsterMapperMappings.Init();
         }
 
-#if !NetCore
-        
-        protected override void InitOoMapper()
-        {
-            OoMapperMappings.Init();
-        }
-
         protected override void InitTinyMapper()
         {
             TinyMapperMappings.Init();
         }
-#endif
 
         protected override void InitNativeMapper()
         {
@@ -63,11 +56,12 @@ namespace Benchmarks.Tests
             return AutoMapper.Mapper.Map<List<User>, List<UserViewModel>>(src);
         }
 
+#if !NETCOREAPP
         protected override List<UserViewModel> ExpressMapperMap(List<User> src)
         {
             return ExpressMapper.Mapper.Map<List<User>, List<UserViewModel>>(src);
         }
-
+#endif
         protected override List<UserViewModel> ValueInjectorMap(List<User> src)
         {
             var list = new List<UserViewModel>();
@@ -84,20 +78,11 @@ namespace Benchmarks.Tests
             return userViewModels;
         }
 
-#if !NetCore
-        
-        protected override List<UserViewModel> OoMapperMap(List<User> src)
-        {
-            var userViewModels = OoMapper.Mapper.Map<List<User>, List<UserViewModel>>(src);
-            return userViewModels;
-        }
-
         protected override List<UserViewModel> TinyMapperMap(List<User> src)
         {
             // custom mapping is not supported
             throw new System.NotImplementedException();
         }
-#endif
 
         protected override List<UserViewModel> NativeMapperMap(List<User> src)
         {

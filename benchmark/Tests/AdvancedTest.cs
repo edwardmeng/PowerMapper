@@ -21,10 +21,12 @@ namespace Benchmarks.Tests
             AutoMapperMapping.InitAdvanced();
         }
 
+#if !NETCOREAPP
         protected override void InitExpressMapper()
         {
             ExpressMapperMapping.InitAdvanced();
         }
+#endif
 
         protected override void InitValueInjectorMapper()
         {
@@ -36,18 +38,10 @@ namespace Benchmarks.Tests
             MapsterMapperMappings.Init();
         }
 
-#if !NetCore
-        
-        protected override void InitOoMapper()
-        {
-            OoMapperMappings.InitAdvanced();
-        }
-
         protected override void InitTinyMapper()
         {
             TinyMapperMappings.Init();
         }
-#endif
 
         protected override void InitNativeMapper()
         {
@@ -62,24 +56,18 @@ namespace Benchmarks.Tests
         {
             return AutoMapper.Mapper.Map<List<Test>, List<TestViewModel>>(src);
         }
-
+#if !NETCOREAPP
+        
         protected override List<TestViewModel> ExpressMapperMap(List<Test> src)
         {
             return ExpressMapper.Mapper.Map<List<Test>, List<TestViewModel>>(src);
         }
-
-#if !NetCore
-        protected override List<TestViewModel> OoMapperMap(List<Test> src)
-        {
-            var testViewModels = OoMapper.Mapper.Map<List<Test>, List<TestViewModel>>(src);
-            return testViewModels;
-        }
+#endif
 
         protected override List<TestViewModel> TinyMapperMap(List<Test> src)
         {
             throw new System.NotImplementedException();
         }
-#endif
 
         protected override List<TestViewModel> ValueInjectorMap(List<Test> src)
         {

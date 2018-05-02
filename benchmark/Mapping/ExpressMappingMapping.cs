@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿#if !NETCOREAPP
+using System.Collections.Generic;
 using Benchmarks.Enums;
 using Benchmarks.Models;
 using Benchmarks.ViewModels;
@@ -60,3 +61,4 @@ namespace Benchmarks.Mapping
         }
     }
 }
+#endif

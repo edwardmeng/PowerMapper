@@ -1,43 +1,20 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.27428.2043
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "nuget", "nuget", "{47FDA704-E218-4603-AF16-D209DC953010}"
-	ProjectSection(SolutionItems) = preProject
-		nuget\build.cmd = nuget\build.cmd
-		nuget\nuget.config = nuget\nuget.config
-		nuget\PowerMapper.nuspec = nuget\PowerMapper.nuspec
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5978B23E-97B4-42B3-8FD7-324AB673E907}"
 	ProjectSection(SolutionItems) = preProject
-		GlobalAssemblyInfo.cs = GlobalAssemblyInfo.cs
+		LICENSE = LICENSE
 		PowerMapper.snk = PowerMapper.snk
 		Readme.md = Readme.md
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{1337D061-B431-4F15-B61A-7FBF381B475C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PowerMapper", "src\PowerMapper.csproj", "{521F19A2-BF99-492B-81F7-DC59AEAA2395}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PowerMapper.net40", "build\net40\PowerMapper.net40.csproj", "{7374D484-0528-4C11-BA72-059FF63CB44F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PowerMapper.UnitTests", "tests\PowerMapper.UnitTests.csproj", "{4FD8C2D7-9387-42CB-9294-CC34A3BC9FD7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PowerMapper.net35", "build\net35\PowerMapper.net35.csproj", "{2B10E441-7225-4040-98AD-965613B6EE02}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "PowerMapper.netcore", "netcore\PowerMapper\PowerMapper.netcore.xproj", "{B2376A01-448B-48E5-8070-A6986FF8AE7C}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{989EB9B5-5C54-4BEC-8D2C-4DEBEAE1A249}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PowerMapper.UnitTests.net40", "tests\net40\PowerMapper.UnitTests.net40.csproj", "{46A9B974-EECB-4E92-AF7F-CE710F2BAEB0}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PowerMapper.UnitTests.net35", "tests\net35\PowerMapper.UnitTests.net35.csproj", "{A56D6B7B-7062-46D2-B54F-8777BD24550E}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "PowerMapper.UnitTests.netcore", "netcore\PowerMapper.UnitTests\PowerMapper.UnitTests.netcore.xproj", "{597414A4-24D7-4035-BDD8-C7A1275B9BA5}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Benchmark", "Benchmark", "{D4965E57-0CF0-4B3C-AE2D-B3FF751648D4}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Benchmarks.Net", "benchmark\Benchmarks.Net.csproj", "{DA9915F0-7F27-4E73-8AC0-422363E80A5A}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Benchmarks.Core", "netcore\Benchmarks\Benchmarks.Core.xproj", "{0FF30B31-8C23-497D-BFDE-C7B47D7A3B7D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Benchmarks", "benchmark\Benchmarks.csproj", "{49AD0C9F-0AEB-40F0-88ED-861EF1644179}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,50 +22,23 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{7374D484-0528-4C11-BA72-059FF63CB44F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7374D484-0528-4C11-BA72-059FF63CB44F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7374D484-0528-4C11-BA72-059FF63CB44F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7374D484-0528-4C11-BA72-059FF63CB44F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2B10E441-7225-4040-98AD-965613B6EE02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2B10E441-7225-4040-98AD-965613B6EE02}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2B10E441-7225-4040-98AD-965613B6EE02}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2B10E441-7225-4040-98AD-965613B6EE02}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B2376A01-448B-48E5-8070-A6986FF8AE7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B2376A01-448B-48E5-8070-A6986FF8AE7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B2376A01-448B-48E5-8070-A6986FF8AE7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B2376A01-448B-48E5-8070-A6986FF8AE7C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{46A9B974-EECB-4E92-AF7F-CE710F2BAEB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{46A9B974-EECB-4E92-AF7F-CE710F2BAEB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{46A9B974-EECB-4E92-AF7F-CE710F2BAEB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{46A9B974-EECB-4E92-AF7F-CE710F2BAEB0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A56D6B7B-7062-46D2-B54F-8777BD24550E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A56D6B7B-7062-46D2-B54F-8777BD24550E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A56D6B7B-7062-46D2-B54F-8777BD24550E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A56D6B7B-7062-46D2-B54F-8777BD24550E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{597414A4-24D7-4035-BDD8-C7A1275B9BA5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{597414A4-24D7-4035-BDD8-C7A1275B9BA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{597414A4-24D7-4035-BDD8-C7A1275B9BA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{597414A4-24D7-4035-BDD8-C7A1275B9BA5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DA9915F0-7F27-4E73-8AC0-422363E80A5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DA9915F0-7F27-4E73-8AC0-422363E80A5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DA9915F0-7F27-4E73-8AC0-422363E80A5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DA9915F0-7F27-4E73-8AC0-422363E80A5A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0FF30B31-8C23-497D-BFDE-C7B47D7A3B7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0FF30B31-8C23-497D-BFDE-C7B47D7A3B7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0FF30B31-8C23-497D-BFDE-C7B47D7A3B7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0FF30B31-8C23-497D-BFDE-C7B47D7A3B7D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{521F19A2-BF99-492B-81F7-DC59AEAA2395}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{521F19A2-BF99-492B-81F7-DC59AEAA2395}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{521F19A2-BF99-492B-81F7-DC59AEAA2395}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{521F19A2-BF99-492B-81F7-DC59AEAA2395}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4FD8C2D7-9387-42CB-9294-CC34A3BC9FD7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4FD8C2D7-9387-42CB-9294-CC34A3BC9FD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4FD8C2D7-9387-42CB-9294-CC34A3BC9FD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4FD8C2D7-9387-42CB-9294-CC34A3BC9FD7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{49AD0C9F-0AEB-40F0-88ED-861EF1644179}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49AD0C9F-0AEB-40F0-88ED-861EF1644179}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49AD0C9F-0AEB-40F0-88ED-861EF1644179}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49AD0C9F-0AEB-40F0-88ED-861EF1644179}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{7374D484-0528-4C11-BA72-059FF63CB44F} = {1337D061-B431-4F15-B61A-7FBF381B475C}
-		{2B10E441-7225-4040-98AD-965613B6EE02} = {1337D061-B431-4F15-B61A-7FBF381B475C}
-		{B2376A01-448B-48E5-8070-A6986FF8AE7C} = {1337D061-B431-4F15-B61A-7FBF381B475C}
-		{46A9B974-EECB-4E92-AF7F-CE710F2BAEB0} = {989EB9B5-5C54-4BEC-8D2C-4DEBEAE1A249}
-		{A56D6B7B-7062-46D2-B54F-8777BD24550E} = {989EB9B5-5C54-4BEC-8D2C-4DEBEAE1A249}
-		{597414A4-24D7-4035-BDD8-C7A1275B9BA5} = {989EB9B5-5C54-4BEC-8D2C-4DEBEAE1A249}
-		{DA9915F0-7F27-4E73-8AC0-422363E80A5A} = {D4965E57-0CF0-4B3C-AE2D-B3FF751648D4}
-		{0FF30B31-8C23-497D-BFDE-C7B47D7A3B7D} = {D4965E57-0CF0-4B3C-AE2D-B3FF751648D4}
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B67DA009-F3E4-4B0E-A649-14CEA19BB02B}
 	EndGlobalSection
 EndGlobal

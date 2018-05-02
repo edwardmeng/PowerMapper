@@ -8,7 +8,7 @@ namespace PowerMapper
     /// </summary>
     public static class Mapper
     {
-#if Net35
+#if NET35
         private static readonly object _locker = new object();
         private static IMappingContainer _instance;
 

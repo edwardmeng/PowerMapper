@@ -45,7 +45,7 @@ namespace PowerMapper
             Type sourceElementType, targetElementType;
             if (sourceType.IsEnumerable(out sourceElementType) && targetType.IsEnumerable(out targetElementType))
             {
-#if NetCore
+#if NETSTANDARD
                 var sourceElementTypeInfo = sourceElementType.GetTypeInfo();
                 var targetElementTypeInfo = targetElementType.GetTypeInfo();
 #else

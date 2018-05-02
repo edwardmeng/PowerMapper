@@ -6,41 +6,41 @@ namespace Benchmarks.Tests
     public abstract class BaseTest<T, TN> : BaseTestResult, ITest
     {
         private Stopwatch AutoMapperStopwatch { get; set; }
-        private Stopwatch ExpressMapperStopwatch { get; set; }
         private Stopwatch NativeMapperStopwatch { get; set; }
         private Stopwatch ValueInjectorStopwatch { get; set; }
         private Stopwatch MapsterStopwatch { get; set; }
 
         private Stopwatch PowerMapperwatch { get; set; }
+        private Stopwatch TinyStopwatch { get; set; }
 
         public void RunTest(int count)
         {
-            AutoMapperStopwatch = new Stopwatch();
+#if !NETCOREAPP
             ExpressMapperStopwatch = new Stopwatch();
+#endif
+            AutoMapperStopwatch = new Stopwatch();
             NativeMapperStopwatch = new Stopwatch();
             ValueInjectorStopwatch = new Stopwatch();
             MapsterStopwatch = new Stopwatch();
             PowerMapperwatch = new Stopwatch();
-#if !NetCore
-            OoMapperStopwatch = new Stopwatch();
             TinyStopwatch = new Stopwatch();
-#endif
 
             Count = count;
 
             InitAutoMapper();
+#if !NETCOREAPP
             InitExpressMapper();
+#endif
             InitValueInjectorMapper();
             InitMapsterMapper();
             InitPowerMapper();
             InitNativeMapper();
-#if !NetCore
-            InitOoMapper();
             InitTinyMapper();
-#endif
             Console.WriteLine("Mapping initialization finished");
 
             var src = GetData();
+
+#if !NETCOREAPP
 
             ExpressMapperMap(src);
             ExpressMapperStopwatch = Stopwatch.StartNew();
@@ -48,7 +48,7 @@ namespace Benchmarks.Tests
             ExpressMapperStopwatch.Stop();
             Console.WriteLine("Expressmapper mapping has been finished");
             GC.Collect(2);
-
+#endif
 
             try
             {
@@ -108,22 +108,6 @@ namespace Benchmarks.Tests
                 Console.WriteLine("PowerMapper has thrown expception!");
             }
             GC.Collect(2);
-#if !NetCore
-            try
-            {
-                OoMapperStopwatch = Stopwatch.StartNew();
-                OoMapperMap(src);
-                OoMapperStopwatch.Stop();
-                Console.WriteLine("OoMapper mapping has been finished");
-            }
-            catch (Exception ex)
-            {
-                OoMapperStopwatch.Stop();
-                OoMapperStopwatch.Reset();
-                Console.WriteLine("OoMapper has thrown expception!");
-            }
-            GC.Collect(2);
-
             try
             {
                 TinyStopwatch = Stopwatch.StartNew();
@@ -138,7 +122,6 @@ namespace Benchmarks.Tests
                 Console.WriteLine("Tinymapper has thrown expception!");
             }
             GC.Collect(2);
-#endif
 
             NativeMapperStopwatch = Stopwatch.StartNew();
             NativeMapperMap(src);
@@ -146,28 +129,24 @@ namespace Benchmarks.Tests
             Console.WriteLine("Native mapping has been finished");
             GC.Collect(2);
         }
-
+#if !NETCOREAPP
+        private Stopwatch ExpressMapperStopwatch { get; set; }
+        protected abstract void InitExpressMapper();
+        protected abstract TN ExpressMapperMap(T src);
+#endif
         protected abstract T GetData();
         protected abstract void InitAutoMapper();
-        protected abstract void InitExpressMapper();
         protected abstract void InitValueInjectorMapper();
         protected abstract void InitMapsterMapper();
         protected abstract void InitNativeMapper();
 
         protected abstract void InitPowerMapper();
         protected abstract TN AutoMapperMap(T src);
-        protected abstract TN ExpressMapperMap(T src);
         protected abstract TN ValueInjectorMap(T src);
         protected abstract TN MapsterMap(T src);
         protected abstract TN NativeMapperMap(T src);
-#if !NetCore
-        private Stopwatch OoMapperStopwatch { get; set; }
-        private Stopwatch TinyStopwatch { get; set; }
-        protected abstract void InitOoMapper();
         protected abstract void InitTinyMapper();
-        protected abstract TN OoMapperMap(T src);
         protected abstract TN TinyMapperMap(T src);
-#endif
 
         protected abstract TN PowerMapperMap(T src);
         //protected abstract string TestName { get; }
@@ -187,8 +166,6 @@ namespace Benchmarks.Tests
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("Automapper took {0} ms.", AutoMapperStopwatch.ElapsedMilliseconds);
             AddResults("auto", Count, (int)AutoMapperStopwatch.ElapsedMilliseconds);
-            Console.WriteLine("Expressmapper took {0} ms.", ExpressMapperStopwatch.ElapsedMilliseconds);
-            AddResults("express", Count, (int)ExpressMapperStopwatch.ElapsedMilliseconds);
 
             if (ValueInjectorStopwatch.ElapsedMilliseconds == 0)
             {
@@ -222,18 +199,6 @@ namespace Benchmarks.Tests
                 Console.WriteLine("PowerMapper took {0} ms.", PowerMapperwatch.ElapsedMilliseconds);
                 AddResults("PowerMapper", Count, (int)PowerMapperwatch.ElapsedMilliseconds);
             }
-#if !NetCore
-            if (OoMapperStopwatch.ElapsedMilliseconds == 0)
-            {
-                Console.WriteLine("Oomapper - not supported mapping");
-                AddResults("oomapper", Count, -1);
-            }
-            else
-            {
-                Console.WriteLine("Oomapper took {0} ms.", OoMapperStopwatch.ElapsedMilliseconds);
-                AddResults("oomapper", Count, (int)OoMapperStopwatch.ElapsedMilliseconds);
-            }
-
             if (TinyStopwatch.ElapsedMilliseconds == 0)
             {
                 Console.WriteLine("Tinymapper - not supported mapping");
@@ -244,6 +209,19 @@ namespace Benchmarks.Tests
                 Console.WriteLine("Tinymapper took {0} ms.", TinyStopwatch.ElapsedMilliseconds);
                 AddResults("tiny", Count, (int)TinyStopwatch.ElapsedMilliseconds);
             }
+#if !NETCOREAPP
+            
+            if (ExpressMapperStopwatch.ElapsedMilliseconds == 0)
+            {
+                Console.WriteLine("ExpressMapper - not supported mapping");
+                AddResults("ExpressMapper", Count, -1);
+            }
+            else
+            {
+                Console.WriteLine("ExpressMapper took {0} ms.", ExpressMapperStopwatch.ElapsedMilliseconds);
+                AddResults("ExpressMapper", Count, (int)ExpressMapperStopwatch.ElapsedMilliseconds);
+            }
+
 #endif
 
             Console.WriteLine("Native code mapping took {0} ms.", NativeMapperStopwatch.ElapsedMilliseconds);

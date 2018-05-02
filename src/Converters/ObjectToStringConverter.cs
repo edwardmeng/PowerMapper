@@ -10,7 +10,7 @@ namespace PowerMapper
 
         static ObjectToStringConverter()
         {
-#if NetCore
+#if NETSTANDARD
             _toStringMethod = typeof(object).GetTypeInfo().GetMethod("ToString", BindingFlags.Public | BindingFlags.Instance);
 #else
             _toStringMethod = typeof(object).GetMethod("ToString", BindingFlags.Public | BindingFlags.Instance, null, Type.EmptyTypes, null);
@@ -49,7 +49,7 @@ namespace PowerMapper
                 });
                 context.Emit(OpCodes.Ldloc, target);
             }
-#if NetCore
+#if NETSTANDARD
             else if (sourceType.GetTypeInfo().IsValueType)
 #else
             else if (sourceType.IsValueType)

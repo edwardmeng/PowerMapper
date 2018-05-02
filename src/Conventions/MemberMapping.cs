@@ -39,7 +39,7 @@ namespace PowerMapper
             {
                 throw new ArgumentNullException(nameof(converter));
             }
-#if NetCore
+#if NETSTANDARD
             if (!typeof(TSource).GetTypeInfo().IsAssignableFrom(SourceMember.MemberType))
             {
                 throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, Strings.Converter_InvalidSourceType, typeof(TSource), SourceMember.MemberType), nameof(converter));

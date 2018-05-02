@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-#if !Net35
+#if !NET35
 using System.Collections.Concurrent;
 #endif
 
@@ -25,7 +25,7 @@ namespace PowerMapper
         private bool _compiled;
         private bool _initialized;
         private readonly object _lockObj = new object();
-#if Net35
+#if NET35
         private static readonly Dictionary<MappingContainer, TypeMapper<TSource, TTarget>> _instances =
             new Dictionary<MappingContainer, TypeMapper<TSource, TTarget>>();
         public static TypeMapper<TSource, TTarget> GetInstance(MappingContainer container)
@@ -170,7 +170,7 @@ namespace PowerMapper
             methodBuilder.SetReturnType(typeof(void));
             methodBuilder.SetParameters(typeof(TSource), typeof(TTarget));
 
-#if NetCore
+#if NETSTANDARD
             var reflectingTargetType = typeof(TTarget).GetTypeInfo();
             var reflectingSourceType = typeof(TSource).GetTypeInfo();
 #else
@@ -218,7 +218,7 @@ namespace PowerMapper
             }
             EmitMap(context);
             context.Emit(OpCodes.Ret);
-#if NetCore
+#if NETSTANDARD
             return (Action<TSource, TTarget>)typeBuilder.CreateTypeInfo().GetMethod("Map", BindingFlags.Static | BindingFlags.Public).CreateDelegate(typeof(Action<TSource, TTarget>));
 #else
             return (Action<TSource, TTarget>)Delegate.CreateDelegate(typeof(Action<TSource, TTarget>), typeBuilder.CreateType(), "Map");
@@ -232,7 +232,7 @@ namespace PowerMapper
             var methodBuilder = typeBuilder.DefineStaticMethod("Map");
             methodBuilder.SetReturnType(typeof(TTarget));
             methodBuilder.SetParameters(typeof(TSource));
-#if NetCore
+#if NETSTANDARD
             var reflectingTargetType = typeof(TTarget).GetTypeInfo();
             var reflectingSourceType = typeof(TSource).GetTypeInfo();
 #else
@@ -276,7 +276,7 @@ namespace PowerMapper
             EmitMap(context);
             context.LoadTarget(LoadPurpose.ReturnValue);
             context.Emit(OpCodes.Ret);
-#if NetCore
+#if NETSTANDARD
             return (Func<TSource, TTarget>) typeBuilder.CreateTypeInfo().GetMethod("Map", BindingFlags.Static | BindingFlags.Public).CreateDelegate(typeof(Func<TSource, TTarget>));
 #else
             return (Func<TSource, TTarget>)Delegate.CreateDelegate(typeof(Func<TSource, TTarget>), typeBuilder.CreateType(), "Map");

@@ -92,7 +92,7 @@ namespace PowerMapper
             {
                 throw new ArgumentNullException(nameof(conventionType));
             }
-#if NetCore
+#if NETSTANDARD
             return _conventions.RemoveAll(convention => conventionType.GetTypeInfo().IsInstanceOfType(convention));
 #else
             return _conventions.RemoveAll(conventionType.IsInstanceOfType);
@@ -138,7 +138,7 @@ namespace PowerMapper
             {
                 throw new ArgumentNullException(nameof(conventionType));
             }
-#if NetCore
+#if NETSTANDARD
             return _conventions.FirstOrDefault(convention => conventionType.GetTypeInfo().IsInstanceOfType(convention));
 #else
             return _conventions.FirstOrDefault(conventionType.IsInstanceOfType);
@@ -167,7 +167,7 @@ namespace PowerMapper
             {
                 throw new ArgumentNullException(nameof(conventionType));
             }
-#if NetCore
+#if NETSTANDARD
             return _conventions.Any(convention => conventionType.GetTypeInfo().IsInstanceOfType(convention));
 #else
             return _conventions.Any(conventionType.IsInstanceOfType);

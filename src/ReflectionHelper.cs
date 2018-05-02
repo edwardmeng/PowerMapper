@@ -27,7 +27,7 @@ namespace PowerMapper
 
         public static bool IsNullable(this Type type)
         {
-#if NetCore
+#if NETSTANDARD
             var typeInfo = type.GetTypeInfo();
             return typeInfo.IsGenericType && typeInfo.GetGenericTypeDefinition() == typeof(Nullable<>);
 #else
@@ -38,7 +38,7 @@ namespace PowerMapper
         public static MethodInfo GetConvertMethod(Type sourceType, Type targetType)
         {
             if (sourceType == null || targetType == null) return null;
-#if NetCore
+#if NETSTANDARD
             var reflectingSourceType = sourceType.GetTypeInfo();
             var reflectingTargetType = targetType.GetTypeInfo();
 #else
@@ -64,7 +64,7 @@ namespace PowerMapper
         public static int GetDistance(Type sourceType, Type targetType)
         {
             if (targetType == null) return -1;
-#if NetCore
+#if NETSTANDARD
             var reflectingSourceType = sourceType?.GetTypeInfo();
             var reflectingTargetType = targetType.GetTypeInfo();
 #else
@@ -75,7 +75,7 @@ namespace PowerMapper
             {
                 return reflectingSourceType.GetInterfaces().Count(interfaceType =>
                 {
-#if NetCore
+#if NETSTANDARD
                     var reflectingInterfaceType = interfaceType.GetTypeInfo();
 #else
                     var reflectingInterfaceType = interfaceType;
@@ -98,7 +98,7 @@ namespace PowerMapper
             var distance = 0;
             while (reflectingSourceType != null)
             {
-#if NetCore
+#if NETSTANDARD
                 if (reflectingSourceType.AsType() == reflectingTargetType.AsType()) return distance;
                 if (reflectingSourceType.AsType() == typeof(object)) break;
                 reflectingSourceType = reflectingSourceType.BaseType?.GetTypeInfo();
@@ -114,7 +114,7 @@ namespace PowerMapper
 
         public static bool IsEnumerable(this Type targetType, out Type elementType)
         {
-#if NetCore
+#if NETSTANDARD
             var reflectingTargetType = targetType.GetTypeInfo();
 #else
             var reflectingTargetType = targetType;
@@ -128,16 +128,16 @@ namespace PowerMapper
             var matchedType = interfaces.FirstOrDefault(type =>
             {
                 if (type == typeof(IEnumerable<>)) return true;
-#if NetCore
+#if NETSTANDARD
                 var reflectingType = type.GetTypeInfo();
 #else
-                var  reflectingType = type;
+                var reflectingType = type;
 #endif
                 return reflectingType.IsGenericType && reflectingType.GetGenericTypeDefinition() == typeof(IEnumerable<>);
             });
             if (matchedType != null)
             {
-#if NetCore
+#if NETSTANDARD
                 elementType = matchedType.GetTypeInfo().GetGenericArguments()[0];
 #else
                 elementType = matchedType.GetGenericArguments()[0];
