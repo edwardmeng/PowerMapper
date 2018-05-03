@@ -15,7 +15,22 @@
     </Summary>
     <PackageTags>PowerMapper Mapper Fast Mapping</PackageTags>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <Version>1.0.1</Version>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <Version>1.0.0</Version>
+    <PackageLicenseUrl>https://github.com/edwardmeng/PowerMapper/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl></PackageProjectUrl>
+    <RepositoryUrl>https://github.com/edwardmeng/PowerMapper</RepositoryUrl>
+    <Copyright>Copyright © Edward Meng 2016</Copyright>
+    <Authors>edwardmeng</Authors>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Build">
+    <LangVersion>latest</LangVersion>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <DefineConstants Condition="'$(TargetFramework)' == 'netstandard1.5'">$(DefineConstants);NETSTANDARD;NETSTANDARD_15</DefineConstants>
+    <DefineConstants Condition="'$(TargetFramework)' == 'netstandard2.0'">$(DefineConstants);NETSTANDARD;NETSTANDARD_20</DefineConstants>
+    <DefineConstants Condition="'$(TargetFramework)' == 'net35'">$(DefineConstants);NETFX;NET35</DefineConstants>
+    <DefineConstants Condition="'$(TargetFramework)' == 'net40'">$(DefineConstants);NETFX;NET40</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Label="Signing">
@@ -39,24 +54,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\LICENSE" />
+    <None Include="..\LICENSE" Pack="true" />
   </ItemGroup>
-
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard1.5' ">
-    <DefineConstants>$(DefineConstants);NETSTANDARD;NETSTANDARD_15</DefineConstants>
-  </PropertyGroup>
-
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
-    <DefineConstants>$(DefineConstants);NETSTANDARD;NETSTANDARD_20</DefineConstants>
-  </PropertyGroup>
-
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'net35' ">
-    <DefineConstants>$(DefineConstants);NETFX;NET35</DefineConstants>
-  </PropertyGroup>
-
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'net40' ">
-    <DefineConstants>$(DefineConstants);NETFX;NET40</DefineConstants>
-  </PropertyGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net35' OR '$(TargetFramework)' == 'net40' ">
     <Reference Include="System.Web" />
