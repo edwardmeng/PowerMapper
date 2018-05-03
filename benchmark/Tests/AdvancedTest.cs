@@ -18,7 +18,7 @@ namespace Benchmarks.Tests
 
         protected override void InitAutoMapper()
         {
-            AutoMapperMapping.InitAdvanced();
+            AutoMapperMapping.Init();
         }
 
 #if !NETCOREAPP

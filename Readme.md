@@ -49,70 +49,55 @@ PowerMapper is now blistering fast! Please refer to the benchmark
     <tbody>
         <tr>
             <td>AutoMapper</td>
-            <td align=right>426</td>
-            <td align=right>225</td>
-            <td align=right>802</td>
-            <td align=right>519</td>
-            <td align=right>617</td>
-            <td align=right>360</td>
-            <td align=right>679</td>
-            <td align=right>569</td>
-            <td align=right>2162</td>
-            <td align=right>4273</td>
-            <td align=right>2270</td>
-            <td align=right>2607</td>
+            <td align=right>401</td>
+            <td align=right>232</td>
+            <td align=right>815</td>
+            <td align=right>541</td>
+            <td align=right>622</td>
+            <td align=right>331</td>
+            <td align=right>794</td>
+            <td align=right>522</td>
+            <td align=right>3969</td>
+            <td align=right>2656</td>
+            <td align=right>3529</td>
+            <td align=right>3084</td>
         </tr>
         <tr>
             <td>ExpressMapper</td>
-            <td align=right>597</td>
-            <td align=right>549</td>
-            <td align=right>1522</td>
-            <td align=right>1112</td>
-            <td align=right>917</td>
-            <td align=right>298</td>
-            <td align=right>960</td>
-            <td align=right>542</td>
-            <td align=right>2553</td>
-            <td align=right>5515</td>
-            <td align=right>2407</td>
-            <td align=right>3097</td>
-        </tr>
-        <tr>
-            <td>OoMapper</td>
+            <td align=right>554</td>
             <td align=right>-</td>
+            <td align=right>1921</td>
             <td align=right>-</td>
-            <td align=right>884</td>
+            <td align=right>1240</td>
             <td align=right>-</td>
-            <td align=right>783</td>
+            <td align=right>841</td>
             <td align=right>-</td>
-            <td align=right>922</td>
+            <td align=right>4120</td>
             <td align=right>-</td>
-            <td align=right>-</td>
-            <td align=right>-</td>
-            <td align=right>2481</td>
+            <td align=right>4040</td>
             <td align=right>-</td>
         </tr>
         <tr>
             <td>ValueInjector</td>
-            <td align=right>5650</td>
-            <td align=right>5611</td>
-            <td align=right>13006</td>
-            <td align=right>13645</td>
-            <td align=right>11167</td>
-            <td align=right>11405</td>
-            <td align=right>452</td>
-            <td align=right>502</td>
-            <td align=right>9944</td>
-            <td align=right>34226</td>
-            <td align=right>9134</td>
-            <td align=right>18536</td>
+            <td align=right>5389</td>
+            <td align=right>6642</td>
+            <td align=right>13808</td>
+            <td align=right>15987</td>
+            <td align=right>11127</td>
+            <td align=right>13010</td>
+            <td align=right>459</td>
+            <td align=right>506</td>
+            <td align=right>24207</td>
+            <td align=right>19217</td>
+            <td align=right>18051</td>
+            <td align=right>24303</td>
         </tr>
         <tr>
             <td>TinyMapper</td>
-            <td align=right>-</td>
-            <td align=right>-</td>
-            <td align=right>751</td>
-            <td align=right>-</td>
+            <td align=right>725</td>
+            <td align=right>681</td>
+            <td align=right>841</td>
+            <td align=right>754</td>
             <td align=right>-</td>
             <td align=right>-</td>
             <td align=right>-</td>
@@ -124,48 +109,48 @@ PowerMapper is now blistering fast! Please refer to the benchmark
         </tr>
         <tr>
             <td>Mapster</td>
-            <td align=right>379</td>
-            <td align=right>127</td>
-            <td align=right>719</td>
-            <td align=right>457</td>
-            <td align=right>1694</td>
-            <td align=right>821</td>
-            <td align=right>788</td>
-            <td align=right>564</td>
-            <td align=right>3527</td>
-            <td align=right>4165</td>
-            <td align=right>3392</td>
-            <td align=right>2781</td>
+            <td align=right>304</td>
+            <td align=right>197</td>
+            <td align=right>758</td>
+            <td align=right>506</td>
+            <td align=right>1742</td>
+            <td align=right>793</td>
+            <td align=right>1000</td>
+            <td align=right>480</td>
+            <td align=right>5347</td>
+            <td align=right>3115</td>
+            <td align=right>5157</td>
+            <td align=right>2634</td>
         </tr>
         <tr>
             <td>Native</td>
-            <td align=right>337</td>
-            <td align=right>213</td>
-            <td align=right>519</td>
-            <td align=right>525</td>
-            <td align=right>324</td>
-            <td align=right>336</td>
-            <td align=right>539</td>
+            <td align=right>297</td>
+            <td align=right>329</td>
+            <td align=right>533</td>
             <td align=right>470</td>
-            <td align=right>1603</td>
-            <td align=right>4111</td>
-            <td align=right>1532</td>
-            <td align=right>2116</td>
+            <td align=right>371</td>
+            <td align=right>334</td>
+            <td align=right>647</td>
+            <td align=right>460</td>
+            <td align=right>2892</td>
+            <td align=right>2676</td>
+            <td align=right>2517</td>
+            <td align=right>2839</td>
         </tr>
         <tr style="font-weight:bold">
             <td>PowerMapper</td>
-            <td align=right>332</td>
-            <td align=right>290</td>
-            <td align=right>482</td>
-            <td align=right>481</td>
-            <td align=right>327</td>
-            <td align=right>341</td>
-            <td align=right>450</td>
-            <td align=right>524</td>
-            <td align=right>647</td>
-            <td align=right>1296</td>
-            <td align=right>1418</td>
-            <td align=right>3001</td>
+            <td align=right>368</td>
+            <td align=right>330</td>
+            <td align=right>516</td>
+            <td align=right>478</td>
+            <td align=right>349</td>
+            <td align=right>337</td>
+            <td align=right>551</td>
+            <td align=right>525</td>
+            <td align=right>2827</td>
+            <td align=right>2893</td>
+            <td align=right>3124</td>
+            <td align=right>3457</td>
         </tr>
     </tbody>
 </table>
