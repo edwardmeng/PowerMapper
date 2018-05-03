@@ -51,16 +51,27 @@ namespace PowerMapper
                 if (genericTypeDefinition == typeof(IList<>) || genericTypeDefinition == typeof(ICollection<>) || genericTypeDefinition == typeof(IEnumerable<>))
                 {
                     context.EmitCast(targetType);
+                    context.CurrentType = targetType;
                     return;
                 }
             }
             else if (targetType.IsArray)
             {
                 context.EmitCast(targetType);
+                context.CurrentType = targetType;
                 return;
             }
-            Type targetElementType;
-            if (targetType.IsEnumerable(out targetElementType))
+
+            var labelNull = context.DefineLabel();
+            var labelComplete = context.DefineLabel();
+            var local = context.DeclareLocal(context.CurrentType);
+            context.Emit(OpCodes.Stloc, local);
+
+            context.Emit(OpCodes.Ldloc, local);
+            context.Emit(OpCodes.Brfalse, labelNull);
+            context.Emit(OpCodes.Ldloc, local);
+
+            if (targetType.IsEnumerable(out var targetElementType))
             {
                 var constructor = reflectingTargetType.GetConstructor(new[] { typeof(IEnumerable<>).MakeGenericType(targetElementType) }) ??
                                   reflectingTargetType.GetConstructor(new[] { typeof(IList<>).MakeGenericType(targetElementType) }) ??
@@ -70,7 +81,6 @@ namespace PowerMapper
                 {
                     context.EmitCast(constructor.GetParameters()[0].ParameterType);
                     context.Emit(OpCodes.Newobj, constructor);
-                    context.CurrentType = targetType;
                 }
                 else
                 {
@@ -137,10 +147,15 @@ namespace PowerMapper
                         context.Emit(OpCodes.Blt_S, labelStart);
 
                         context.Emit(OpCodes.Ldloc, targetInstance);
-                        context.CurrentType = targetType;
                     }
                 }
             }
+
+            context.Emit(OpCodes.Br_S, labelComplete);
+            context.MakeLabel(labelNull);
+            context.Emit(OpCodes.Ldnull);
+            context.MakeLabel(labelComplete);
+            context.CurrentType = targetType;
         }
 
         public static bool TryCreate(Type sourceType, Type targetType, MappingContainer container, out ValueConverter converter)

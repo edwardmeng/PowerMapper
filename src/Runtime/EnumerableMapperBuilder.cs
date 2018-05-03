@@ -14,6 +14,7 @@ namespace PowerMapper.Runtime
         private static readonly MethodInfo _sourceGetCurrentMethod;
         private static readonly MethodInfo _targetGetCurrentMethod;
         private static readonly MethodInfo _moveNextMethod;
+        private static readonly MethodInfo _referenceEqualsMethod;
 
         static EnumerableMapperBuilder()
         {
@@ -23,12 +24,14 @@ namespace PowerMapper.Runtime
             _sourceGetCurrentMethod = typeof(IEnumerator<TSource>).GetTypeInfo().GetMethod("get_Current");
             _targetGetCurrentMethod = typeof(IEnumerator<TTarget>).GetTypeInfo().GetMethod("get_Current");
             _moveNextMethod = typeof(IEnumerator).GetTypeInfo().GetMethod("MoveNext");
+            _referenceEqualsMethod = typeof(object).GetTypeInfo().GetMethod("ReferenceEquals");
 #else
             _sourceGetEnumeratorMethod = typeof(IEnumerable<TSource>).GetMethod("GetEnumerator");
             _targetGetEnumeratorMethod = typeof(IEnumerable<TTarget>).GetMethod("GetEnumerator");
             _sourceGetCurrentMethod = typeof(IEnumerator<TSource>).GetMethod("get_Current");
             _targetGetCurrentMethod = typeof(IEnumerator<TTarget>).GetMethod("get_Current");
             _moveNextMethod = typeof(IEnumerator).GetMethod("MoveNext");
+            _referenceEqualsMethod = typeof(object).GetMethod("ReferenceEquals");
 #endif
         }
 
@@ -51,6 +54,20 @@ namespace PowerMapper.Runtime
             var sourceEnumerator = il.DeclareLocal(typeof(IEnumerator<TSource>));
             var targetEnumerator = il.DeclareLocal(typeof(IEnumerator<TTarget>));
 
+            var checkLabel = il.DefineLabel();
+            var startLabel = il.DefineLabel();
+            var endLabel = il.DefineLabel();
+
+            il.Emit(OpCodes.Ldarg_0);
+            il.Emit(OpCodes.Ldnull);
+            il.Emit(OpCodes.Call, _referenceEqualsMethod);
+            il.Emit(OpCodes.Brtrue, endLabel);
+
+            il.Emit(OpCodes.Ldarg_1);
+            il.Emit(OpCodes.Ldnull);
+            il.Emit(OpCodes.Call, _referenceEqualsMethod);
+            il.Emit(OpCodes.Brtrue, endLabel);
+
             il.Emit(OpCodes.Ldarg_0);
             il.Emit(OpCodes.Callvirt, _sourceGetEnumeratorMethod);
             il.Emit(OpCodes.Stloc, sourceEnumerator);
@@ -58,10 +75,6 @@ namespace PowerMapper.Runtime
             il.Emit(OpCodes.Ldarg_1);
             il.Emit(OpCodes.Callvirt, _targetGetEnumeratorMethod);
             il.Emit(OpCodes.Stloc, targetEnumerator);
-
-            var checkLabel = il.DefineLabel();
-            var startLabel = il.DefineLabel();
-            var endLabel = il.DefineLabel();
 
             il.Emit(OpCodes.Br_S, checkLabel);
             il.MarkLabel(startLabel);

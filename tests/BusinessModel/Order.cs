@@ -5,7 +5,6 @@ namespace PowerMapper.UnitTests.BusinessModel
 {
     public class Order
     {
-        private IList<OrderItem> _items;
         public Guid OrderId { get; set; }
 
         public string OrderCode { get; set; }
@@ -14,6 +13,6 @@ namespace PowerMapper.UnitTests.BusinessModel
 
         public string Address { get; set; }
 
-        public IList<OrderItem> Items => _items ?? (_items = new List<OrderItem>());
+        public List<OrderItem> Items { get; set; }
     }
 }

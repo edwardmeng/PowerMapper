@@ -229,7 +229,7 @@ namespace PowerMapper
         {
             Initialize();
             var typeBuilder = builder.DefineStaticType();
-            var methodBuilder = typeBuilder.DefineStaticMethod("Map");
+            var methodBuilder = typeBuilder.DefineStaticMethod("Convert");
             methodBuilder.SetReturnType(typeof(TTarget));
             methodBuilder.SetParameters(typeof(TSource));
 #if NETSTANDARD
@@ -277,9 +277,9 @@ namespace PowerMapper
             context.LoadTarget(LoadPurpose.ReturnValue);
             context.Emit(OpCodes.Ret);
 #if NETSTANDARD
-            return (Func<TSource, TTarget>) typeBuilder.CreateTypeInfo().GetMethod("Map", BindingFlags.Static | BindingFlags.Public).CreateDelegate(typeof(Func<TSource, TTarget>));
+            return (Func<TSource, TTarget>) typeBuilder.CreateTypeInfo().GetMethod("Convert", BindingFlags.Static | BindingFlags.Public).CreateDelegate(typeof(Func<TSource, TTarget>));
 #else
-            return (Func<TSource, TTarget>)Delegate.CreateDelegate(typeof(Func<TSource, TTarget>), typeBuilder.CreateType(), "Map");
+            return (Func<TSource, TTarget>)Delegate.CreateDelegate(typeof(Func<TSource, TTarget>), typeBuilder.CreateType(), "Convert");
 #endif
         }
 

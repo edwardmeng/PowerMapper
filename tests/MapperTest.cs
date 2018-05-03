@@ -306,14 +306,15 @@ namespace PowerMapper.UnitTests
                 OrderCode = "A001",
                 Address = "China",
                 Items =
-                {
-                    new OrderItem
+                    new List<OrderItem>
                     {
-                        OrderItemId = Guid.NewGuid(),
-                        ProductId = Guid.NewGuid(),
-                        Quantity = 2
+                        new OrderItem
+                        {
+                            OrderItemId = Guid.NewGuid(),
+                            ProductId = Guid.NewGuid(),
+                            Quantity = 2
+                        }
                     }
-                }
             };
             var entity = Mapper.Map<Order, OrderEntity>(order);
             Assert.NotNull(entity);
@@ -340,14 +341,15 @@ namespace PowerMapper.UnitTests
                 OrderCode = "A001",
                 Address = "China",
                 Items =
-                {
-                    new OrderItem
+                    new List<OrderItem>
                     {
-                        OrderItemId = Guid.NewGuid(),
-                        ProductId = Guid.NewGuid(),
-                        Quantity = 2
+                        new OrderItem
+                        {
+                            OrderItemId = Guid.NewGuid(),
+                            ProductId = Guid.NewGuid(),
+                            Quantity = 2
+                        }
                     }
-                }
             };
             var entity = container.Map<Order, OrderEntity>(order);
             Assert.NotNull(entity);
@@ -427,14 +429,15 @@ namespace PowerMapper.UnitTests
                 Address = "China",
                 Amount = 32,
                 Items =
-                {
-                    new OrderItem
+                    new List<OrderItem>
                     {
-                        OrderItemId = Guid.NewGuid(),
-                        ProductId = Guid.NewGuid(),
-                        Quantity = 2
+                        new OrderItem
+                        {
+                            OrderItemId = Guid.NewGuid(),
+                            ProductId = Guid.NewGuid(),
+                            Quantity = 2
+                        }
                     }
-                }
             };
             ((Order)order).CustomerId = Guid.NewGuid();
             var entity = container.Map<DerivedOrder, DerivedOrderEntity>(order);
@@ -447,7 +450,33 @@ namespace PowerMapper.UnitTests
 
         }
 
-        public static void AreSequentialEqual<T>(IEnumerable<T> first, IEnumerable<T> second)
+#if NETCOREAPP
+        [Fact]
+#else
+        [Test]
+#endif
+        public void TestHierarchyMap_NullCollection()
+        {
+            var container = Mapper.CreateContainer();
+            container.Configure<Order, OrderEntity>().WithOptions(MemberMapOptions.Hierarchy);
+            var order = new Order
+            {
+                OrderId = Guid.NewGuid(),
+                CustomerId = Guid.NewGuid(),
+                OrderCode = "A001",
+                Address = "China"
+            };
+            var entity = container.Map<Order, OrderEntity>(order);
+            Assert.NotNull(entity);
+            Assert.Equal(order.OrderId, entity.OrderId);
+            Assert.Equal(order.CustomerId, entity.CustomerId);
+            Assert.Equal(order.OrderCode, entity.OrderCode);
+            Assert.Equal(order.Address, entity.Address);
+            Assert.Null(entity.Items);
+        }
+
+
+        private static void AreSequentialEqual<T>(IEnumerable<T> first, IEnumerable<T> second)
         {
             if (first == null)
             {

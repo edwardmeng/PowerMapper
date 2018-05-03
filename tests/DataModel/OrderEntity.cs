@@ -13,6 +13,6 @@ namespace PowerMapper.UnitTests.DataModel
 
         public string Address { get; set; }
 
-        public ICollection<OrderItemEntity> Items { get; set; } 
+        public List<OrderItemEntity> Items { get; set; }
     }
 }

@@ -36,6 +36,12 @@ namespace PowerMapper
             methodBuilder.SetReturnType(typeof(IEnumerable<TTarget>));
 
             var il = methodBuilder.GetILGenerator();
+
+            var labelReturn = il.DefineLabel();
+            var labelNull = il.DefineLabel();
+            il.Emit(OpCodes.Ldarg_0);
+            il.Emit(OpCodes.Brfalse, labelNull);
+
             var sourceArray = il.DeclareLocal(typeof(TSource[]));
             var targetArray = il.DeclareLocal(typeof(TTarget[]));
             var index = il.DeclareLocal(typeof(int));
@@ -89,6 +95,11 @@ namespace PowerMapper
 
             il.Emit(OpCodes.Ldloc, targetArray);
             il.Emit(OpCodes.Castclass, typeof(IEnumerable<TTarget>));
+            il.Emit(OpCodes.Br_S, labelReturn);
+
+            il.MarkLabel(labelNull);
+            il.Emit(OpCodes.Ldnull);
+            il.MarkLabel(labelReturn);
             il.Emit(OpCodes.Ret);
 
 #if NETSTANDARD
