@@ -220,6 +220,8 @@ namespace PowerMapper
                 context.MakeLabel(labelEnd);
                 context.Emit(OpCodes.Ldloc, target);
             }
+
+            context.CurrentType = targetType;
         }
     }
 }

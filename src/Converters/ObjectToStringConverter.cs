@@ -75,6 +75,8 @@ namespace PowerMapper
                 });
                 context.Emit(OpCodes.Ldloc, target);
             }
+
+            context.CurrentType = targetType;
         }
     }
 }
