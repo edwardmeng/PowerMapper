@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net40;netcoreapp1.0;netcoreapp2.0</TargetFrameworks>
+    <TargetFrameworks>net40;netcoreapp2.0</TargetFrameworks>
     <AssemblyName>Benchmarks</AssemblyName>
     <OutputType>Exe</OutputType>
     <PackageId>Benchmarks</PackageId>
@@ -17,10 +17,6 @@
   <ItemGroup Condition=" '$(TargetFramework)' == 'net40' ">
     <PackageReference Include="Expressmapper" Version="1.9.1" />
   </ItemGroup>
-
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp1.0' ">
-    <DefineConstants>$(DefineConstants);NETCOREAPP;NETCOREAPP_10</DefineConstants>
-  </PropertyGroup>
 
   <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp2.0' ">
     <DefineConstants>$(DefineConstants);NETCOREAPP;NETCOREAPP_20</DefineConstants>

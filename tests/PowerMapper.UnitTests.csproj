@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net35;net40;netcoreapp1.0;netcoreapp2.0</TargetFrameworks>
+    <TargetFrameworks>net35;net40;netcoreapp2.0</TargetFrameworks>
     <AssemblyName>PowerMapper.UnitTests</AssemblyName>
   </PropertyGroup>
 
@@ -9,7 +9,7 @@
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.7.0" />
   </ItemGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'netcoreapp1.0' OR '$(TargetFramework)' == 'netcoreapp2.0' ">
+  <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp2.0' ">
     <PackageReference Include="xunit.runner.visualstudio" Version="2.3.1" />
     <PackageReference Include="xunit" Version="2.3.1" />
     <PackageReference Include="xunit.runner.console" Version="2.3.1" />
@@ -22,10 +22,6 @@
     <PackageReference Include="NUnit3TestAdapter" Version="3.10.0" />
     <Reference Include="System.Web" />
   </ItemGroup>
-
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp1.0' ">
-    <DefineConstants>$(DefineConstants);NETCOREAPP;NETCOREAPP_10</DefineConstants>
-  </PropertyGroup>
 
   <PropertyGroup Condition=" '$(TargetFramework)' == 'netcoreapp2.0' ">
     <DefineConstants>$(DefineConstants);NETCOREAPP;NETCOREAPP_20</DefineConstants>
