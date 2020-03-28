@@ -371,6 +371,81 @@ namespace PowerMapper.UnitTests
 #else
         [Test]
 #endif
+        public void TestSelfHierarchyConverter_EnumerableProperty()
+        {
+            var container = Mapper.CreateContainer();
+            container.Configure<Organization, OrganizationEntity>().WithOptions(MemberMapOptions.Hierarchy);
+            var organization = new Organization
+            {
+                ID = Guid.NewGuid(),
+                Code = "A001",
+                Name = "China",
+                Children =
+                    new[]{
+                        new Organization
+                        {
+                            ID = Guid.NewGuid(),
+                            Code = "A001001",
+                            Name = "江苏"
+                        }
+                    }
+            };
+            var entity = container.Map<Organization, OrganizationEntity>(organization);
+            Assert.NotNull(entity);
+            Assert.Equal(organization.ID, entity.ID);
+            Assert.Equal(organization.Code, entity.Code);
+            Assert.Equal(organization.Name, entity.Name);
+            Assert.NotNull(entity.Children);
+            Assert.Equal(1, entity.Children.Length);
+            var item = entity.Children.First();
+            Assert.NotNull(item);
+            Assert.Equal(organization.Children[0].ID, item.ID);
+            Assert.Equal(organization.Children[0].Code, item.Code);
+            Assert.Equal(organization.Children[0].Name, item.Name);
+        }
+
+#if NETCOREAPP
+        [Fact]
+#else
+        [Test]
+#endif
+        public void TestEnumerableMapper()
+        {
+            var container = Mapper.CreateContainer();
+            var roleEntities = new RoleEntity[10];
+            for (int i = 0; i < roleEntities.Length; i++)
+            {
+                roleEntities[i] = new RoleEntity
+                {
+                    RoleId = Guid.NewGuid(),
+                    RoleName = "Manager" + i
+                };
+            }
+            var roles = new Role[roleEntities.Length];
+            for (int i = 0; i < roleEntities.Length; i++)
+            {
+                roles[i] = new Role();
+            }
+            Assert.NotNull(container.Map<RoleEntity, Role>(new RoleEntity
+            {
+                RoleId = Guid.NewGuid(),
+                RoleName = "Manager"
+            }));
+            container.Map(roleEntities, roles);
+            Assert.NotNull(roles);
+            Assert.Equal(10, roles.Length);
+            for (int i = 0; i < roleEntities.Length; i++)
+            {
+                Assert.Equal(roleEntities[i].RoleId, roles[i].RoleId);
+                Assert.Equal(roleEntities[i].RoleName, roles[i].RoleName);
+            }
+        }
+
+#if NETCOREAPP
+        [Fact]
+#else
+        [Test]
+#endif
         public void TestBeforeMap()
         {
             var container = Mapper.CreateContainer();

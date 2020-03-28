@@ -8,6 +8,16 @@ namespace PowerMapper
     {
         private readonly Func<T, TResult> _func;
         private MethodInfo _invokeMethod;
+        private static readonly MethodInfo _funcInvokeMethod;
+
+        static FuncInvokerBuilder()
+        {
+#if NETSTANDARD
+            _funcInvokeMethod = typeof(Func<T, TResult>).GetTypeInfo().GetMethod("Invoke");
+#else
+            _funcInvokeMethod = typeof(Func<T, TResult>).GetMethod("Invoke");
+#endif
+        }
 
         public FuncInvokerBuilder(Func<T, TResult> func)
         {
@@ -25,12 +35,7 @@ namespace PowerMapper
             var il = methodBuilder.GetILGenerator();
             il.Emit(OpCodes.Ldsfld, field);
             il.Emit(OpCodes.Ldarg_0);
-#if NETSTANDARD
-            var invokeMethod = typeof(Func<T, TResult>).GetTypeInfo().GetMethod("Invoke");
-#else
-            var invokeMethod = typeof(Func<T, TResult>).GetMethod("Invoke");
-#endif
-            il.Emit(OpCodes.Callvirt, invokeMethod);
+            il.Emit(OpCodes.Callvirt, _funcInvokeMethod);
             il.Emit(OpCodes.Ret);
 #if NETSTANDARD
             var type = typeBuilder.CreateTypeInfo();

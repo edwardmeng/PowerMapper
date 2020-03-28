@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -40,17 +41,8 @@ namespace PowerMapper.Runtime
             _container = container;
         }
 
-        public void Compile(ModuleBuilder builder)
+        private void EmitMapper(ILGenerator il, MethodInfo elementMapper, Action loadSource, Action loadTarget)
         {
-            var invokerBuilder = new ActionInvokerBuilder<TSource, TTarget>(_container.GetMapAction<TSource, TTarget>());
-            invokerBuilder.Compile(builder);
-
-            var typeBuilder = builder.DefineStaticType();
-            var methodBuilder = typeBuilder.DefineStaticMethod("Invoke");
-
-            methodBuilder.SetParameters(typeof(IEnumerable<TSource>), typeof(IEnumerable<TTarget>));
-            var il = methodBuilder.GetILGenerator();
-
             var sourceEnumerator = il.DeclareLocal(typeof(IEnumerator<TSource>));
             var targetEnumerator = il.DeclareLocal(typeof(IEnumerator<TTarget>));
 
@@ -58,21 +50,25 @@ namespace PowerMapper.Runtime
             var startLabel = il.DefineLabel();
             var endLabel = il.DefineLabel();
 
-            il.Emit(OpCodes.Ldarg_0);
+            loadSource();
+            //il.Emit(OpCodes.Ldarg_0);
             il.Emit(OpCodes.Ldnull);
             il.Emit(OpCodes.Call, _referenceEqualsMethod);
             il.Emit(OpCodes.Brtrue, endLabel);
 
-            il.Emit(OpCodes.Ldarg_1);
+            loadTarget();
+            //il.Emit(OpCodes.Ldarg_1);
             il.Emit(OpCodes.Ldnull);
             il.Emit(OpCodes.Call, _referenceEqualsMethod);
             il.Emit(OpCodes.Brtrue, endLabel);
 
-            il.Emit(OpCodes.Ldarg_0);
+            loadSource();
+            //il.Emit(OpCodes.Ldarg_0);
             il.Emit(OpCodes.Callvirt, _sourceGetEnumeratorMethod);
             il.Emit(OpCodes.Stloc, sourceEnumerator);
 
-            il.Emit(OpCodes.Ldarg_1);
+            loadTarget();
+            //il.Emit(OpCodes.Ldarg_1);
             il.Emit(OpCodes.Callvirt, _targetGetEnumeratorMethod);
             il.Emit(OpCodes.Stloc, targetEnumerator);
 
@@ -85,7 +81,7 @@ namespace PowerMapper.Runtime
             il.Emit(OpCodes.Ldloc, targetEnumerator);
             il.Emit(OpCodes.Callvirt, _targetGetCurrentMethod);
 
-            il.Emit(OpCodes.Call, invokerBuilder.MethodInfo);
+            il.Emit(OpCodes.Call, elementMapper);
 
             il.MarkLabel(checkLabel);
 
@@ -99,19 +95,57 @@ namespace PowerMapper.Runtime
             il.Emit(OpCodes.Brtrue_S, startLabel);
 
             il.MarkLabel(endLabel);
-            il.Emit(OpCodes.Ret);
+        }
+
+        public void Compile(ModuleBuilder builder)
+        {
+            if (!TypeMapper<TSource, TTarget>.TryGetInstance(_container, out var mapper))
+            {
+                var invokerBuilder = new ActionInvokerBuilder<TSource, TTarget>(_container.GetMapAction<TSource, TTarget>());
+                invokerBuilder.Compile(builder);
+
+                var typeBuilder = builder.DefineStaticType();
+                var methodBuilder = typeBuilder.DefineStaticMethod("Invoke");
+
+                methodBuilder.SetParameters(typeof(IEnumerable<TSource>), typeof(IEnumerable<TTarget>));
+                var il = methodBuilder.GetILGenerator();
+
+                EmitMapper(il, invokerBuilder.MethodInfo,
+                    () => il.Emit(OpCodes.Ldarg_0),
+                    () => il.Emit(OpCodes.Ldarg_1));
+                il.Emit(OpCodes.Ret);
 
 #if NETSTANDARD
-            var type = typeBuilder.CreateTypeInfo();
+                var type = typeBuilder.CreateTypeInfo();
 #else
-            var type = typeBuilder.CreateType();
+                var type = typeBuilder.CreateType();
 #endif
-            _invokeMethod = type.GetMethod("Invoke");
+                _invokeMethod = type.GetMethod("Invoke");
+            }
+            else if (mapper.MapperMethod == null)
+            {
+                mapper.CreateMapper(builder);
+            }
         }
 
         public void Emit(CompilationContext context)
         {
-            context.EmitCall(_invokeMethod);
+            if (_invokeMethod != null)
+            {
+                context.EmitCall(_invokeMethod);
+            }
+            else if(TypeMapper<TSource, TTarget>.TryGetInstance(_container, out var mapper))
+            {
+                var sourceLocal = context.DeclareLocal(typeof(IEnumerable<TSource>));
+                var targetLocal = context.DeclareLocal(typeof(IEnumerable<TTarget>));
+                context.EmitCast(typeof(IEnumerable<TTarget>));
+                context.ILGenerator.Emit(OpCodes.Stloc, targetLocal);
+                context.EmitCast(typeof(IEnumerable<TSource>));
+                context.ILGenerator.Emit(OpCodes.Stloc, sourceLocal);
+                EmitMapper(context.ILGenerator, mapper.MapperMethod,
+                    () => context.ILGenerator.Emit(OpCodes.Ldloc, sourceLocal),
+                    () => context.ILGenerator.Emit(OpCodes.Ldloc, targetLocal));
+            }
         }
     }
 }

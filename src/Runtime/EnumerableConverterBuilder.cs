@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
@@ -25,21 +26,13 @@ namespace PowerMapper
             _container = container;
         }
 
-        public void Compile(ModuleBuilder builder)
+        private void EmitConverter(ILGenerator il, MethodInfo elementConverter, Action loadSource)
         {
-            var invokerBuilder = new FuncInvokerBuilder<TSource, TTarget>(_container.GetMapFunc<TSource, TTarget>());
-            invokerBuilder.Compile(builder);
-
-            var typeBuilder = builder.DefineStaticType();
-            var methodBuilder = typeBuilder.DefineStaticMethod("Invoke");
-            methodBuilder.SetParameters(typeof(IEnumerable<TSource>));
-            methodBuilder.SetReturnType(typeof(IEnumerable<TTarget>));
-
-            var il = methodBuilder.GetILGenerator();
-
             var labelReturn = il.DefineLabel();
             var labelNull = il.DefineLabel();
-            il.Emit(OpCodes.Ldarg_0);
+
+            loadSource();
+            //il.Emit(OpCodes.Ldarg_0);
             il.Emit(OpCodes.Brfalse, labelNull);
 
             var sourceArray = il.DeclareLocal(typeof(TSource[]));
@@ -47,7 +40,8 @@ namespace PowerMapper
             var index = il.DeclareLocal(typeof(int));
 
             // Convert parameter to array.
-            il.Emit(OpCodes.Ldarg_0);
+            loadSource();
+            //il.Emit(OpCodes.Ldarg_0);
             il.Emit(OpCodes.Call, _toArrayMethod);
             il.Emit(OpCodes.Stloc, sourceArray);
 
@@ -69,14 +63,13 @@ namespace PowerMapper
 
             // targetArray[i] = convert(sourceArray[i]);
 
-
             il.Emit(OpCodes.Ldloc, targetArray);
             il.Emit(OpCodes.Ldloc, index);
 
             il.Emit(OpCodes.Ldloc, sourceArray);
             il.Emit(OpCodes.Ldloc, index);
             il.Emit(OpCodes.Ldelem, typeof(TSource));
-            il.Emit(OpCodes.Call, invokerBuilder.MethodInfo);
+            il.Emit(OpCodes.Call, elementConverter);
             il.Emit(OpCodes.Stelem, typeof(TTarget));
 
             // i++
@@ -100,19 +93,51 @@ namespace PowerMapper
             il.MarkLabel(labelNull);
             il.Emit(OpCodes.Ldnull);
             il.MarkLabel(labelReturn);
-            il.Emit(OpCodes.Ret);
+        }
+
+        public void Compile(ModuleBuilder builder)
+        {
+            if (!TypeMapper<TSource, TTarget>.TryGetInstance(_container, out var mapper))
+            {
+                var invokerBuilder = new FuncInvokerBuilder<TSource, TTarget>(_container.GetMapFunc<TSource, TTarget>());
+                invokerBuilder.Compile(builder);
+
+                var typeBuilder = builder.DefineStaticType();
+                var methodBuilder = typeBuilder.DefineStaticMethod("Invoke");
+                methodBuilder.SetParameters(typeof(IEnumerable<TSource>));
+                methodBuilder.SetReturnType(typeof(IEnumerable<TTarget>));
+
+                var il = methodBuilder.GetILGenerator();
+                EmitConverter(il, invokerBuilder.MethodInfo, () => il.Emit(OpCodes.Ldarg_0));
+                il.Emit(OpCodes.Ret);
 
 #if NETSTANDARD
-            var type = typeBuilder.CreateTypeInfo();
+                var type = typeBuilder.CreateTypeInfo();
 #else
-            var type = typeBuilder.CreateType();
+                var type = typeBuilder.CreateType();
 #endif
-            _invokeMethod = type.GetMethod("Invoke");
+                _invokeMethod = type.GetMethod("Invoke");
+            }
+            else if (mapper.ConverterMethod == null)
+            {
+                mapper.CreateConverter(builder);
+            }
         }
 
         public void Emit(CompilationContext context)
         {
-            context.EmitCall(_invokeMethod);
+            if (_invokeMethod != null)
+            {
+                context.EmitCall(_invokeMethod);
+            }
+            else if (TypeMapper<TSource, TTarget>.TryGetInstance(_container, out var mapper))
+            {
+                var sourceLocal = context.DeclareLocal(typeof(IEnumerable<TSource>));
+                context.EmitCast(typeof(IEnumerable<TSource>));
+                context.ILGenerator.Emit(OpCodes.Stloc, sourceLocal);
+                EmitConverter(context.ILGenerator, mapper.ConverterMethod,
+                    () => context.ILGenerator.Emit(OpCodes.Ldloc, sourceLocal));
+            }
             context.CurrentType = typeof(IEnumerable<TTarget>);
         }
     }

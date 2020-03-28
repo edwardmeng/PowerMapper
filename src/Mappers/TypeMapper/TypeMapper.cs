@@ -59,6 +59,15 @@ namespace PowerMapper
             _container = container;
         }
 
+        public MethodInfo ConverterMethod { get; private set; }
+
+        public MethodInfo MapperMethod { get; private set; }
+
+        public static bool TryGetInstance(MappingContainer container, out TypeMapper<TSource, TTarget> mapper)
+        {
+            return _instances.TryGetValue(container, out mapper);
+        }
+
         private void Initialize()
         {
             if (!_initialized)
@@ -169,7 +178,7 @@ namespace PowerMapper
             var methodBuilder = typeBuilder.DefineStaticMethod("Map");
             methodBuilder.SetReturnType(typeof(void));
             methodBuilder.SetParameters(typeof(TSource), typeof(TTarget));
-
+            MapperMethod = methodBuilder;
 #if NETSTANDARD
             var reflectingTargetType = typeof(TTarget).GetTypeInfo();
             var reflectingSourceType = typeof(TSource).GetTypeInfo();
@@ -219,9 +228,11 @@ namespace PowerMapper
             EmitMap(context);
             context.Emit(OpCodes.Ret);
 #if NETSTANDARD
-            return (Action<TSource, TTarget>)typeBuilder.CreateTypeInfo().GetMethod("Map", BindingFlags.Static | BindingFlags.Public).CreateDelegate(typeof(Action<TSource, TTarget>));
+            MapperMethod = typeBuilder.CreateTypeInfo().GetMethod("Map", BindingFlags.Static | BindingFlags.Public);
+            return (Action<TSource, TTarget>)MapperMethod.CreateDelegate(typeof(Action<TSource, TTarget>));
 #else
-            return (Action<TSource, TTarget>)Delegate.CreateDelegate(typeof(Action<TSource, TTarget>), typeBuilder.CreateType(), "Map");
+            MapperMethod = typeBuilder.CreateType().GetMethod("Map", BindingFlags.Static | BindingFlags.Public);
+            return (Action<TSource, TTarget>)Delegate.CreateDelegate(typeof(Action<TSource, TTarget>), MapperMethod);
 #endif
         }
 
@@ -232,6 +243,7 @@ namespace PowerMapper
             var methodBuilder = typeBuilder.DefineStaticMethod("Convert");
             methodBuilder.SetReturnType(typeof(TTarget));
             methodBuilder.SetParameters(typeof(TSource));
+            ConverterMethod = methodBuilder;
 #if NETSTANDARD
             var reflectingTargetType = typeof(TTarget).GetTypeInfo();
             var reflectingSourceType = typeof(TSource).GetTypeInfo();
@@ -277,9 +289,11 @@ namespace PowerMapper
             context.LoadTarget(LoadPurpose.ReturnValue);
             context.Emit(OpCodes.Ret);
 #if NETSTANDARD
-            return (Func<TSource, TTarget>) typeBuilder.CreateTypeInfo().GetMethod("Convert", BindingFlags.Static | BindingFlags.Public).CreateDelegate(typeof(Func<TSource, TTarget>));
+            ConverterMethod = typeBuilder.CreateTypeInfo().GetMethod("Convert", BindingFlags.Static | BindingFlags.Public);
+            return (Func<TSource, TTarget>) ConverterMethod.CreateDelegate(typeof(Func<TSource, TTarget>));
 #else
-            return (Func<TSource, TTarget>)Delegate.CreateDelegate(typeof(Func<TSource, TTarget>), typeBuilder.CreateType(), "Convert");
+            ConverterMethod = typeBuilder.CreateType().GetMethod("Convert", BindingFlags.Static | BindingFlags.Public);
+            return (Func<TSource, TTarget>)Delegate.CreateDelegate(typeof(Func<TSource, TTarget>), ConverterMethod);
 #endif
         }
 

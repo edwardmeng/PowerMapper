@@ -19,6 +19,8 @@ namespace PowerMapper
 
         public Type CurrentType { get; set; }
 
+        public ILGenerator ILGenerator => _il;
+
         public CompilationContext(ILGenerator il)
         {
             _il = il;
